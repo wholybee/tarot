@@ -1,0 +1,85 @@
+package net.holybee.tarot
+
+import com.aallam.openai.api.BetaOpenAI
+import com.aallam.openai.api.chat.*
+import com.aallam.openai.api.logging.LogLevel
+import com.aallam.openai.api.model.ModelId
+import com.aallam.openai.client.LoggingConfig
+import com.aallam.openai.client.OpenAI
+import com.aallam.openai.client.OpenAIHost
+import kotlinx.serialization.json.*
+
+var rtn: String? = ""
+val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjOWJkM2Q1NjJlZTk2ZjVhNWRlMTciLCJpYXQiOjE2OTc3NDA4NjZ9.D3FocKO8BEerOTFV1tdPETw7zeTknHIxoL_rSxiRVTU" // "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"
+val host = OpenAIHost (baseUrl = "http://Chat-API-env.eba-bntm9umy.us-west-2.elasticbeanstalk.com/v1/") //) "http://192.168.1.104:5000/v1/"
+val openAI = OpenAI(token = token, host = host, logging = LoggingConfig(LogLevel.None))
+val modelId = ModelId("gpt-3.5-turbo")
+
+
+@OptIn(BetaOpenAI::class)
+val chatMessages:MutableList<ChatMessage>  = mutableListOf<ChatMessage>() /* mutableListOf(
+    ChatMessage (
+        role = ChatRole.User,
+        content = "Hello, World."
+    )
+) */
+
+@OptIn(BetaOpenAI::class)
+val chatSystems:MutableList<ChatMessage> = mutableListOf(
+    ChatMessage(
+        role = ChatRole.System,
+        content = "You are a helpful assistant."
+    )
+)
+
+@OptIn(BetaOpenAI::class)
+suspend fun changeGPTSystem (s: String) {
+    chatSystems.clear()
+    val messages = s.split("\n")
+    messages.forEach {
+        chatSystems.add(
+            ChatMessage(
+                role = ChatRole.System,
+                content = it
+            )
+        )
+    }
+}
+
+
+//Call to GPT and change system message
+@OptIn(BetaOpenAI::class)
+suspend fun askGPT(q: String, systemMessage: String): String? {
+    changeGPTSystem(systemMessage)
+    return askGPT(q)
+}
+
+// Basic call to GPT and ask a question
+@OptIn(BetaOpenAI::class)
+suspend fun askGPT(q: String): String? {
+// add user prompt to conversation
+    chatMessages.add(
+        ChatMessage(
+            role = ChatRole.User,
+            content = q
+        )
+    )
+// trim to 10 messages in history
+    if (chatMessages.size > 1) { chatMessages.removeAt(0) }
+
+// build the request
+    val request = chatCompletionRequest {
+        model = modelId
+        messages = chatSystems + chatMessages
+
+    }
+
+    val response = openAI.chatCompletion(request)
+    val message = response.choices.first().message ?: error("no response found!")
+
+    chatMessages.add(message)
+
+    //   println(chatMessages)
+    return message.content ?: "No Response."
+}
+
