@@ -10,8 +10,8 @@ import com.aallam.openai.client.OpenAIHost
 import kotlinx.serialization.json.*
 
 var rtn: String? = ""
-val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjOWJkM2Q1NjJlZTk2ZjVhNWRlMTciLCJpYXQiOjE2OTc3NDA4NjZ9.D3FocKO8BEerOTFV1tdPETw7zeTknHIxoL_rSxiRVTU" // "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"
-val host = OpenAIHost (baseUrl = "http://Chat-API-env.eba-bntm9umy.us-west-2.elasticbeanstalk.com/v1/") //) "http://192.168.1.104:5000/v1/"
+val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjOWJkM2Q1NjJlZTk2ZjVhNWRlMTciLCJ1c2VybmFtZSI6ImZvcmV2ZXIiLCJpYXQiOjE2OTc4NjEzNzV9.5vfoE8RIn5NNsGw5yeBzeCklN4HfIKCEJliZ1JXlSU0" // "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"
+val host = OpenAIHost (baseUrl = "https://app.holybee.net/v1/") //) "http://192.168.1.104:5000/v1/"
 val openAI = OpenAI(token = token, host = host, logging = LoggingConfig(LogLevel.None))
 val modelId = ModelId("gpt-3.5-turbo")
 
