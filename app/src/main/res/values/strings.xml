@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tarot Cards</string>
+    <string name="app_name">Tarot Nexus</string>
     <string name="deal_cards">Deal Cards</string>
     <string name="face_down"> </string>
     <string name="enter_question">Ask question here first, then deal cards.</string>

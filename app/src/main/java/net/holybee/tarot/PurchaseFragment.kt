@@ -39,15 +39,15 @@ class PurchaseFragment : Fragment() {
         viewModel = ViewModelProvider(this)[PurchaseViewModel::class.java]
 
         //  Use the ViewModel
-        val coinText = "Coins: ${AccountInformation.coins}"
-        Log.d(TAG,coinText)
-        binding.coinsTextView.setText(coinText)
+
+        updateCoinCount()
 
         lifecycleScope.launch {
             viewModel.hasCoinFlow
                 .collect { coin ->
                     binding.hasCoinCheckbox.isChecked = coin
                     Log.i(TAG, "collect coin flow")
+                    updateCoinCount()
 
                 }
         }
@@ -56,6 +56,7 @@ class PurchaseFragment : Fragment() {
             viewModel.coinsForSaleFlow
                 .collect { coin ->
                     binding.buyCoinButton.isEnabled = true
+
                 }
         }
         lifecycleScope.launch {
@@ -82,6 +83,11 @@ class PurchaseFragment : Fragment() {
         }
     }
 
+    private fun updateCoinCount () {
+        val coinText = "Coins: ${AccountInformation.coins}"
+        Log.d(TAG,coinText)
+        binding.coinsTextView.setText(coinText)
+    }
 
     private fun clickBuyCoin () {
 
