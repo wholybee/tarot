@@ -1,6 +1,7 @@
 package net.holybee.tarot
 
 
+import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.util.Log
@@ -22,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import net.holybee.tarot.databinding.FragmentTarotQuestionBinding
+import net.holybee.tarot.holybeeAPI.AccountInformation
 
 
 private const val TAG = "TarotQuestionFragment"
@@ -105,6 +107,13 @@ class TarotQuestionFragment : Fragment() {
                 hideSoftKeyboard(binding.QuestionTextView)
             }
         }
+
+       if (AccountInformation.authToken.length < 20) {
+           Toast.makeText(context,"Please Login to Continue.", Toast.LENGTH_LONG).show()
+           findNavController().navigate(
+               TarotQuestionFragmentDirections.actionToAccountFragment()
+           )
+       }
     }
 
 
@@ -152,12 +161,14 @@ class TarotQuestionFragment : Fragment() {
                     binding.QuestionTextView.text
 
             lifecycleScope.launch {
-                val response = askGPT(content, systemPromptFortune)
+                val response= askGPT(content, systemPromptFortune)
                 binding.progressBar.visibility = View.INVISIBLE
-                if (response != null) {
+                if (response.status=="OK") {
                     findNavController().navigate(
-                        TarotQuestionFragmentDirections.actionReadingDisplay(response.toString())
+                        TarotQuestionFragmentDirections.actionReadingDisplay(response.message)
                     )
+                } else {
+                    Toast.makeText(context,"Error:\n${response.message}",Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -300,10 +311,12 @@ class TarotQuestionFragment : Fragment() {
         lifecycleScope.launch {
             val response = askGPT(cardPrompt + (card?.text ?: ""), systemPromptCard)
             binding.progressBar.visibility = View.INVISIBLE
-            if (response != null) {
+            if (response.status=="OK") {
                 findNavController().navigate(
-                    TarotQuestionFragmentDirections.actionViewCard(response.toString())
+                    TarotQuestionFragmentDirections.actionViewCard(response.message)
                 )
+            } else {
+                Toast.makeText(context,"Error:\n${response.message}",Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -338,11 +351,17 @@ class TarotQuestionFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.open_settings -> {
+
+            R.id.open_account -> {
                 findNavController().navigate(
-                    TarotQuestionFragmentDirections.actionToToken())
+                    TarotQuestionFragmentDirections.actionToAccountFragment())
                 true
-                }
+            }
+            R.id.open_buyCoins -> {
+                findNavController().navigate(
+                    TarotQuestionFragmentDirections.actionToPurchaseFragment())
+                true
+            }
             else->super.onOptionsItemSelected(item)
             }
         }

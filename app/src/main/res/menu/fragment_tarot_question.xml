@@ -3,8 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/open_settings"
-        android:icon="@drawable/ic_menu_settings"
-        android:title="@string/settings"
-        app:showAsAction="ifRoom|withText" />
+        android:id="@+id/open_buyCoins"
+        android:icon="@drawable/ic_menu_buycoin"
+        android:title="@string/buy_coins" />
+    <item
+        android:id="@+id/open_account"
+        android:icon="@drawable/ic_menu_account"
+        android:title="@string/account" />
 </menu>

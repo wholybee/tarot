@@ -66,6 +66,11 @@ dependencies {
     implementation ("androidx.room:room-ktx:2.5.2")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     ksp  ("androidx.room:room-compiler:2.5.2")
+    implementation("com.android.billingclient:billing:6.0.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    implementation ("com.google.android.gms:play-services-auth:20.2.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
+
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

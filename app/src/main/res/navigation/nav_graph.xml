@@ -18,8 +18,11 @@
             android:id="@+id/action_reading_display"
             app:destination="@id/readingDisplayFragment" />
         <action
-            android:id="@+id/action_to_token"
-            app:destination="@id/tokenFragment" />
+            android:id="@+id/action_to_accountFragment"
+            app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_to_purchaseFragment"
+            app:destination="@id/purchaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/cardInfoFragment"
@@ -40,8 +43,15 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/tokenFragment"
-        android:name="net.holybee.tarot.TokenFragment"
-        android:label="fragment_token"
-        tools:layout="@layout/fragment_token" />
+        android:id="@+id/accountFragment"
+        android:name="net.holybee.tarot.AccountFragment"
+        android:label="AccountFragment" >
+        <action
+            android:id="@+id/action_to_purchaseFragment"
+            app:destination="@id/purchaseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/purchaseFragment"
+        android:name="net.holybee.tarot.PurchaseFragment"
+        android:label="PurchaseFragment" />
 </navigation>
