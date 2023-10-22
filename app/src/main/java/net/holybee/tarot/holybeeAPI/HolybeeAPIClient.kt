@@ -25,6 +25,38 @@ object HolybeeAPIClient {
         AccountInformation.logout(application)
     }
 
+    fun getCoins(callback: GetCoinsResponseListener) {
+        Log.d(TAG, "Get Coins")
+        val query = JSONObject(
+            mapOf(
+                "username" to AccountInformation.username
+            )
+        )
+        val authToken = AccountInformation.authToken
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val postResponse =
+                    client.post(HolybeeURL.getCoins) {
+                        bearerAuth(authToken)
+                        contentType(ContentType.Application.Json)
+                        setBody(query.toString())
+                    }
+                val response = JSONObject(postResponse.body() as String)
+                val status = response.get("responseCode").toString()
+                if (status=="OK") {
+                        val coins = response.get("coins").toString().toIntOrNull() ?: 0
+                        callback.onGetCoinSuccess (coins)
+                    } else {
+                        callback.onGetCoinsFail(status)
+                    }
+
+            } catch (e:Exception) {
+                Log.d(TAG,"GetCoins Fail: ${e.message}")
+                callback.onGetCoinsFail(e.message ?: "Unknown Failure on getCoin.")
+            }
+        }
+    }
+
     fun createAccountAsync(
         username: String,
         password: String,
@@ -55,7 +87,11 @@ object HolybeeAPIClient {
                     "success" -> {
                         Log.i(TAG, "Account Creation Success.")
                         val authToken = response.get("token").toString()
-                        callback.onAccountCreateSuccess(authToken)
+                        val coins = response.get("coins").toString().toIntOrNull() ?: 0
+                        AccountInformation.coins = coins
+                        AccountInformation.authToken = authToken
+
+                        callback.onAccountCreateSuccess(authToken, coins)
                     }
 
                     "failed" -> {
@@ -104,7 +140,10 @@ object HolybeeAPIClient {
                     "success" -> {
                         Log.i(TAG, "Login Success.")
                         val authToken = response.get("token").toString()
-                        callback.onLoginSuccess(authToken)
+                        val coins = response.get("coins").toString().toIntOrNull() ?: 0
+                        AccountInformation.coins = coins
+                        AccountInformation.authToken = authToken
+                        callback.onLoginSuccess(authToken, coins)
                     }
 
                     "failed" -> {
@@ -149,7 +188,8 @@ object HolybeeAPIClient {
                 val response = JSONObject(postResponse.body() as String)
                 val responseCode = response.get("responseCode").toString()
                 if (responseCode=="OK") {
-                    callback.onConsumeSuccess(responseCode, purchase)
+                    val coins = response.get("coins").toString().toIntOrNull() ?: 0
+                    callback.onConsumeSuccess(responseCode, purchase, coins)
                 } else {
                     callback.onConsumeFail("Server Error")
                 }

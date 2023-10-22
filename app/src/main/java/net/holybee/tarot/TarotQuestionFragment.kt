@@ -4,6 +4,8 @@ package net.holybee.tarot
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -21,9 +23,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import io.ktor.client.plugins.api.createClientPlugin
 import kotlinx.coroutines.launch
 import net.holybee.tarot.databinding.FragmentTarotQuestionBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
+import net.holybee.tarot.holybeeAPI.GetCoinsResponseListener
+import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 
 
 private const val TAG = "TarotQuestionFragment"
@@ -49,7 +54,7 @@ class TarotQuestionFragment : Fragment() {
     }
 
     private lateinit var viewModel: TarotQuestionViewModel
-
+    private val handler = Handler(Looper.getMainLooper())
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -108,15 +113,22 @@ class TarotQuestionFragment : Fragment() {
             }
         }
 
-       if (AccountInformation.authToken.length < 20) {
-           Toast.makeText(context,"Please Login to Continue.", Toast.LENGTH_LONG).show()
-           findNavController().navigate(
-               TarotQuestionFragmentDirections.actionToAccountFragment()
-           )
-       }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (!AccountInformation.isLoggedIn) {
+            Toast.makeText(context,"Please Login to Continue.", Toast.LENGTH_LONG).show()
+            findNavController().navigate(
+                TarotQuestionFragmentDirections.actionToAccountFragment()
+            )
+        } else {
+            /// getCoins
+            val coinsText = "Coins: ${AccountInformation.coins}"
+            binding.coinsTextView2.setText(coinsText)
+        }
 
+    }
 
     fun hideSoftKeyboard(editText: EditText){
         (requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).apply {
@@ -164,11 +176,13 @@ class TarotQuestionFragment : Fragment() {
                 val response= askGPT(content, systemPromptFortune)
                 binding.progressBar.visibility = View.INVISIBLE
                 if (response.status=="OK") {
+                    AccountInformation.coins = AccountInformation.coins - 1
                     findNavController().navigate(
                         TarotQuestionFragmentDirections.actionReadingDisplay(response.message)
                     )
                 } else {
                     Toast.makeText(context,"Error:\n${response.message}",Toast.LENGTH_LONG).show()
+                    clickPlayAgain()
                 }
             }
 
@@ -312,6 +326,7 @@ class TarotQuestionFragment : Fragment() {
             val response = askGPT(cardPrompt + (card?.text ?: ""), systemPromptCard)
             binding.progressBar.visibility = View.INVISIBLE
             if (response.status=="OK") {
+                AccountInformation.coins = AccountInformation.coins -1
                 findNavController().navigate(
                     TarotQuestionFragmentDirections.actionViewCard(response.message)
                 )
@@ -365,6 +380,8 @@ class TarotQuestionFragment : Fragment() {
             else->super.onOptionsItemSelected(item)
             }
         }
+
+
 }
 
 

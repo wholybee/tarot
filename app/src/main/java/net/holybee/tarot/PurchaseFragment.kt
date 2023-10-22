@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import net.holybee.tarot.googleBilling.Constants.COIN_TAG
 import net.holybee.tarot.databinding.FragmentPurchaseBinding
+import net.holybee.tarot.holybeeAPI.AccountInformation
 
 private const val TAG = "PurchaseFragment"
 class PurchaseFragment : Fragment() {
@@ -38,6 +39,10 @@ class PurchaseFragment : Fragment() {
         viewModel = ViewModelProvider(this)[PurchaseViewModel::class.java]
 
         //  Use the ViewModel
+        val coinText = "Coins: ${AccountInformation.coins}"
+        Log.d(TAG,coinText)
+        binding.coinsTextView.setText(coinText)
+
         lifecycleScope.launch {
             viewModel.hasCoinFlow
                 .collect { coin ->

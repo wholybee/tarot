@@ -18,6 +18,7 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.ConsumePurchaseResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 
@@ -257,7 +258,7 @@ class BillingClientWrapper(
         }
     }
 
-    override fun onConsumeSuccess(result: String, purchase: Purchase) {
+    override fun onConsumeSuccess(result: String, purchase: Purchase, coins: Int) {
         ////////////////// This block to be deleted after full server implementation
         purchase.let {
             val consumeParams = ConsumeParams.newBuilder()
@@ -280,7 +281,7 @@ class BillingClientWrapper(
         // queryPurchases()
         // isConsuming = false
         // Log.i(TAG, "Server Consume Successful")
-
+        AccountInformation.coins = coins
     }
 
     override fun onConsumeFail(result: String) {

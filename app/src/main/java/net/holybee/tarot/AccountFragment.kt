@@ -75,6 +75,19 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             clickLogout()
         }
 
+        binding.loginOrRegisterTextView.setOnClickListener {
+            Log.i(TAG,"Register onClick")
+            binding.emailEditText.isVisible=true
+            binding.createAccountButton.isVisible=true
+            binding.loginButton.isVisible=false
+            binding.haveAccountTextView.isVisible=true
+            binding.loginOrRegisterTextView.isVisible=false
+        }
+
+        binding.haveAccountTextView.setOnClickListener {
+            setVisibility()
+        }
+
         binding.showHideButton.setOnClickListener{
             if(binding.showHideButton.tag=="hidden") {
                 binding.passwordEditText.transformationMethod =
@@ -108,18 +121,22 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             binding.logoutButton.isVisible=true
             binding.createAccountButton.isVisible=false
             binding.navigateButton.isVisible=true
-            binding.statusTextView.isVisible=false
+            binding.loginOrRegisterTextView.isVisible=false
             binding.passwordEditText.isVisible=false
             binding.showHideButton.isVisible=false
             binding.emailEditText.isVisible=false
+            binding.haveAccountTextView.isVisible=false
+
         } else {
             binding.logoutButton.isVisible=false
             binding.loginButton.isVisible=true
             binding.createAccountButton.isVisible=false
             binding.navigateButton.isVisible=false
-            binding.statusTextView.isVisible=true
+            binding.loginOrRegisterTextView.isVisible=true
             binding.passwordEditText.isVisible=true
             binding.showHideButton.isVisible=true
+            binding.emailEditText.isVisible=false
+            binding.haveAccountTextView.isVisible=false
         }
     }
 
@@ -143,10 +160,11 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
 
     }
 
-    override fun onLoginSuccess(returnedToken: String) {
+    override fun onLoginSuccess(returnedToken: String, coins:Int) {
         val applicationInstance = activity?.application
         if (applicationInstance != null) {
             AccountInformation.saveAuthToken(applicationInstance, returnedToken)
+
         }
 
         handler.post {
@@ -175,11 +193,15 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
         client.createAccountAsync(username, password, email, this)
     }
 
-    override fun onAccountCreateSuccess(returnedToken: String) {
+    override fun onAccountCreateSuccess(returnedToken: String, coins: Int) {
+        val applicationInstance = activity?.application
         if (returnedToken.length > 20) {
             Log.d(TAG,"Account Created")
             Log.d(TAG,returnedToken)
-            AccountInformation.authToken = returnedToken
+            if (applicationInstance != null) {
+                AccountInformation.saveAuthToken(applicationInstance, returnedToken)
+            }
+
             handler.post {
                 Toast.makeText(context, "Account created.", Toast.LENGTH_LONG).show()
                 findNavController().popBackStack()

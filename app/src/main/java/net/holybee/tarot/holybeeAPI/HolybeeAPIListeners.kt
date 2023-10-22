@@ -4,16 +4,21 @@ import com.android.billingclient.api.Purchase
 import io.ktor.client.statement.HttpResponse
 
  interface LoginResponseListener {
-     fun onLoginSuccess(userToken: String)
+     fun onLoginSuccess(userToken: String, coins:Int)
      fun onLoginFail(result: String)
  }
 
 interface CreateAccountResponseListener {
-    fun onAccountCreateSuccess(userToken: String)
+    fun onAccountCreateSuccess(userToken: String, coins:Int)
     fun onAccountCreateFail(result: String)
 }
 
 interface ConsumePurchaseResponseListener {
-    fun onConsumeSuccess (result: String, purchase: Purchase)
+    fun onConsumeSuccess (result: String, purchase: Purchase, coins: Int)
     fun onConsumeFail(result: String)
+}
+
+interface GetCoinsResponseListener {
+    fun onGetCoinSuccess (coins: Int)
+    fun onGetCoinsFail(result: String)
 }

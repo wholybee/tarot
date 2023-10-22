@@ -18,11 +18,12 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="email_example_com">email@example.com</string>
-    <string name="please_login_to_continue">Please Login\nor Register to continue</string>
+    <string name="please_login_to_continue">Please Login or\nRegister to continue</string>
     <string name="login_button">Login</string>
     <string name="new_button">Register</string>
     <string name="account">Account</string>
     <string name="logout">Logout</string>
     <string name="buy_coins">Buy Coins</string>
+    <string name="have_an_account">Already have an account?</string>
 
 </resources>
