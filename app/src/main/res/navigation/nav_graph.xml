@@ -45,7 +45,8 @@
     <fragment
         android:id="@+id/accountFragment"
         android:name="net.holybee.tarot.AccountFragment"
-        android:label="AccountFragment" >
+        android:label="AccountFragment"
+        tools:layout="@layout/fragment_account">
         <action
             android:id="@+id/action_to_purchaseFragment"
             app:destination="@id/purchaseFragment" />
@@ -53,5 +54,7 @@
     <fragment
         android:id="@+id/purchaseFragment"
         android:name="net.holybee.tarot.PurchaseFragment"
-        android:label="PurchaseFragment" />
+        android:label="PurchaseFragment"
+        tools:layout="@layout/fragment_purchase"
+        />
 </navigation>

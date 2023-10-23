@@ -77,10 +77,6 @@ class PurchaseFragment : Fragment() {
         binding.buyCoinButton.setOnClickListener {
             clickBuyCoin()
         }
-
-        binding.consumeButton.setOnClickListener {
-            clickConsume()
-        }
     }
 
     private fun updateCoinCount () {
@@ -103,16 +99,4 @@ class PurchaseFragment : Fragment() {
         }
 
     }
-
-    private fun clickConsume () {
-
-            viewModel.inappPurchaseFlow.value.let {
-                    val purchaseList = it
-                    purchaseList.forEach { purchase: Purchase ->  viewModel.consumePurchase(purchase)}
-
-            }
-
-
-    }
-
 }

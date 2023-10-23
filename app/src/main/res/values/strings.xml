@@ -25,5 +25,6 @@
     <string name="logout">Logout</string>
     <string name="buy_coins">Buy Coins</string>
     <string name="have_an_account">Already have an account?</string>
+    <string name="purchaseCoinText">Every response costs one coin. If you run out, you will need to purchase more coins to continue using the application.</string>
 
 </resources>

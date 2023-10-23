@@ -68,9 +68,6 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             clickNewAccount()
         }
 
-        binding.navigateButton.setOnClickListener {
-            navigateToPurchase()
-        }
 
         binding.logoutButton.setOnClickListener {
             clickLogout()
@@ -107,7 +104,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             binding.loginButton.isVisible=false
             binding.logoutButton.isVisible=true
             binding.createAccountButton.isVisible=false
-            binding.navigateButton.isVisible=true
+
             binding.loginOrRegisterTextView.isVisible=false
             binding.passwordEditText.isVisible=false
             binding.showHideButton.isVisible=false
@@ -119,7 +116,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             binding.logoutButton.isVisible=false
             binding.loginButton.isVisible=true
             binding.createAccountButton.isVisible=false
-            binding.navigateButton.isVisible=false
+
             binding.loginOrRegisterTextView.isVisible=true
             binding.passwordEditText.isVisible=true
             binding.showHideButton.isVisible=true
@@ -128,12 +125,6 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
         }
     }
 
-    private fun navigateToPurchase() {
-       findNavController().navigate(
-                AccountFragmentDirections.actionToPurchaseFragment()
-        )
-
-    }
 
     private fun clickShowHide() {
         if(binding.showHideButton.tag=="hidden") {

@@ -197,7 +197,7 @@ class TarotQuestionFragment : Fragment() {
                 QuestionTextView.isEnabled = true
                 QuestionTextView.setText("")
             }
-
+            clearHistory()
             viewModel.gamePlay = GamePlay.NOTDEALT
             notDealt()
             showCardsFaceDown()

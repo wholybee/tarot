@@ -50,6 +50,10 @@ suspend fun changeGPTSystem (s: String) {
     }
 }
 
+@OptIn(BetaOpenAI::class)
+fun clearHistory () {
+    chatMessages.clear()
+}
 
 //Call to GPT and change system message
 @OptIn(BetaOpenAI::class)
@@ -78,7 +82,7 @@ suspend fun askGPT(q: String): OpenAIResponse {
         )
     )
 // trim to 10 messages in history
-    if (chatMessages.size > 1) {
+    if (chatMessages.size > 3) {
         chatMessages.removeAt(0)
     }
 
