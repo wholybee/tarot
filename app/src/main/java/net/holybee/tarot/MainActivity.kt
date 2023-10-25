@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import android.widget.Toolbar
 import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.GetCoinsResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
@@ -12,8 +13,11 @@ private const val TAG = "Main Actvity"
 class MainActivity : AppCompatActivity(), GetCoinsResponseListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         AccountInformation.readAuthToken(application)
+
+
         if (AccountInformation.isLoggedIn) {
             val client = HolybeeAPIClient
             client.getCoins(this)

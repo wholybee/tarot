@@ -1,7 +1,5 @@
 package net.holybee.tarot
 
-
-import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.os.Handler
@@ -16,20 +14,14 @@ import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.Toast
-import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import io.ktor.client.plugins.api.createClientPlugin
 import kotlinx.coroutines.launch
 import net.holybee.tarot.databinding.FragmentTarotQuestionBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
-import net.holybee.tarot.holybeeAPI.GetCoinsResponseListener
-import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
-
 
 private const val TAG = "TarotQuestionFragment"
 
@@ -68,6 +60,7 @@ class TarotQuestionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setHasOptionsMenu(true)
     }
 
@@ -232,17 +225,17 @@ class TarotQuestionFragment : Fragment() {
 
         binding.cardOneView.let {
             it.contentDescription = getString(R.string.face_down)
-            setCardPicture(it, getString(R.string.card_back))
+            setCardPicture(requireContext(), it , getString(R.string.card_back))
         }
 
         binding.cardTwoView.let {
             it.contentDescription = getString(R.string.face_down)
-            setCardPicture(it, getString(R.string.card_back))
+            setCardPicture(requireContext(), it, getString(R.string.card_back))
         }
 
         binding.cardThreeView.let {
             it.contentDescription = getString(R.string.face_down)
-            setCardPicture(it, getString(R.string.card_back))
+            setCardPicture( requireContext(),  it, getString(R.string.card_back))
         }
 
         binding.cardOneTextView.text = getString(R.string.face_down)
@@ -251,17 +244,18 @@ class TarotQuestionFragment : Fragment() {
     }
 
     fun showCardsFaceUp () {
+
         binding.cardOneView.let {
             it.contentDescription = viewModel.hand[0]?.text
-            setCardPicture(it, viewModel.hand[0]?.filename)
+            setCardPicture(requireContext(), it, viewModel.hand[0]?.filename)
         }
         binding.cardTwoView.let {
             it.contentDescription = viewModel.hand[1]?.text
-            setCardPicture(it, viewModel.hand[1]?.filename)
+            setCardPicture(requireContext(), it, viewModel.hand[1]?.filename)
         }
         binding.cardThreeView.let {
             it.contentDescription = viewModel.hand[2]?.text
-            setCardPicture(it, viewModel.hand[2]?.filename)
+            setCardPicture(requireContext(), it, viewModel.hand[2]?.filename)
         }
         binding.cardOneTextView.text = viewModel.hand[0]?.text
         binding.cardTwoTextView.text = viewModel.hand[1]?.text
@@ -328,7 +322,9 @@ class TarotQuestionFragment : Fragment() {
             if (response.status=="OK") {
                 AccountInformation.coins = AccountInformation.coins -1
                 findNavController().navigate(
-                    TarotQuestionFragmentDirections.actionViewCard(response.message)
+                    TarotQuestionFragmentDirections.actionViewCard(response.message,
+                        card?.filename ?: ""
+                    )
                 )
             } else {
                 Toast.makeText(context,"Error:\n${response.message}",Toast.LENGTH_LONG).show()
@@ -336,28 +332,7 @@ class TarotQuestionFragment : Fragment() {
         }
     }
 
-    fun setCardPicture(imageButton: ImageButton, fileName: String?) {
-        val assetManager = context?.assets
-        Log.d(TAG, "filename: $fileName")
 
-        if ((imageButton.tag != fileName) && (fileName != null)) {
-            imageButton.doOnLayout { measuredView ->
-                val scaledBitmap = getScaledBitmap(
-                    assetManager,
-                    fileName,
-                    measuredView.width,
-                    measuredView.height
-                )
-                if (scaledBitmap != null) {
-                    imageButton.setImageBitmap(context?.let { toRoundCorner(it, scaledBitmap, 6f) })
-                    imageButton.tag = fileName
-                } else {
-                    imageButton.setImageBitmap(null)
-                    imageButton.tag = null
-                }
-            }
-        }
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

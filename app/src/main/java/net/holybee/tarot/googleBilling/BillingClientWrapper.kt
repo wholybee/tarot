@@ -259,7 +259,7 @@ class BillingClientWrapper(
     }
 
     override fun onConsumeSuccess(result: String, purchase: Purchase, coins: Int) {
-        ////////////////// This block to be deleted after full server implementation
+       /* ////////////////// This block to be deleted after full server implementation
         purchase.let {
             val consumeParams = ConsumeParams.newBuilder()
                 .setPurchaseToken(it.purchaseToken)
@@ -276,11 +276,11 @@ class BillingClientWrapper(
                     handleBillingError(billingResult.responseCode, billingResult.debugMessage)
                 }
             }
-        }
-        //////////////////////
-        // queryPurchases()
-        // isConsuming = false
-        // Log.i(TAG, "Server Consume Successful")
+        } */
+
+        queryPurchases()
+        isConsuming = false
+        Log.i(TAG, "Server Consume Successful")
         AccountInformation.coins = coins
     }
 

@@ -11,6 +11,8 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
 import android.util.Log
+import android.widget.ImageButton
+import androidx.core.view.doOnLayout
 import kotlin.math.roundToInt
 
 
@@ -48,6 +50,28 @@ fun getScaledBitmap(assetManager: AssetManager?, fileName: String, destWidth: In
 
 }
 
+fun setCardPicture(context:Context, imageButton: ImageButton, fileName: String?) {
+    val assetManager = context?.assets
+    Log.d(TAG, "filename: $fileName")
+
+    if ((imageButton.tag != fileName) && (fileName != null)) {
+        imageButton.doOnLayout { measuredView ->
+            val scaledBitmap = getScaledBitmap(
+                assetManager,
+                fileName,
+                measuredView.width,
+                measuredView.height
+            )
+            if (scaledBitmap != null) {
+                imageButton.setImageBitmap(context?.let { toRoundCorner(it, scaledBitmap, 6f) })
+                imageButton.tag = fileName
+            } else {
+                imageButton.setImageBitmap(null)
+                imageButton.tag = null
+            }
+        }
+    }
+}
 fun toRoundCorner(context: Context, bitmap: Bitmap, dp: Float): Bitmap? {
     val output = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(output)

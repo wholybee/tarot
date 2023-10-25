@@ -32,6 +32,9 @@
         <argument
             android:name="cardDesc"
             app:argType="string" />
+        <argument
+            android:name="cardFile"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/readingDisplayFragment"

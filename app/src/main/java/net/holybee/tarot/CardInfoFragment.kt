@@ -35,6 +35,7 @@ class CardInfoFragment : Fragment() {
         binding.cardDescriptionTextView.movementMethod= ScrollingMovementMethod()
         binding.cardDescriptionTextView.text = args.cardDesc
 
+
         return binding.root
     }
 
@@ -47,6 +48,13 @@ class CardInfoFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.cardView.let {
+            setCardPicture(requireContext(), it, args.cardFile)
+        }
     }
 
 }
