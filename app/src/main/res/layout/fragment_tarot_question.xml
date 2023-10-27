@@ -48,33 +48,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardOneTextView" />
 
-    <Button
-        android:id="@+id/dealButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="#772196"
-        android:focusableInTouchMode="false"
-        android:text="@string/deal_cards"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardTwoView" />
-
-    <EditText
-        android:id="@+id/QuestionTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:autofillHints=""
-        android:background="@drawable/rounded_corners"
-        android:hint="@string/enter_question"
-        android:inputType="text|textMultiLine|textNoSuggestions"
-        android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardTwoView" />
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/cardTwoView">
+
+        <Button
+            android:id="@+id/dealButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/aMyButton"
+            android:focusableInTouchMode="false"
+            android:text="@string/deal_cards" />
+
+        <EditText
+            android:id="@+id/QuestionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:autofillHints=""
+            android:background="@drawable/rounded_corners"
+            android:hint="@string/enter_question"
+            android:imeOptions="actionDone|flagForceAscii"
+            android:inputType="text|textMultiLine|textNoSuggestions"
+            android:padding="5dp" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -130,20 +134,21 @@
         android:id="@+id/infoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="65dp"
         android:background="@drawable/rounded_corners"
         android:breakStrategy="simple"
         android:clickable="false"
         android:editable="false"
         android:enabled="false"
-        android:padding="5dp"
+        android:padding="8dp"
         android:text="@string/click_on_a_card"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.25" />
 
     <TextView
         android:id="@+id/coinsTextView2"

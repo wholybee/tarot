@@ -40,6 +40,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:text="Has Coin"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buy_coin_button" />
 

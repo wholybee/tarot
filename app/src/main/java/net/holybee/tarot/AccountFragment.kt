@@ -84,6 +84,11 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
 
         binding.haveAccountTextView.setOnClickListener {
             setVisibility()
+            binding.emailEditText.isVisible=false
+            binding.createAccountButton.isVisible=false
+            binding.loginButton.isVisible=true
+            binding.haveAccountTextView.isVisible=false
+            binding.loginOrRegisterTextView.isVisible=true
         }
 
         binding.showHideButton.setOnClickListener{
@@ -114,14 +119,15 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
         } else {
             binding.usernameEditText.isEnabled = true
             binding.logoutButton.isVisible=false
-            binding.loginButton.isVisible=true
-            binding.createAccountButton.isVisible=false
+            binding.loginButton.isVisible=false
+            binding.createAccountButton.isVisible=true
 
-            binding.loginOrRegisterTextView.isVisible=true
+            binding.loginOrRegisterTextView.isVisible=false
             binding.passwordEditText.isVisible=true
             binding.showHideButton.isVisible=true
-            binding.emailEditText.isVisible=false
-            binding.haveAccountTextView.isVisible=false
+            binding.emailEditText.isVisible=true
+            binding.haveAccountTextView.isVisible=true
+
         }
     }
 

@@ -1,5 +1,6 @@
 
 <resources>
+    <color name="aMyButton">#772196</color>
     <color name="seed">#A6590B</color>
     <color name="md_theme_light_primary">#924C00</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>

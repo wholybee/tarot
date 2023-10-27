@@ -6,8 +6,8 @@
     <string name="ask_question">Continue</string>
     <string name="card_back">card_back.jpg</string>
     <string name="ask_another_question">Ask Another Question</string>
-    <string name="click_on_a_card">Click on a card for its meaning\nOr continue to your answer.</string>
-    <string name="after_reading_info">Click on a card for its meaning\nOr ask the cards another question.</string>
+    <string name="click_on_a_card">Click on a card to learn about that card.\nOr continue to your answer.</string>
+    <string name="after_reading_info">Click on a card to learn about that card.\nOr ask the cards another question.</string>
     <string name="settings">Settings</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -19,6 +19,6 @@
     <string name="logout">Logout</string>
     <string name="buy_coins">Buy Coins</string>
     <string name="have_an_account">Already have an account?</string>
-    <string name="purchaseCoinText">Every response costs one coin. If you run out, you will need to purchase more coins to continue using the application.</string>
+    <string name="purchaseCoinText">Every response costs one coin. If you run out, you will need to purchase more coins to continue using the application.\n\n50 readings cost $0.99</string>
     <string name="concentrate">Enter a question you would like the cards to answer. Clear you mind, concentrate on the question, then press the Deal button.</string>
 </resources>

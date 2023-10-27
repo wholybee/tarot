@@ -1,5 +1,6 @@
 package net.holybee.tarot
 
+import android.app.AlertDialog
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.os.Handler
@@ -13,7 +14,9 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -117,6 +120,11 @@ class TarotQuestionFragment : Fragment() {
             /// getCoins
             val coinsText = "Coins: ${AccountInformation.coins}"
             binding.coinsTextView2.setText(coinsText)
+            if (viewModel.justLaunched == true) {
+                viewModel.justLaunched = false
+                showCustomDialog()
+            }
+
         }
 
     }
@@ -245,6 +253,7 @@ class TarotQuestionFragment : Fragment() {
         binding.cardTwoTextView.visibility = View.INVISIBLE
         binding.cardThreeTextView.text = getString(R.string.face_down)
         binding.cardThreeTextView.visibility = View.INVISIBLE
+        binding.infoText.visibility = View.INVISIBLE
     }
 
     fun showCardsFaceUp () {
@@ -267,6 +276,7 @@ class TarotQuestionFragment : Fragment() {
         binding.cardTwoTextView.visibility = View.VISIBLE
         binding.cardThreeTextView.text = viewModel.hand[2]?.text
         binding.cardThreeTextView.visibility = View.VISIBLE
+        binding.infoText.visibility = View.VISIBLE
     }
 
 
@@ -363,6 +373,32 @@ class TarotQuestionFragment : Fragment() {
             }
         }
 
+    private fun showCustomDialog() {
+        // Inflate the custom dialog layout
+        val inflater = layoutInflater
+        val dialogView = inflater.inflate(R.layout.question_dialog, null)
+
+        // Create the AlertDialog
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setView(dialogView)
+
+        // Set the message and button click listener
+        val messageTextView = dialogView.findViewById<TextView>(R.id.dialog_message)
+        val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
+
+        messageTextView.text = getString(R.string.concentrate)
+
+        val dialog = builder.create()
+
+        acceptButton.setOnClickListener {
+            // Perform any necessary actions when the user accepts
+            // For example, you can close the dialog and continue your fragment logic
+            dialog.dismiss()
+            // Continue with your fragment logic here
+        }
+
+        dialog.show()
+    }
 
 }
 

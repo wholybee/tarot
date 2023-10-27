@@ -14,6 +14,7 @@ object AccountInformation {
     var password = ""
     var coins = 0
 
+
     val isLoggedIn:Boolean
         get() {
         if (authToken.length > 20) return true

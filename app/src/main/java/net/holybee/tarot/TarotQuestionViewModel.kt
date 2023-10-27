@@ -10,6 +10,7 @@ class TarotQuestionViewModel : ViewModel() {
     val hand: MutableList<Card?> = mutableListOf(null,null,null)
     var gamePlay = GamePlay.NOTDEALT
     var handSize = 3
+    var justLaunched = true
 
     fun shuffle() {
         Log.d (TAG,"shuffle")
