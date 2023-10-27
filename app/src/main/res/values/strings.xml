@@ -2,19 +2,13 @@
     <string name="app_name">Tarot Nexus</string>
     <string name="deal_cards">Deal Cards</string>
     <string name="face_down"> </string>
-    <string name="enter_question">Ask question here first, then deal cards.</string>
-    <string name="ask_question">Interpret Tarot Cards</string>
+    <string name="enter_question">Ask question.</string>
+    <string name="ask_question">Continue</string>
     <string name="card_back">card_back.jpg</string>
     <string name="ask_another_question">Ask Another Question</string>
     <string name="click_on_a_card">Click on a card for its meaning\nOr continue to your answer.</string>
     <string name="after_reading_info">Click on a card for its meaning\nOr ask the cards another question.</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="enter_token">Enter Key</string>
-    <string name="validate">Validate</string>
-    <string name="ok">OK</string>
-    <string name="key_info">To obtain your OpenAI API key:\nGoto https://platform.openai.com\nEither create an account or login if you already have one.\nClick on your account name in the upper right to open the menu.\nClick on \"View API Keys\" Create a new secret key. You will only be shown this key once, so be sure to copy it somewhere.\n(If you lose it, you can go back and create a new one.)\nEnter the secret key below.</string>
     <string name="settings">Settings</string>
-
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="email_example_com">email@example.com</string>
@@ -26,5 +20,5 @@
     <string name="buy_coins">Buy Coins</string>
     <string name="have_an_account">Already have an account?</string>
     <string name="purchaseCoinText">Every response costs one coin. If you run out, you will need to purchase more coins to continue using the application.</string>
-
+    <string name="concentrate">Enter a question you would like the cards to answer. Clear you mind, concentrate on the question, then press the Deal button.</string>
 </resources>

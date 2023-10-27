@@ -27,10 +27,8 @@ private const val TAG = "TarotQuestionFragment"
 
 class TarotQuestionFragment : Fragment() {
 
-    private val systemPromptFortune =
-        "You are a fortune teller. \nYou will be asked a question. Tarot cards will be shown, and you will answer the question based on the cards.\n"
-    private val systemPromptCard =
-        "You are a fortune teller. You will be shown a Tarot card, and you will explain the meaning of the card.\n "
+    private val systemPromptFortune = "3cardreading"
+    private val systemPromptCard = "card"
     private val cardsPrompt = "The cards that are showing are:\n"
     private val cardPrompt = "The card is: "
     private val questionPrompt = "Question:\n"
@@ -201,6 +199,7 @@ class TarotQuestionFragment : Fragment() {
 
     fun clickCardOne() {
         Log.d(TAG, "clickCardOne")
+        clearHistory()
         binding.QuestionTextView.clearFocus()
         val card = viewModel.hand[0]
         if (card != null) showCard(card)
@@ -209,12 +208,14 @@ class TarotQuestionFragment : Fragment() {
 
     fun clickCardTwo() {
         Log.d(TAG, "clickCardTwo")
+        clearHistory()
         binding.QuestionTextView.clearFocus()
         val card = viewModel.hand[1]
         if (card != null) showCard(card)
     }
 
     fun clickCardThree() {
+        clearHistory()
         Log.d(TAG, "clickCardThree")
         binding.QuestionTextView.clearFocus()
         val card = viewModel.hand[2]
@@ -239,8 +240,11 @@ class TarotQuestionFragment : Fragment() {
         }
 
         binding.cardOneTextView.text = getString(R.string.face_down)
+        binding.cardOneTextView.visibility = View.INVISIBLE
         binding.cardTwoTextView.text = getString(R.string.face_down)
+        binding.cardTwoTextView.visibility = View.INVISIBLE
         binding.cardThreeTextView.text = getString(R.string.face_down)
+        binding.cardThreeTextView.visibility = View.INVISIBLE
     }
 
     fun showCardsFaceUp () {
@@ -258,8 +262,11 @@ class TarotQuestionFragment : Fragment() {
             setCardPicture(requireContext(), it, viewModel.hand[2]?.filename)
         }
         binding.cardOneTextView.text = viewModel.hand[0]?.text
+        binding.cardOneTextView.visibility = View.VISIBLE
         binding.cardTwoTextView.text = viewModel.hand[1]?.text
+        binding.cardTwoTextView.visibility = View.VISIBLE
         binding.cardThreeTextView.text = viewModel.hand[2]?.text
+        binding.cardThreeTextView.visibility = View.VISIBLE
     }
 
 

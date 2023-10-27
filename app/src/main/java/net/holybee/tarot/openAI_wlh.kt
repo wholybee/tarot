@@ -10,14 +10,15 @@ import com.aallam.openai.client.OpenAI
 import com.aallam.openai.client.OpenAIHost
 import kotlinx.serialization.json.*
 import net.holybee.tarot.holybeeAPI.AccountInformation
+import net.holybee.tarot.holybeeAPI.HolybeeURL
 
 private const val TAG = "OpenAI_wlh"
 
 var rtn: String? = ""
 // val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjOWJkM2Q1NjJlZTk2ZjVhNWRlMTciLCJ1c2VybmFtZSI6ImZvcmV2ZXIiLCJpYXQiOjE2OTc4NjEzNzV9.5vfoE8RIn5NNsGw5yeBzeCklN4HfIKCEJliZ1JXlSU0" // "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"
-val host = OpenAIHost (baseUrl = "https://app.holybee.net/v1/") //) "http://192.168.1.104:5000/v1/"
+val host = OpenAIHost (baseUrl = HolybeeURL.openAI) //) "http://192.168.1.104:5000/v1/"
 // val openAI = OpenAI(token = token, host = host, logging = LoggingConfig(LogLevel.None))
-val modelId = ModelId("gpt-3.5-turbo")
+val modelId = ModelId("3cardreading")
 
 
 @OptIn(BetaOpenAI::class)
@@ -29,12 +30,7 @@ val chatMessages:MutableList<ChatMessage>  = mutableListOf<ChatMessage>() /* mut
 ) */
 
 @OptIn(BetaOpenAI::class)
-val chatSystems:MutableList<ChatMessage> = mutableListOf(
-    ChatMessage(
-        role = ChatRole.System,
-        content = "You are a helpful assistant."
-    )
-)
+val chatSystems:MutableList<ChatMessage> = mutableListOf()
 
 @OptIn(BetaOpenAI::class)
 suspend fun changeGPTSystem (s: String) {
@@ -57,14 +53,14 @@ fun clearHistory () {
 
 //Call to GPT and change system message
 @OptIn(BetaOpenAI::class)
-suspend fun askGPT(q: String, systemMessage: String): OpenAIResponse {
+suspend fun askGPT(q: String, systemMessage: String, modelId: String): OpenAIResponse {
     changeGPTSystem(systemMessage)
-    return askGPT(q)
+    return askGPT(q, modelId)
 }
 
 // Basic call to GPT and ask a question
 @OptIn(BetaOpenAI::class)
-suspend fun askGPT(q: String): OpenAIResponse {
+suspend fun askGPT(q: String, modelId: String): OpenAIResponse {
     val token = AccountInformation.authToken
     if (token.length < 20) {
         return OpenAIResponse(
@@ -81,14 +77,14 @@ suspend fun askGPT(q: String): OpenAIResponse {
             content = q
         )
     )
-// trim to 10 messages in history
+// trim to 3 messages in history
     if (chatMessages.size > 3) {
         chatMessages.removeAt(0)
     }
 
 // build the request
     val request = chatCompletionRequest {
-        model = modelId
+        model = ModelId(modelId)
         messages = chatSystems + chatMessages
 
     }

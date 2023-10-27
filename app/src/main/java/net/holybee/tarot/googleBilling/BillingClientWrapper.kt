@@ -94,6 +94,11 @@ class BillingClientWrapper(
         ) { billingResult, purchaseList ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                 if (purchaseList.isNotEmpty()) {
+                    Log.d(TAG,"purchaseList is not empty")
+                    purchaseList.forEach({
+                            Log.d(TAG,it.purchaseToken)
+                        }
+                    )
                     _inappPurchases.value = purchaseList
                 } else {
                     _inappPurchases.value = emptyList()
@@ -259,7 +264,7 @@ class BillingClientWrapper(
     }
 
     override fun onConsumeSuccess(result: String, purchase: Purchase, coins: Int) {
-       /* ////////////////// This block to be deleted after full server implementation
+        ////////////////// This block to be deleted after full server implementation
         purchase.let {
             val consumeParams = ConsumeParams.newBuilder()
                 .setPurchaseToken(it.purchaseToken)
@@ -276,7 +281,7 @@ class BillingClientWrapper(
                     handleBillingError(billingResult.responseCode, billingResult.debugMessage)
                 }
             }
-        } */
+        }
 
         queryPurchases()
         isConsuming = false
