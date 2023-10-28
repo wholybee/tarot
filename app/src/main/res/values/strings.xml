@@ -8,7 +8,6 @@
     <string name="ask_another_question">Ask Another Question</string>
     <string name="click_on_a_card">Click on a card to learn about that card.\nOr continue to your answer.</string>
     <string name="after_reading_info">Click on a card to learn about that card.\nOr ask the cards another question.</string>
-    <string name="settings">Settings</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="email_example_com">email@example.com</string>

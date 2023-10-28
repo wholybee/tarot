@@ -5,7 +5,7 @@ package net.holybee.tarot
 enum class Card (val text: String, val value: Int, val roman: String, val filename: String ){
     FOOL("The Fool",0,"0","RWS_Tarot_00_Fool.jpg"),
     MAGICIAN("The Magician",1,"I","RWS_Tarot_01_Magician.jpg"),
-    HIGH_PRIESTESS("The High Prestess",2,"ii","RWS_Tarot_02_High_Priestess.jpg"),
+    HIGH_PRIESTESS("The High Priestess",2,"ii","RWS_Tarot_02_High_Priestess.jpg"),
     EMPRESS("The Empress",3,"iii","RWS_Tarot_03_Empress.jpg"),
     EMPEROR("The Emperor",4,"iv","RWS_Tarot_04_Emperor.jpg"),
     HIEROPHANT("The Hierophant",5,"v","RWS_Tarot_05_Hierophant.jpg"),

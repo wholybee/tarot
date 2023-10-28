@@ -1,9 +1,8 @@
 package net.holybee.tarot.holybeeAPI
 
 import com.android.billingclient.api.Purchase
-import io.ktor.client.statement.HttpResponse
 
- interface LoginResponseListener {
+interface LoginResponseListener {
      fun onLoginSuccess(userToken: String, coins:Int)
      fun onLoginFail(result: String)
  }

@@ -51,7 +51,7 @@ fun getScaledBitmap(assetManager: AssetManager?, fileName: String, destWidth: In
 }
 
 fun setCardPicture(context:Context, imageButton: ImageButton, fileName: String?) {
-    val assetManager = context?.assets
+    val assetManager = context.assets
     Log.d(TAG, "filename: $fileName")
 
     if ((imageButton.tag != fileName) && (fileName != null)) {
@@ -63,7 +63,7 @@ fun setCardPicture(context:Context, imageButton: ImageButton, fileName: String?)
                 measuredView.height
             )
             if (scaledBitmap != null) {
-                imageButton.setImageBitmap(context?.let { toRoundCorner(it, scaledBitmap, 6f) })
+                imageButton.setImageBitmap(context.let { toRoundCorner(it, scaledBitmap, 6f) })
                 imageButton.tag = fileName
             } else {
                 imageButton.setImageBitmap(null)
@@ -72,7 +72,7 @@ fun setCardPicture(context:Context, imageButton: ImageButton, fileName: String?)
         }
     }
 }
-fun toRoundCorner(context: Context, bitmap: Bitmap, dp: Float): Bitmap? {
+fun toRoundCorner(context: Context, bitmap: Bitmap, dp: Float): Bitmap {
     val output = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(output)
     val color = -0xbdbdbe

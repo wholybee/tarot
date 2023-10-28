@@ -32,11 +32,6 @@ class PurchaseViewModel(application: Application) : AndroidViewModel(application
         billingClient.startBillingConnection(billingConnectionState = _billingConnectionState)
     }
 
-    fun consumePurchase (purchase: Purchase?) {
-
-        billingClient.consumePurchase(purchase)
-    }
-
     fun consumePurchaseOnServer (purchase: Purchase?) {
 
         billingClient.consumePurchaseOnServer(purchase)
@@ -61,14 +56,12 @@ class PurchaseViewModel(application: Application) : AndroidViewModel(application
                 .setProductDetailsParamsList(productDetailsParamsList)
                 .build()
 
-            if (billingParams != null) {
-                billingClient.launchBillingFlow(
-                    activity,
-                    billingParams
-                )
-            } else Log.i(TAG,"billingParams null")
+            billingClient.launchBillingFlow(
+                activity,
+                billingParams
+            )
         } else if (currentPurchases.isNotEmpty() &&
-            currentPurchases.size > MAX_CURRENT_PURCHASES_ALLOWED
+            (currentPurchases.size > MAX_CURRENT_PURCHASES_ALLOWED)
         ) {
             // The developer has allowed users  to have more than 1 purchase, so they need to
             /// implement a logic to find which one to use.

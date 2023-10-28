@@ -21,10 +21,6 @@ object HolybeeAPIClient {
     private const val TAG="holybeeAPIClient"
     private val client = HttpClient(CIO)
 
-    fun logout (application: Application) {
-        AccountInformation.logout(application)
-    }
-
     fun getCoins(callback: GetCoinsResponseListener) {
         Log.d(TAG, "Get Coins")
         val query = JSONObject(

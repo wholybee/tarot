@@ -95,10 +95,9 @@ class BillingClientWrapper(
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                 if (purchaseList.isNotEmpty()) {
                     Log.d(TAG,"purchaseList is not empty")
-                    purchaseList.forEach({
-                            Log.d(TAG,it.purchaseToken)
-                        }
-                    )
+                    purchaseList.forEach {
+                        Log.d(TAG, it.purchaseToken)
+                    }
                     _inappPurchases.value = purchaseList
                 } else {
                     _inappPurchases.value = emptyList()

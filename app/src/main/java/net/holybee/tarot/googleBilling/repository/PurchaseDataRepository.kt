@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.map
 
 
 /**
- * The [PurchaseDataRepository] processes and tranforms the [StateFlow] data received from
+ * The [PurchaseDataRepository] processes and transforms the [StateFlow] data received from
  * the [BillingClientWrapper] into [Flow] data available to the viewModel.
  *
  */

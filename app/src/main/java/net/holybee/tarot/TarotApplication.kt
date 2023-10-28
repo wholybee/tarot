@@ -15,16 +15,6 @@ class TarotApplication : Application() {
         private var instance: TarotApplication? = null
 
 
-        fun applicationContext() : Context {
-            return instance!!.applicationContext
-        }
-        fun applicationScope() : CoroutineScope {
-            return CoroutineScope(SupervisorJob())
-        }
-    }
-
-    override fun onCreate() {
-        super.onCreate()
     }
 
 }

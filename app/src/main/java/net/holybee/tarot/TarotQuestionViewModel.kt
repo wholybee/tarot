@@ -29,7 +29,7 @@ class TarotQuestionViewModel : ViewModel() {
             hand[ i ] = deck[ deckIndex + i ]
         }
 
-        deckIndex = deckIndex + 3
+        deckIndex += 3
     }
 
 }

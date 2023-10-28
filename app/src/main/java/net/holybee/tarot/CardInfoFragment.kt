@@ -22,7 +22,6 @@ class CardInfoFragment : Fragment() {
         }
 
     companion object {
-        fun newInstance() = CardInfoFragment()
     }
 
     private lateinit var viewModel: CardInfoViewModel
@@ -30,7 +29,7 @@ class CardInfoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCardInfoBinding.inflate(inflater, container, false)
         binding.cardDescriptionTextView.movementMethod= ScrollingMovementMethod()
         binding.cardDescriptionTextView.text = args.cardDesc
@@ -41,7 +40,7 @@ class CardInfoFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CardInfoViewModel::class.java)
+        viewModel = ViewModelProvider(this)[CardInfoViewModel::class.java]
         // TODO: Use the ViewModel
     }
 
@@ -52,9 +51,7 @@ class CardInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.cardView.let {
-            setCardPicture(requireContext(), it, args.cardFile)
-        }
+        setCardPicture(requireContext(), binding.cardView, args.cardFile)
     }
 
 }

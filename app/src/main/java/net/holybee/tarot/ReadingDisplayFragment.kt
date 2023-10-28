@@ -22,7 +22,6 @@ class ReadingDisplayFragment : Fragment() {
     private val args: ReadingDisplayFragmentArgs by navArgs()
 
     companion object {
-        fun newInstance() = ReadingDisplayFragment()
     }
 
     private lateinit var viewModel: ReadingDisplayViewModel
@@ -30,7 +29,7 @@ class ReadingDisplayFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentReadingDisplayBinding.inflate(inflater, container, false)
         binding.readingText.movementMethod=ScrollingMovementMethod()
         binding.readingText.text = args.readingText
@@ -41,7 +40,7 @@ class ReadingDisplayFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ReadingDisplayViewModel::class.java)
+        viewModel = ViewModelProvider(this)[ReadingDisplayViewModel::class.java]
         // TODO: Use the ViewModel
     }
 

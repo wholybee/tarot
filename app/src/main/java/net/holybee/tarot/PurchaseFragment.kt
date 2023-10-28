@@ -82,7 +82,7 @@ class PurchaseFragment : Fragment() {
     private fun updateCoinCount () {
         val coinText = "Coins: ${AccountInformation.coins}"
         Log.d(TAG,coinText)
-        binding.coinsTextView.setText(coinText)
+        binding.coinsTextView.text = coinText
     }
 
     private fun clickBuyCoin () {

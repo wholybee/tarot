@@ -7,7 +7,7 @@ import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.GetCoinsResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 
-private const val TAG = "Main Actvity"
+private const val TAG = "Main Activity"
 class MainActivity : AppCompatActivity(), GetCoinsResponseListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

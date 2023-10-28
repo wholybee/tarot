@@ -3,8 +3,6 @@ package net.holybee.tarot
 import android.app.AlertDialog
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -43,7 +41,6 @@ class TarotQuestionFragment : Fragment() {
         }
 
     companion object {
-        fun newInstance() = TarotQuestionFragment()
     }
 
     private lateinit var viewModel: TarotQuestionViewModel
@@ -51,7 +48,7 @@ class TarotQuestionFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentTarotQuestionBinding.inflate(inflater, container, false)
 
 
@@ -119,9 +116,9 @@ class TarotQuestionFragment : Fragment() {
         } else {
             /// getCoins
             val coinsText = "Coins: ${AccountInformation.coins}"
-            binding.coinsTextView2.setText(coinsText)
+            binding.coinsTextView2.text = coinsText
             Log.d(TAG,"viewModel onResume justLaunched: ${viewModel.justLaunched}")
-            if (viewModel.justLaunched == true) {
+            if (viewModel.justLaunched) {
                 viewModel.justLaunched = false
                 showCustomDialog()
             }

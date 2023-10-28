@@ -1,7 +1,6 @@
 
 <resources>
     <color name="aMyButton">#772196</color>
-    <color name="seed">#A6590B</color>
     <color name="md_theme_light_primary">#772196</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#FFDCC4</color>
@@ -28,10 +27,6 @@
     <color name="md_theme_light_inverseOnSurface">#FBEEE8</color>
     <color name="md_theme_light_inverseSurface">#362F2B</color>
     <color name="md_theme_light_inversePrimary">#FFB780</color>
-    <color name="md_theme_light_shadow">#000000</color>
-    <color name="md_theme_light_surfaceTint">#924C00</color>
-    <color name="md_theme_light_outlineVariant">#D6C3B7</color>
-    <color name="md_theme_light_scrim">#000000</color>
     <color name="md_theme_dark_primary">#3f9620</color>
     <color name="md_theme_dark_onPrimary">#4E2600</color>
     <color name="md_theme_dark_primaryContainer">#6F3800</color>
@@ -58,8 +53,4 @@
     <color name="md_theme_dark_inverseOnSurface">#201A17</color>
     <color name="md_theme_dark_inverseSurface">#ECE0DA</color>
     <color name="md_theme_dark_inversePrimary">#924C00</color>
-    <color name="md_theme_dark_shadow">#000000</color>
-    <color name="md_theme_dark_surfaceTint">#FFB780</color>
-    <color name="md_theme_dark_outlineVariant">#51443B</color>
-    <color name="md_theme_dark_scrim">#000000</color>
 </resources>

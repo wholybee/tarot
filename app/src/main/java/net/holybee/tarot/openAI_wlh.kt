@@ -14,15 +14,12 @@ import net.holybee.tarot.holybeeAPI.HolybeeURL
 
 private const val TAG = "OpenAI_wlh"
 
-var rtn: String? = ""
-// val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFjOWJkM2Q1NjJlZTk2ZjVhNWRlMTciLCJ1c2VybmFtZSI6ImZvcmV2ZXIiLCJpYXQiOjE2OTc4NjEzNzV9.5vfoE8RIn5NNsGw5yeBzeCklN4HfIKCEJliZ1JXlSU0" // "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"
+
 val host = OpenAIHost (baseUrl = HolybeeURL.openAI) //) "http://192.168.1.104:5000/v1/"
-// val openAI = OpenAI(token = token, host = host, logging = LoggingConfig(LogLevel.None))
-val modelId = ModelId("3cardreading")
 
 
 @OptIn(BetaOpenAI::class)
-val chatMessages:MutableList<ChatMessage>  = mutableListOf<ChatMessage>() /* mutableListOf(
+val chatMessages:MutableList<ChatMessage>  = mutableListOf() /* mutableListOf(
     ChatMessage (
         role = ChatRole.User,
         content = "Hello, World."
@@ -33,7 +30,7 @@ val chatMessages:MutableList<ChatMessage>  = mutableListOf<ChatMessage>() /* mut
 val chatSystems:MutableList<ChatMessage> = mutableListOf()
 
 @OptIn(BetaOpenAI::class)
-suspend fun changeGPTSystem (s: String) {
+fun changeGPTSystem (s: String) {
     chatSystems.clear()
     val messages = s.split("\n")
     messages.forEach {
@@ -52,7 +49,7 @@ fun clearHistory () {
 }
 
 //Call to GPT and change system message
-@OptIn(BetaOpenAI::class)
+
 suspend fun askGPT(q: String, systemMessage: String, modelId: String): OpenAIResponse {
     changeGPTSystem(systemMessage)
     return askGPT(q, modelId)

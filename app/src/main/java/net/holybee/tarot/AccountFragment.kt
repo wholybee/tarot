@@ -19,6 +19,7 @@ import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.CreateAccountResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 import net.holybee.tarot.holybeeAPI.LoginResponseListener
+import java.util.Locale
 
 private const val TAG = "AccountFragment"
 class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponseListener {
@@ -39,20 +40,19 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
         val application = requireActivity().application
 
         // Initialize the ViewModel with the Application object
-        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application))
-            .get(AccountViewModel::class.java)
+        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application))[AccountViewModel::class.java]
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
+        viewModel = ViewModelProvider(this)[AccountViewModel::class.java]
 
     }
 
@@ -136,20 +136,20 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             binding.passwordEditText.transformationMethod =
                 HideReturnsTransformationMethod.getInstance()
             binding.showHideButton.setImageDrawable(
-                getResources().getDrawable(R.drawable.ic_password_visible))
+                resources.getDrawable(R.drawable.ic_password_visible))
             binding.showHideButton.tag = "visible"
         } else{
             binding.passwordEditText.transformationMethod =
                 PasswordTransformationMethod.getInstance()
             binding.showHideButton.setImageDrawable(
-                getResources().getDrawable(R.drawable.ic_password_hidden))
+                resources.getDrawable(R.drawable.ic_password_hidden))
             binding.showHideButton.tag = "hidden"
         }
     }
 
     private fun clickLogin ()  {
 
-        val username = binding.usernameEditText.text.toString().toLowerCase().trim()
+        val username = binding.usernameEditText.text.toString().lowercase(Locale.US).trim()
         val password = binding.passwordEditText.text.toString().trim()
         AccountInformation.username = username
         AccountInformation.password = password
@@ -167,7 +167,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
         }
 
         handler.post {
-            Toast.makeText(context,"Login Succesful",Toast.LENGTH_LONG).show()
+            Toast.makeText(context,"Login Successful",Toast.LENGTH_LONG).show()
             findNavController().popBackStack()
             setVisibility()
         }
@@ -182,9 +182,9 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
 
     private fun clickNewAccount () {
 
-        val username = binding.usernameEditText.text.toString().toLowerCase().trim()
+        val username = binding.usernameEditText.text.toString().lowercase(Locale.US).trim()
         val password = binding.passwordEditText.text.toString().trim()
-        val email = binding.emailEditText.text.toString().toLowerCase().trim()
+        val email = binding.emailEditText.text.toString().lowercase(Locale.US).trim()
 
         if (!loginParametersValid(username,password,email)) return
 
