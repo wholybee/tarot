@@ -8,6 +8,7 @@ import android.widget.Toolbar
 import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.GetCoinsResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
+import net.holybee.tarot.holybeeAPI.LoginResponseListener
 
 private const val TAG = "Main Actvity"
 class MainActivity : AppCompatActivity(), GetCoinsResponseListener {
@@ -17,29 +18,26 @@ class MainActivity : AppCompatActivity(), GetCoinsResponseListener {
         setContentView(R.layout.activity_main)
         AccountInformation.readAuthToken(application)
 
-
         if (AccountInformation.isLoggedIn) {
             val client = HolybeeAPIClient
             client.getCoins(this)
         }
-    }
 
+    }
     override fun onStop() {
         super.onStop()
         AccountInformation.save(application)
     }
+
     override fun onGetCoinSuccess(coins: Int) {
-        Log.d(TAG,coins.toString())
+        Log.d(TAG, coins.toString())
         AccountInformation.coins = coins
         val coinText = "Coins: ${AccountInformation.coins}"
-        Log.d(TAG,coinText)
+        Log.d(TAG, coinText)
     }
 
     override fun onGetCoinsFail(result: String) {
         Log.d(TAG, "getCoins Failed $result")
     }
-
-
-
 }
 

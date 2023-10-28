@@ -25,6 +25,7 @@ object AccountInformation {
         with (preferences.edit()) {
             putString("authToken", authToken)
             putString("username", username)
+            putString("password", password)
             putString("email", email)
             putInt("coins", coins)
             apply()
@@ -37,20 +38,18 @@ object AccountInformation {
         save(application)
     }
 
-    fun readAuthToken(application: Application): String {
+    fun readAuthToken(application: Application) {
         val preferences = application.getSharedPreferences("login",Context.MODE_PRIVATE)
         val defaultValue = ""
-        val newAuthToken = preferences.getString("authToken", defaultValue)
         val newUsername = preferences.getString("username", defaultValue)
+        val newPassword = preferences.getString("password", defaultValue)
         val newEmail = preferences.getString("email", defaultValue)
         val newCoins = preferences.getInt("coins", 0)
-        authToken = newAuthToken ?: ""
         username = newUsername ?: ""
+        password = newPassword ?: ""
         email = newEmail ?: ""
         coins = newCoins
-        Log.d (TAG,"Read saved token: $newAuthToken")
-        return authToken
-    }
+        }
 
     fun logout (application: Application) {
         authToken = ""

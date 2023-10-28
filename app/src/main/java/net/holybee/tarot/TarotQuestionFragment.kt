@@ -47,7 +47,7 @@ class TarotQuestionFragment : Fragment() {
     }
 
     private lateinit var viewModel: TarotQuestionViewModel
-    private val handler = Handler(Looper.getMainLooper())
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -120,6 +120,7 @@ class TarotQuestionFragment : Fragment() {
             /// getCoins
             val coinsText = "Coins: ${AccountInformation.coins}"
             binding.coinsTextView2.setText(coinsText)
+            Log.d(TAG,"viewModel onResume justLaunched: ${viewModel.justLaunched}")
             if (viewModel.justLaunched == true) {
                 viewModel.justLaunched = false
                 showCustomDialog()
