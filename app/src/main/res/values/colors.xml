@@ -2,7 +2,7 @@
 <resources>
     <color name="aMyButton">#772196</color>
     <color name="seed">#A6590B</color>
-    <color name="md_theme_light_primary">#924C00</color>
+    <color name="md_theme_light_primary">#772196</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#FFDCC4</color>
     <color name="md_theme_light_onPrimaryContainer">#2F1400</color>
@@ -32,7 +32,7 @@
     <color name="md_theme_light_surfaceTint">#924C00</color>
     <color name="md_theme_light_outlineVariant">#D6C3B7</color>
     <color name="md_theme_light_scrim">#000000</color>
-    <color name="md_theme_dark_primary">#FFB780</color>
+    <color name="md_theme_dark_primary">#3f9620</color>
     <color name="md_theme_dark_onPrimary">#4E2600</color>
     <color name="md_theme_dark_primaryContainer">#6F3800</color>
     <color name="md_theme_dark_onPrimaryContainer">#FFDCC4</color>

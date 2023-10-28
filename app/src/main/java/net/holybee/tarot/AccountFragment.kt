@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.TextUtils
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
@@ -163,7 +162,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
     override fun onLoginSuccess(returnedToken: String, coins:Int) {
         val applicationInstance = activity?.application
         if (applicationInstance != null) {
-            AccountInformation.saveAuthToken(applicationInstance, returnedToken)
+            AccountInformation.saveLoginInfo(applicationInstance, returnedToken)
 
         }
 
@@ -203,7 +202,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             Log.d(TAG,"Account Created")
             Log.d(TAG,returnedToken)
             if (applicationInstance != null) {
-                AccountInformation.saveAuthToken(applicationInstance, returnedToken)
+                AccountInformation.saveLoginInfo(applicationInstance, returnedToken)
             }
 
             handler.post {

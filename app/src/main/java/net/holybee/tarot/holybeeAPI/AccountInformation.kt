@@ -17,8 +17,8 @@ object AccountInformation {
 
     val isLoggedIn:Boolean
         get() {
-        if (authToken.length > 20) return true
-        else return false}
+            return authToken.length > 20
+        }
 
     fun save(application: Application) {
         val preferences = application.getSharedPreferences("login",Context.MODE_PRIVATE)
@@ -32,13 +32,13 @@ object AccountInformation {
         }
     }
 
-    fun saveAuthToken(application: Application, newAuthToken:String) {
+    fun saveLoginInfo(application: Application, newAuthToken:String) {
         Log.d(TAG,"Saving token: $newAuthToken")
         authToken = newAuthToken
         save(application)
     }
 
-    fun readAuthToken(application: Application) {
+    fun readLoginInfo(application: Application) {
         val preferences = application.getSharedPreferences("login",Context.MODE_PRIVATE)
         val defaultValue = ""
         val newUsername = preferences.getString("username", defaultValue)

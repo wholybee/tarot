@@ -3,12 +3,9 @@ package net.holybee.tarot
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import android.widget.Toolbar
 import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.GetCoinsResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
-import net.holybee.tarot.holybeeAPI.LoginResponseListener
 
 private const val TAG = "Main Actvity"
 class MainActivity : AppCompatActivity(), GetCoinsResponseListener {
@@ -16,7 +13,7 @@ class MainActivity : AppCompatActivity(), GetCoinsResponseListener {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        AccountInformation.readAuthToken(application)
+        AccountInformation.readLoginInfo(application)
 
         if (AccountInformation.isLoggedIn) {
             val client = HolybeeAPIClient

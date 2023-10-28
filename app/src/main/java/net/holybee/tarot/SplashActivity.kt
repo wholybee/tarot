@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import net.holybee.tarot.holybeeAPI.AccountInformation
-import net.holybee.tarot.holybeeAPI.GetCoinsResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 import net.holybee.tarot.holybeeAPI.LoginResponseListener
 
@@ -24,7 +23,7 @@ class SplashActivity : AppCompatActivity(), LoginResponseListener {
             // Perform your setup tasks here
 
             // Load Preferences
-            AccountInformation.readAuthToken(application)
+            AccountInformation.readLoginInfo(application)
             Log.d(
                 TAG,
                 "Username: ${AccountInformation.username}\nPassword: ${AccountInformation.password}"

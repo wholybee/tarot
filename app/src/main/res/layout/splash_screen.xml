@@ -16,6 +16,6 @@
         android:alpha="0.8"
         android:indeterminate="true"
 
-        android:indeterminateTint="#180195" />
+        android:indeterminateTint="?attr/colorOnSecondaryContainer" />
 
 </RelativeLayout>
