@@ -182,7 +182,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
 
     override fun onLoginFail(result: String) {
         handler.post {
-            Toast.makeText(context, "Failed login: " + result, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Failed login:" + result, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -241,6 +241,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             toastText = "Username must be at least 5 characters."
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             toastText = "Invalid email address."
+            Log.d(TAG,"Email:$email")
         } else if (password.length < 8) {
             toastText = "Password must be at least 8 characters."
         }
