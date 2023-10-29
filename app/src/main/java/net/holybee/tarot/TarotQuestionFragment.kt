@@ -155,7 +155,7 @@ class TarotQuestionFragment : Fragment() {
 
 
     fun clickAskButton() {
-
+            clearHistory()
             viewModel.gamePlay = GamePlay.ASKED
             binding.QuestionTextView.clearFocus()
             binding.progressBar.visibility = View.VISIBLE
@@ -193,6 +193,7 @@ class TarotQuestionFragment : Fragment() {
             binding.apply {
                 QuestionTextView.isEnabled = true
                 QuestionTextView.setText("")
+                dealButton.isEnabled = true
             }
             clearHistory()
             viewModel.gamePlay = GamePlay.NOTDEALT
@@ -247,10 +248,13 @@ class TarotQuestionFragment : Fragment() {
 
         binding.cardOneTextView.text = getString(R.string.face_down)
         binding.cardOneTextView.visibility = View.INVISIBLE
+        binding.cardOneRomanTextView.visibility = View.INVISIBLE
         binding.cardTwoTextView.text = getString(R.string.face_down)
         binding.cardTwoTextView.visibility = View.INVISIBLE
+        binding.cardTwoRomanTextView.visibility = View.INVISIBLE
         binding.cardThreeTextView.text = getString(R.string.face_down)
         binding.cardThreeTextView.visibility = View.INVISIBLE
+        binding.cardThreeRomanTextView.visibility = View.INVISIBLE
         binding.infoText.visibility = View.INVISIBLE
     }
 
@@ -269,11 +273,17 @@ class TarotQuestionFragment : Fragment() {
             setCardPicture(requireContext(), it, viewModel.hand[2]?.filename)
         }
         binding.cardOneTextView.text = viewModel.hand[0]?.text
+        binding.cardOneRomanTextView.text = viewModel.hand[0]?.roman
         binding.cardOneTextView.visibility = View.VISIBLE
+        binding.cardOneRomanTextView.visibility = View.VISIBLE
         binding.cardTwoTextView.text = viewModel.hand[1]?.text
+        binding.cardTwoRomanTextView.text = viewModel.hand[1]?.roman
         binding.cardTwoTextView.visibility = View.VISIBLE
+        binding.cardTwoRomanTextView.visibility = View.VISIBLE
         binding.cardThreeTextView.text = viewModel.hand[2]?.text
+        binding.cardThreeRomanTextView.text = viewModel.hand[2]?.roman
         binding.cardThreeTextView.visibility = View.VISIBLE
+        binding.cardThreeRomanTextView.visibility = View.VISIBLE
         binding.infoText.visibility = View.VISIBLE
     }
 
@@ -343,6 +353,7 @@ class TarotQuestionFragment : Fragment() {
                 )
             } else {
                 Toast.makeText(context,"Error:\n${response.message}",Toast.LENGTH_LONG).show()
+                clickPlayAgain()
             }
         }
     }

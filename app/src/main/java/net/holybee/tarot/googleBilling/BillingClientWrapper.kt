@@ -31,6 +31,7 @@ import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 class BillingClientWrapper(
     context: Context
 ) : PurchasesUpdatedListener, ProductDetailsResponseListener, ConsumePurchaseResponseListener {
+    private var lastPurchase : Purchase? = null
 
     private val context = context
     private var isConsuming = false
@@ -192,6 +193,7 @@ class BillingClientWrapper(
             // Then, handle the purchases
             for (purchase in purchases) {
                 acknowledgePurchases(purchase)
+                consumePurchaseOnServer(purchase)
             }
         } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
@@ -225,6 +227,7 @@ class BillingClientWrapper(
         }
     }
 
+    /*
     fun consumePurchase(purchase: Purchase?) {
         if (isConsuming) {
             Log.i(TAG,"Already consuming a coin. Skipping for now.")
@@ -248,7 +251,7 @@ class BillingClientWrapper(
                 }
             }
         }
-    }
+    }  */
 
     fun consumePurchaseOnServer(purchase: Purchase?) {
         if (isConsuming) {

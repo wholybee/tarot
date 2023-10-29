@@ -59,15 +59,18 @@ class PurchaseFragment : Fragment() {
 
                 }
         }
-        lifecycleScope.launch {
+
+        //  Coins are now consumed via on purchaseUpdated in Billing Client wrapper
+
+       /* lifecycleScope.launch {
 
                 viewModel.inappPurchaseFlow
                     .collect {
                        val purchaseList = it
-                       purchaseList.forEach { purchase: Purchase ->  viewModel.consumePurchaseOnServer(purchase)}
+                       // purchaseList.forEach { purchase: Purchase ->  viewModel.consumePurchaseOnServer(purchase)}
                     }
 
-        }
+        } */
 
     }
 

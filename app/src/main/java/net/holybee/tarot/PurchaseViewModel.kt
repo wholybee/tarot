@@ -31,11 +31,11 @@ class PurchaseViewModel(application: Application) : AndroidViewModel(application
     init {
         billingClient.startBillingConnection(billingConnectionState = _billingConnectionState)
     }
-
-    fun consumePurchaseOnServer (purchase: Purchase?) {
+/// Coins are now consumed in onPurcahsesUpdates in BillingClient
+  /*  fun consumePurchaseOnServer (purchase: Purchase?) {
 
         billingClient.consumePurchaseOnServer(purchase)
-    }
+    } */
 
     fun buyCoin(
         productDetails: ProductDetails,
