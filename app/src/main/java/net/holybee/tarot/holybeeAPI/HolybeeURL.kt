@@ -6,6 +6,7 @@ object HolybeeURL {
     const val create = "https://app.holybee.net/admin/addUser/"
     const val getCoins = "https://app.holybee.net/api/getCoins/"
     const val openAI = "https://app.holybee.net/v1/"      // "https://app.holybee.net/v1/"  "http://192.168.1.104:5000/v1/"
+    const val forgotPasswordURL = "https://app.holybee.net/forgotPassword"
 }
 /*
 "http://10.21.2.44:5000/api/consumePurchase/"

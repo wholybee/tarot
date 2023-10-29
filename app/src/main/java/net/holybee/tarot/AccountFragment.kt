@@ -1,5 +1,7 @@
 package net.holybee.tarot
 
+import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.Handler
@@ -18,6 +20,7 @@ import net.holybee.tarot.databinding.FragmentAccountBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.CreateAccountResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
+import net.holybee.tarot.holybeeAPI.HolybeeURL
 import net.holybee.tarot.holybeeAPI.LoginResponseListener
 import java.util.Locale
 
@@ -94,6 +97,10 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             clickShowHide()
         }
 
+        binding.forgotPasswordbutton.setOnClickListener {
+            openWebpage(HolybeeURL.forgotPasswordURL)
+        }
+
         setVisibility()
     }
 
@@ -103,7 +110,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             binding.usernameEditText.setText(AccountInformation.username)
             binding.emailEditText.setText(AccountInformation.email)
             binding.usernameEditText.isEnabled = false
-
+            binding.forgotPasswordbutton.isVisible = false
 
             binding.loginButton.isVisible=false
             binding.logoutButton.isVisible=true
@@ -120,7 +127,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             binding.logoutButton.isVisible=false
             binding.loginButton.isVisible=false
             binding.createAccountButton.isVisible=true
-
+            binding.forgotPasswordbutton.isVisible = true
             binding.loginOrRegisterTextView.isVisible=false
             binding.passwordEditText.isVisible=true
             binding.showHideButton.isVisible=true
@@ -175,7 +182,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
 
     override fun onLoginFail(result: String) {
         handler.post {
-            Toast.makeText(context, "Failed login:" + result, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Failed login: " + result, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -252,6 +259,18 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             Toast.makeText(context,"Logout Successful.",Toast.LENGTH_LONG).show()
             setVisibility()
         }
+    }
+    private fun openWebpage (url : String) {
+
+
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        Log.d(TAG,"Open URL $url")
+        try {
+            // if (intent.resolveActivity(requireContext().packageManager) != null) {
+            Log.d(TAG, "resolved intent")
+            startActivity(intent)
+        } catch (e:Exception) { Log.e(TAG,"Failed to open web browser.")}
+        // }
     }
 
 }
