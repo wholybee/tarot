@@ -20,4 +20,5 @@
     <string name="have_an_account">Already have an account?</string>
     <string name="purchaseCoinText">Every response costs one coin. If you run out, you will need to purchase more coins to continue using the application.\n\n50 readings cost $0.99</string>
     <string name="concentrate">Enter a question you would like the cards to answer. Clear you mind, concentrate on the question, then press the Deal button.</string>
+    <string name="rate_app">Rate App!</string>
 </resources>

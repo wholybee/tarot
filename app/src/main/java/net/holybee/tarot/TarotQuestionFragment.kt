@@ -2,6 +2,8 @@ package net.holybee.tarot
 
 import android.app.AlertDialog
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -109,7 +111,7 @@ class TarotQuestionFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         if (!AccountInformation.isLoggedIn) {
-            Toast.makeText(context,"Please Login to Continue.", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Please Login to Continue.", Toast.LENGTH_LONG).show()
             findNavController().navigate(
                 TarotQuestionFragmentDirections.actionToAccountFragment()
             )
@@ -117,14 +119,26 @@ class TarotQuestionFragment : Fragment() {
             /// getCoins
             val coinsText = "Coins: ${AccountInformation.coins}"
             binding.coinsTextView2.text = coinsText
-            Log.d(TAG,"viewModel onResume justLaunched: ${viewModel.justLaunched}")
-            if (viewModel.justLaunched) {
-                viewModel.justLaunched = false
-                showCustomDialog()
+            if (AccountInformation.coins < 1) {
+                showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
+                navigatePurchase()
+            } else {
+
+
+                if (viewModel.justLaunched) {
+                    viewModel.justLaunched = false
+                    showCustomDialog(text = getString(R.string.concentrate))
+                } else {
+
+                    if (listOf(10,25,50,75).contains(AccountInformation.ratingCount)) {
+                        rateDialog()
+                    }
+
+                }
+
             }
 
         }
-
     }
 
     fun hideSoftKeyboard(editText: EditText){
@@ -168,7 +182,7 @@ class TarotQuestionFragment : Fragment() {
                     binding.cardThreeView.contentDescription + "\n" +
                     questionPrompt +
                     binding.QuestionTextView.text
-
+            AccountInformation.ratingCount+=1
             lifecycleScope.launch {
                 val response= askGPT(content, systemPromptFortune)
                 binding.progressBar.visibility = View.INVISIBLE
@@ -341,6 +355,7 @@ class TarotQuestionFragment : Fragment() {
     fun showCard(card: Card?) {
         binding.progressBar.visibility = View.VISIBLE
         disableAllButtons()
+        AccountInformation.ratingCount+=1
         lifecycleScope.launch {
             val response = askGPT(cardPrompt + (card?.text ?: ""), systemPromptCard)
             binding.progressBar.visibility = View.INVISIBLE
@@ -374,15 +389,24 @@ class TarotQuestionFragment : Fragment() {
                 true
             }
             R.id.open_buyCoins -> {
-                findNavController().navigate(
-                    TarotQuestionFragmentDirections.actionToPurchaseFragment())
+                    navigatePurchase()
+                true
+            }
+            R.id.rate_app -> {
+                rateApp()
                 true
             }
             else->super.onOptionsItemSelected(item)
             }
         }
 
-    private fun showCustomDialog() {
+    fun navigatePurchase () {
+        findNavController().navigate(
+            TarotQuestionFragmentDirections.actionToPurchaseFragment())
+    }
+
+
+    private fun showCustomDialog(text: String) {
         // Inflate the custom dialog layout
         val inflater = layoutInflater
         val dialogView = inflater.inflate(R.layout.question_dialog, null)
@@ -395,7 +419,7 @@ class TarotQuestionFragment : Fragment() {
         val messageTextView = dialogView.findViewById<TextView>(R.id.dialog_message)
         val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
 
-        messageTextView.text = getString(R.string.concentrate)
+        messageTextView.text = text
 
         val dialog = builder.create()
 
@@ -407,6 +431,43 @@ class TarotQuestionFragment : Fragment() {
         }
 
         dialog.show()
+    }
+
+    private fun rateDialog() {
+        // Inflate the custom dialog layout
+        val inflater = layoutInflater
+        val dialogView = inflater.inflate(R.layout.rate_dialog, null)
+
+        // Create the AlertDialog
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setView(dialogView)
+
+        // Set the message and button click listener
+
+        val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
+        val declineButton = dialogView.findViewById<Button>(R.id.decline_button)
+
+        val dialog = builder.create()
+
+        acceptButton.setOnClickListener {
+            AccountInformation.ratingCount = 100
+            dialog.dismiss()
+            rateApp()
+        }
+        declineButton.setOnClickListener {
+            dialog.dismiss()
+
+        }
+        dialog.show()
+    }
+
+    fun rateApp() {
+        val appPackageName = "net.holybee.tarot"
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+        } catch (e: android.content.ActivityNotFoundException) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+        }
     }
 
 }

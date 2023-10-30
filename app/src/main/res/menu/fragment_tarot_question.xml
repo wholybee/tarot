@@ -9,4 +9,9 @@
         android:id="@+id/open_account"
         android:icon="@drawable/ic_menu_account"
         android:title="@string/account" />
+    <item
+        android:id="@+id/rate_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/rate_app" />
 </menu>

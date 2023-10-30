@@ -13,7 +13,7 @@ object AccountInformation {
     var email = ""
     var password = ""
     var coins = 0
-
+    var ratingCount = 0
 
     val isLoggedIn:Boolean
         get() {
@@ -28,6 +28,7 @@ object AccountInformation {
             putString("password", password)
             putString("email", email)
             putInt("coins", coins)
+            putInt("count", ratingCount)
             apply()
         }
     }
@@ -45,10 +46,12 @@ object AccountInformation {
         val newPassword = preferences.getString("password", defaultValue)
         val newEmail = preferences.getString("email", defaultValue)
         val newCoins = preferences.getInt("coins", 0)
+        val newCount = preferences.getInt("count", 0)
         username = newUsername ?: ""
         password = newPassword ?: ""
         email = newEmail ?: ""
         coins = newCoins
+        ratingCount = newCount
         }
 
     fun logout (application: Application) {
