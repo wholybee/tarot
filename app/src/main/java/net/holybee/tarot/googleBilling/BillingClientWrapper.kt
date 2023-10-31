@@ -17,6 +17,7 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.ConsumePurchaseResponseListener
@@ -45,6 +46,7 @@ class BillingClientWrapper(
         MutableStateFlow<Map<String, ProductDetails>>(emptyMap())
     val productWithProductDetails =
         _productWithProductDetails.asStateFlow()
+
 
     // Current Purchases
 
@@ -163,7 +165,7 @@ class BillingClientWrapper(
 
                 }
                 _productWithProductDetails.value = newMap
-
+                Log.d(TAG,productWithProductDetails.toString())
             } else -> {
                 handleBillingError(responseCode, debugMessage)
             }
@@ -328,7 +330,8 @@ class BillingClientWrapper(
 
         // List of inapp purchases
         private const val COIN_INAPP = "coin"
-        private val LIST_OF_INAPP = listOf(COIN_INAPP)
+        private const val COIN_250 = "coin250"
+        private val LIST_OF_INAPP = listOf(COIN_INAPP, COIN_250)
 
     }
 

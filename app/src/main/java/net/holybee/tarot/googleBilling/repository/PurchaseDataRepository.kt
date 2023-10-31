@@ -16,13 +16,18 @@
 
 package net.holybee.tarot.googleBilling.repository
 
+import android.util.Log
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import net.holybee.tarot.googleBilling.BillingClientWrapper
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 
 /**
@@ -30,6 +35,7 @@ import kotlinx.coroutines.flow.map
  * the [BillingClientWrapper] into [Flow] data available to the viewModel.
  *
  */
+const val TAG = "Data Repository"
 class PurchaseDataRepository(billingClientWrapper: BillingClientWrapper) {
 
 
@@ -42,11 +48,19 @@ class PurchaseDataRepository(billingClientWrapper: BillingClientWrapper) {
 
     // ProductDetails for the coin.
     val coinProductDetails: Flow<ProductDetails> =
-        billingClientWrapper.productWithProductDetails.filter {
-            it.containsKey(
-                COIN_INAPP
-            )
-        }.map { it[COIN_INAPP]!! }
+        billingClientWrapper.productWithProductDetails.flatMapConcat { map ->
+          map.values.asFlow()
+        }
+            /*
+                val coinProductDetails: Flow<ProductDetails> =
+                    billingClientWrapper.productWithProductDetails.filter { productDetails ->
+                        Log.d(TAG,productDetails.toString())
+                        LIST_OF_INAPP.any { key ->
+                            productDetails.containsKey(
+                                key
+                            )
+                        }
+                    }.map { it[COIN_INAPP]!! } */
 
 
     val inappPurchaseFlow: StateFlow<List<Purchase>> = billingClientWrapper.inappPurchases
@@ -57,5 +71,7 @@ class PurchaseDataRepository(billingClientWrapper: BillingClientWrapper) {
         // List of subscription product offerings
 
         private const val COIN_INAPP = "coin"
+        private const val COIN_250 = "coin250"
+        private val LIST_OF_INAPP = listOf(COIN_INAPP, COIN_250)
     }
 }

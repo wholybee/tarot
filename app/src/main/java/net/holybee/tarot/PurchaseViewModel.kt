@@ -5,9 +5,16 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import net.holybee.tarot.googleBilling.Constants.MAX_CURRENT_PURCHASES_ALLOWED
 import net.holybee.tarot.googleBilling.BillingClientWrapper
 import net.holybee.tarot.googleBilling.repository.PurchaseDataRepository
@@ -26,6 +33,17 @@ class PurchaseViewModel(application: Application) : AndroidViewModel(application
     val hasCoinFlow = repo.hasCoin
     val coinsForSaleFlow = repo.coinProductDetails
     val inappPurchaseFlow = repo.inappPurchaseFlow
+
+    val productDetailsListStateFlow: StateFlow<List<ProductDetails>> = run {
+        val productListStateFlow = MutableStateFlow<List<ProductDetails>>(emptyList())
+
+        billingClient.productWithProductDetails.onEach { map ->
+            val productList = map.values.toList()
+            productListStateFlow.value = productList
+        }.launchIn(viewModelScope)
+
+        productListStateFlow
+    }
 
     // Start the billing connection when the viewModel is initialized.
     init {

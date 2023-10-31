@@ -3,13 +3,17 @@ package net.holybee.tarot
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.lifecycle.lifecycleScope
+import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
 import net.holybee.tarot.googleBilling.Constants.COIN_TAG
 import net.holybee.tarot.databinding.FragmentPurchaseBinding
@@ -53,12 +57,39 @@ class PurchaseFragment : Fragment() {
         }
 
         lifecycleScope.launch {
+            viewModel.productDetailsListStateFlow.collect {
+                val buttonContainer = binding.buttonContainer
+                val themedContext = ContextThemeWrapper(requireContext(),R.style.AppTheme)
+                it.forEach { product ->
+                    Log.d(TAG,product.toString())
+                    val button = Button(themedContext)
+                    button.text = getString(
+                        R.string.purchase_button,
+                        product.title,
+                        product.oneTimePurchaseOfferDetails?.formattedPrice ?: ""
+                    )
+
+
+                    button.setOnClickListener {
+                        clickBuyCoin(product)
+                    }
+                    buttonContainer.addView(button)
+                }
+            }
+        }
+
+    /*
+        lifecycleScope.launch {
             viewModel.coinsForSaleFlow
                 .collect { coin ->
+                    Log.d(TAG,coin.toString())
                     binding.buyCoinButton.isEnabled = true
+                    binding.buyCoinButton.text = coin.title + (coin.oneTimePurchaseOfferDetails?.formattedPrice
+                        ?: "")
 
                 }
         }
+        */
 
         //  Coins are now consumed via on purchaseUpdated in Billing Client wrapper
 
@@ -77,10 +108,8 @@ class PurchaseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buyCoinButton.setOnClickListener {
-            clickBuyCoin()
         }
-    }
+
 
     private fun updateCoinCount () {
         val coinText = "Coins: ${AccountInformation.coins}"
@@ -88,17 +117,17 @@ class PurchaseFragment : Fragment() {
         binding.coinsTextView.text = coinText
     }
 
-    private fun clickBuyCoin () {
+    private fun clickBuyCoin (product: ProductDetails) {
 
         lifecycleScope.launch {
-            viewModel.coinsForSaleFlow.first().let {
+
                 viewModel.buyCoin(
-                    productDetails = it,
+                    productDetails = product,
                     currentPurchases = null,
-                    tag = COIN_TAG,
+                    tag = product.productId,
                     activity = requireActivity()
                 )
-            }
+
         }
 
     }
