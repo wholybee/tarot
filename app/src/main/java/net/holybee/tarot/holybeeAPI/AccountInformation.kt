@@ -14,7 +14,7 @@ object AccountInformation {
     var password = ""
     var coins = 0
     var ratingCount = 0
-    var consumedPurchases : MutableList<String> = mutableListOf()
+    var grantedPurchases : MutableList<String> = mutableListOf()
 
     val isLoggedIn:Boolean
         get() {

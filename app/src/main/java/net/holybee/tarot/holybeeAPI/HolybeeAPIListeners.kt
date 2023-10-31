@@ -12,9 +12,9 @@ interface CreateAccountResponseListener {
     fun onAccountCreateFail(result: String)
 }
 
-interface ConsumePurchaseResponseListener {
-    fun onConsumeSuccess (result: String, purchase: Purchase, coins: Int)
-    fun onConsumeFail(result: String)
+interface GrantUserPurchaseResponseListener {
+    fun onGrantSuccess (result: String, purchase: Purchase, coins: Int)
+    fun onGrantFail(result: String)
 }
 
 interface GetCoinsResponseListener {

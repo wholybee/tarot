@@ -17,10 +17,9 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import net.holybee.tarot.holybeeAPI.AccountInformation
-import net.holybee.tarot.holybeeAPI.ConsumePurchaseResponseListener
+import net.holybee.tarot.holybeeAPI.GrantUserPurchaseResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 
 
@@ -31,7 +30,7 @@ import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
  */
 class BillingClientWrapper(
     context: Context
-) : PurchasesUpdatedListener, ProductDetailsResponseListener, ConsumePurchaseResponseListener {
+) : PurchasesUpdatedListener, ProductDetailsResponseListener, GrantUserPurchaseResponseListener {
 
     private val context = context
     private var isConsuming = false
@@ -99,7 +98,7 @@ class BillingClientWrapper(
                     Log.d(TAG,"purchaseList is not empty")
                     purchaseList.forEach {
                         Log.i(TAG, it.toString())
-                        consumePurchaseOnServer(it)
+                        grantPurchaseServer(it)
                     }
                     _inappPurchases.value = purchaseList
                 } else {
@@ -196,7 +195,7 @@ class BillingClientWrapper(
             for (purchase in purchases) {
                 Log.i(TAG,purchase.toString())
                 acknowledgePurchases(purchase)
-                consumePurchaseOnServer(purchase)
+                grantPurchaseServer(purchase)
             }
         } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
@@ -231,24 +230,24 @@ class BillingClientWrapper(
     }
 
 
-    fun consumePurchaseOnServer(purchase: Purchase) {
+    fun grantPurchaseServer(purchase: Purchase) {
 
         if (isConsuming) {
-            Log.e(TAG, "Already consuming a coin. Skipping for now.")
+            Log.e(TAG, "Already granting a purchase. Skipping for now.")
             return
         }
         isConsuming = true
 
-        if (AccountInformation.consumedPurchases.contains(purchase.purchaseToken)) {
-            Log.e(TAG,"Purchase appears to have already been consumed.")
+        if (AccountInformation.grantedPurchases.contains(purchase.purchaseToken)) {
+            Log.e(TAG,"Purchase appears to have already been granted.")
             return
         }
 
         val client = HolybeeAPIClient
-        client.consumePurchaseOnServerAsync(purchase, this)
+        client.grantUserPurchasedCoinsAsync(purchase, this)
     }
 
-    override fun onConsumeSuccess(result: String, purchase: Purchase, coins: Int) {
+    override fun onGrantSuccess(result: String, purchase: Purchase, coins: Int) {
         ////////////////// This block to be deleted after full server implementation
         purchase.let {
             val consumeParams = ConsumeParams.newBuilder()
@@ -267,12 +266,12 @@ class BillingClientWrapper(
                 }
             }
         }
-        AccountInformation.consumedPurchases.add(purchase.purchaseToken)
+        AccountInformation.grantedPurchases.add(purchase.purchaseToken)
         isConsuming = false
         AccountInformation.coins = coins
     }
 
-    override fun onConsumeFail(result: String) {
+    override fun onGrantFail(result: String) {
         Log.e(TAG,"Failure Consuming Purchase: $result")
     }
 

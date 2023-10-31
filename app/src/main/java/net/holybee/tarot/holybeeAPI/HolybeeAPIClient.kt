@@ -1,6 +1,5 @@
 package net.holybee.tarot.holybeeAPI
 
-import android.app.Application
 import android.util.Log
 import com.android.billingclient.api.Purchase
 import io.ktor.client.request.bearerAuth
@@ -160,9 +159,9 @@ object HolybeeAPIClient {
 
     }
 
-    fun consumePurchaseOnServerAsync(
+    fun grantUserPurchasedCoinsAsync(
         purchase: Purchase,
-        callback: ConsumePurchaseResponseListener
+        callback: GrantUserPurchaseResponseListener
     ) {
         val purchaseToken = purchase.purchaseToken
         val authToken = AccountInformation.authToken
@@ -189,14 +188,14 @@ object HolybeeAPIClient {
                     val responseCode = response.get("responseCode").toString()
                     if (responseCode == "OK") {
                         val coins = response.get("coins").toString().toIntOrNull() ?: 0
-                        callback.onConsumeSuccess(responseCode, purchase, coins)
+                        callback.onGrantSuccess(responseCode, purchase, coins)
                     } else {
-                        callback.onConsumeFail("Server Error")
+                        callback.onGrantFail("Server Error")
                     }
                 } catch (e: Exception) {
                     Log.e(TAG, "Error accessing Server API")
-                    e.message?.let { callback.onConsumeFail(it) }
-                        ?: callback.onConsumeFail("Unknown Failure")
+                    e.message?.let { callback.onGrantFail(it) }
+                        ?: callback.onGrantFail("Unknown Failure")
                 }
             } // coroutine scope
 
