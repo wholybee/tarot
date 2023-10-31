@@ -117,9 +117,9 @@ class TarotQuestionFragment : Fragment() {
             )
         } else {
             /// getCoins
-            val coinsText = "Coins: ${AccountInformation.coins}"
+            val coinsText = "Coins: ${AccountInformation.coins.value}"
             binding.coinsTextView2.text = coinsText
-            if (AccountInformation.coins < 1) {
+            if (AccountInformation.coins.value < 1) {
                 showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
                 navigatePurchase()
             } else {
@@ -187,7 +187,7 @@ class TarotQuestionFragment : Fragment() {
                 val response= openAi.askGPT(content, systemPromptFortune)
                 binding.progressBar.visibility = View.INVISIBLE
                 if (response.status=="OK") {
-                    AccountInformation.coins = AccountInformation.coins - 1
+                    AccountInformation.coins.value = AccountInformation.coins.value - 1
                     findNavController().navigate(
                         TarotQuestionFragmentDirections.actionReadingDisplay(response.message)
                     )
@@ -356,11 +356,12 @@ class TarotQuestionFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
         disableAllButtons()
         AccountInformation.ratingCount+=1
+
         lifecycleScope.launch {
             val response = openAi.askGPT(cardPrompt + (card?.text ?: ""), systemPromptCard)
             binding.progressBar.visibility = View.INVISIBLE
             if (response.status=="OK") {
-                AccountInformation.coins = AccountInformation.coins -1
+                AccountInformation.coins.value = AccountInformation.coins.value -1
                 findNavController().navigate(
                     TarotQuestionFragmentDirections.actionViewCard(response.message,
                         card?.filename ?: ""

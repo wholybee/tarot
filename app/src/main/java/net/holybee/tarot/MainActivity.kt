@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), GetCoinsResponseListener {
 
     override fun onGetCoinSuccess(coins: Int) {
 
-        AccountInformation.coins = coins
+        AccountInformation.coins.value = coins
         val coinText = "Coins: ${AccountInformation.coins}"
         Log.i(TAG, coinText)
     }

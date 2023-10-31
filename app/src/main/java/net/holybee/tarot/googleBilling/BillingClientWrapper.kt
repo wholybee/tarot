@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
@@ -33,7 +32,7 @@ class BillingClientWrapper(
 ) : PurchasesUpdatedListener, ProductDetailsResponseListener, GrantUserPurchaseResponseListener {
 
     private val context = context
-    private var isConsuming = false
+    private var isGranting = false
     private val billingClient = BillingClient.newBuilder(context)
         .setListener(this)
         .enablePendingPurchases()
@@ -98,7 +97,7 @@ class BillingClientWrapper(
                     Log.d(TAG,"purchaseList is not empty")
                     purchaseList.forEach {
                         Log.i(TAG, it.toString())
-                        grantPurchaseServer(it)
+                        acknowledgePurchases(it)
                     }
                     _inappPurchases.value = purchaseList
                 } else {
@@ -195,7 +194,7 @@ class BillingClientWrapper(
             for (purchase in purchases) {
                 Log.i(TAG,purchase.toString())
                 acknowledgePurchases(purchase)
-                grantPurchaseServer(purchase)
+                //  grantPurchaseServer(purchase)
             }
         } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
@@ -209,22 +208,25 @@ class BillingClientWrapper(
     private fun acknowledgePurchases(purchase: Purchase?) {
         purchase?.let {
             if (!it.isAcknowledged) {
-                val params = AcknowledgePurchaseParams.newBuilder()
-                    .setPurchaseToken(it.purchaseToken)
-                    .build()
+               grantPurchaseServer(purchase)
+            } else { //  acknowledged
+                Log.i(TAG, "Purchase is already acknowledged")
+                // consume purchase
+                purchase.let {
+                    val consumeParams = ConsumeParams.newBuilder()
+                        .setPurchaseToken(it.purchaseToken)
+                        .build()
 
-                billingClient.acknowledgePurchase(
-                    params
-                ) { billingResult ->
-                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
-                        it.purchaseState == Purchase.PurchaseState.PURCHASED
-                    ) {
-                        _isNewPurchaseAcknowledged = true
-                        Log.i(TAG, "Purchase acknowledged")
+                    billingClient.consumeAsync(consumeParams) { billingResult, purchaseToken ->
+                        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                            queryPurchases()
+                            Log.i(TAG,"Consume Successful")
+                        } else {
+                            Log.e(TAG,"Consume Failure")
+                            handleBillingError(billingResult.responseCode, billingResult.debugMessage)
+                        }
                     }
                 }
-            } else { //  acknowledged
-                Log.e(TAG, "Purchase is already acknowledged")
             }
         }
     }
@@ -232,47 +234,25 @@ class BillingClientWrapper(
 
     fun grantPurchaseServer(purchase: Purchase) {
 
-        if (isConsuming) {
+        if (isGranting) {
             Log.e(TAG, "Already granting a purchase. Skipping for now.")
             return
         }
-        isConsuming = true
+        isGranting = true
 
-        if (AccountInformation.grantedPurchases.contains(purchase.purchaseToken)) {
-            Log.e(TAG,"Purchase appears to have already been granted.")
-            return
-        }
 
         val client = HolybeeAPIClient
         client.grantUserPurchasedCoinsAsync(purchase, this)
     }
 
     override fun onGrantSuccess(result: String, purchase: Purchase, coins: Int) {
-        ////////////////// This block to be deleted after full server implementation
-        purchase.let {
-            val consumeParams = ConsumeParams.newBuilder()
-                .setPurchaseToken(it.purchaseToken)
-                .build()
-
-            billingClient.consumeAsync(consumeParams) { billingResult, purchaseToken ->
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    isConsuming = false
-                    queryPurchases()
-                    Log.i(TAG,"Consume Successful")
-                } else {
-                    Log.e(TAG,"Consume Failure")
-                    isConsuming = false
-                    handleBillingError(billingResult.responseCode, billingResult.debugMessage)
-                }
-            }
-        }
-        AccountInformation.grantedPurchases.add(purchase.purchaseToken)
-        isConsuming = false
-        AccountInformation.coins = coins
+        AccountInformation.coins.value = coins
+        isGranting = false
     }
 
     override fun onGrantFail(result: String) {
-        Log.e(TAG,"Failure Consuming Purchase: $result")
+        Log.e(TAG,"Failure Granting Purchase: $result")
+        isGranting = false
     }
 
 

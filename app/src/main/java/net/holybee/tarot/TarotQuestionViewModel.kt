@@ -2,6 +2,8 @@ package net.holybee.tarot
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import net.holybee.tarot.holybeeAPI.AccountInformation
+
 private const val TAG = "TarotQuestionViewModel"
 
 class TarotQuestionViewModel : ViewModel() {
@@ -11,6 +13,7 @@ class TarotQuestionViewModel : ViewModel() {
     var gamePlay = GamePlay.NOTDEALT
     var handSize = 3
     var justLaunched = true
+    val coins = AccountInformation.coins
 
     fun shuffle() {
 

@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import net.holybee.tarot.googleBilling.Constants.MAX_CURRENT_PURCHASES_ALLOWED
 import net.holybee.tarot.googleBilling.BillingClientWrapper
+import net.holybee.tarot.holybeeAPI.AccountInformation
 
 private const val TAG = "PurchaseViewModel"
 
@@ -27,6 +28,7 @@ class PurchaseViewModel(application: Application) : AndroidViewModel(application
     private var billingClient: BillingClientWrapper = BillingClientWrapper(application)
     private val _billingConnectionState = MutableLiveData(false)
 
+    val coins = AccountInformation.coins
 
     val productDetailsListStateFlow: StateFlow<List<ProductDetails>> = run {
         val productListStateFlow = MutableStateFlow<List<ProductDetails>>(emptyList())

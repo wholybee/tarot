@@ -46,6 +46,13 @@ class PurchaseFragment : Fragment() {
 
         updateCoinCount()
 
+        lifecycleScope.launch {
+            viewModel.coins
+                .collect { coins ->
+                    updateCoinCount()
+
+                }
+        }
 
         lifecycleScope.launch {
             viewModel.productDetailsListStateFlow.collect {
@@ -78,7 +85,7 @@ class PurchaseFragment : Fragment() {
 
 
     private fun updateCoinCount () {
-        val coinText = "Coins: ${AccountInformation.coins}"
+        val coinText = "Coins: ${AccountInformation.coins.value}"
         Log.i(TAG,coinText)
         binding.coinsTextView.text = coinText
     }
