@@ -1,7 +1,7 @@
 package net.holybee.tarot.holybeeAPI
 
 object HolybeeURL {
-    const val consumePurchase = "http://192.168.33.76:5000/api/consumePurchase/"  // "https://app.holybee.net/api/consumePurchase/"
+    const val consumePurchase = "https://app.holybee.net/api/consumePurchase/"  // "https://app.holybee.net/api/consumePurchase/"
     const val login = "https://app.holybee.net/api/login/"
     const val create = "https://app.holybee.net/admin/addUser/"
     const val getCoins = "https://app.holybee.net/api/getCoins/"

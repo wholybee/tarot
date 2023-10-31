@@ -60,9 +60,14 @@ object AccountInformation {
         username = ""
         email = ""
         password = ""
+        coins = 0
         val preferences = application.getSharedPreferences("login",Context.MODE_PRIVATE)
         with (preferences.edit()) {
             putString("authToken", authToken)
+            putString("username", username)
+            putString("password", password)
+            putString("email", email)
+            putInt("coins", coins)
             apply()
         }
         Log.i(TAG,"Logged out of API.")

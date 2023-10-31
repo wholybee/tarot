@@ -29,7 +29,7 @@ import net.holybee.tarot.holybeeAPI.AccountInformation
 private const val TAG = "TarotQuestionFragment"
 
 class TarotQuestionFragment : Fragment() {
-
+    private val openAi = OpenAI_wlh
     private val systemPromptFortune = "3cardreading"
     private val systemPromptCard = "card"
     private val cardsPrompt = "The cards that are showing are:\n"
@@ -169,7 +169,7 @@ class TarotQuestionFragment : Fragment() {
 
 
     fun clickAskButton() {
-            clearHistory()
+            openAi.clearHistory()
             viewModel.gamePlay = GamePlay.ASKED
             binding.QuestionTextView.clearFocus()
             binding.progressBar.visibility = View.VISIBLE
@@ -184,7 +184,7 @@ class TarotQuestionFragment : Fragment() {
                     binding.QuestionTextView.text
             AccountInformation.ratingCount+=1
             lifecycleScope.launch {
-                val response= askGPT(content, systemPromptFortune)
+                val response= openAi.askGPT(content, systemPromptFortune)
                 binding.progressBar.visibility = View.INVISIBLE
                 if (response.status=="OK") {
                     AccountInformation.coins = AccountInformation.coins - 1
@@ -209,7 +209,7 @@ class TarotQuestionFragment : Fragment() {
                 QuestionTextView.setText("")
                 dealButton.isEnabled = true
             }
-            clearHistory()
+            openAi.clearHistory()
             viewModel.gamePlay = GamePlay.NOTDEALT
             notDealt()
             showCardsFaceDown()
@@ -220,7 +220,7 @@ class TarotQuestionFragment : Fragment() {
 
     fun clickCardOne() {
 
-        clearHistory()
+        openAi.clearHistory()
         binding.QuestionTextView.clearFocus()
         val card = viewModel.hand[0]
         if (card != null) showCard(card)
@@ -229,14 +229,14 @@ class TarotQuestionFragment : Fragment() {
 
     fun clickCardTwo() {
 
-        clearHistory()
+        openAi.clearHistory()
         binding.QuestionTextView.clearFocus()
         val card = viewModel.hand[1]
         if (card != null) showCard(card)
     }
 
     fun clickCardThree() {
-        clearHistory()
+        openAi.clearHistory()
 
         binding.QuestionTextView.clearFocus()
         val card = viewModel.hand[2]
@@ -357,7 +357,7 @@ class TarotQuestionFragment : Fragment() {
         disableAllButtons()
         AccountInformation.ratingCount+=1
         lifecycleScope.launch {
-            val response = askGPT(cardPrompt + (card?.text ?: ""), systemPromptCard)
+            val response = openAi.askGPT(cardPrompt + (card?.text ?: ""), systemPromptCard)
             binding.progressBar.visibility = View.INVISIBLE
             if (response.status=="OK") {
                 AccountInformation.coins = AccountInformation.coins -1

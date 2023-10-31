@@ -32,7 +32,6 @@ import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 class BillingClientWrapper(
     context: Context
 ) : PurchasesUpdatedListener, ProductDetailsResponseListener, ConsumePurchaseResponseListener {
-    private var lastPurchase : Purchase? = null
 
     private val context = context
     private var isConsuming = false
@@ -195,6 +194,7 @@ class BillingClientWrapper(
 
             // Then, handle the purchases
             for (purchase in purchases) {
+                Log.i(TAG,purchase.toString())
                 acknowledgePurchases(purchase)
                 consumePurchaseOnServer(purchase)
             }
@@ -230,46 +230,22 @@ class BillingClientWrapper(
         }
     }
 
-    /*
-    fun consumePurchase(purchase: Purchase?) {
-        if (isConsuming) {
-            Log.i(TAG,"Already consuming a coin. Skipping for now.")
-            return
-        }
-        isConsuming = true
-        purchase?.let {
-            val consumeParams = ConsumeParams.newBuilder()
-                    .setPurchaseToken(it.purchaseToken)
-                    .build()
-
-            billingClient.consumeAsync(consumeParams) { billingResult, purchaseToken ->
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    queryPurchases()
-                    isConsuming  = false
-                    Log.i(TAG,"Consume Successful")
-                } else {
-                    Log.e(TAG,"Consume Failure")
-                    isConsuming = false
-                    handleBillingError(billingResult.responseCode, billingResult.debugMessage)
-                }
-            }
-        }
-    }  */
 
     fun consumePurchaseOnServer(purchase: Purchase) {
-        if (AccountInformation.consumedPurchases.contains(purchase.purchaseToken)) {
-            Log.e(TAG,"Purchase appears to have already been consumed.")
-            return
-        }
+
         if (isConsuming) {
             Log.e(TAG, "Already consuming a coin. Skipping for now.")
             return
         }
         isConsuming = true
-        val client = HolybeeAPIClient
-        if (purchase != null) {
-            client.consumePurchaseOnServerAsync(purchase, this)
+
+        if (AccountInformation.consumedPurchases.contains(purchase.purchaseToken)) {
+            Log.e(TAG,"Purchase appears to have already been consumed.")
+            return
         }
+
+        val client = HolybeeAPIClient
+        client.consumePurchaseOnServerAsync(purchase, this)
     }
 
     override fun onConsumeSuccess(result: String, purchase: Purchase, coins: Int) {

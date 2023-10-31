@@ -46,15 +46,6 @@ class PurchaseFragment : Fragment() {
 
         updateCoinCount()
 
-        lifecycleScope.launch {
-            viewModel.hasCoinFlow
-                .collect { coin ->
-                    binding.hasCoinCheckbox.isChecked = coin
-
-                    updateCoinCount()
-
-                }
-        }
 
         lifecycleScope.launch {
             viewModel.productDetailsListStateFlow.collect {
@@ -77,31 +68,6 @@ class PurchaseFragment : Fragment() {
                 }
             }
         }
-
-    /*
-        lifecycleScope.launch {
-            viewModel.coinsForSaleFlow
-                .collect { coin ->
-                    Log.d(TAG,coin.toString())
-                    binding.buyCoinButton.isEnabled = true
-                    binding.buyCoinButton.text = coin.title + (coin.oneTimePurchaseOfferDetails?.formattedPrice
-                        ?: "")
-
-                }
-        }
-        */
-
-        //  Coins are now consumed via on purchaseUpdated in Billing Client wrapper
-
-       /* lifecycleScope.launch {
-
-                viewModel.inappPurchaseFlow
-                    .collect {
-                       val purchaseList = it
-                       // purchaseList.forEach { purchase: Purchase ->  viewModel.consumePurchaseOnServer(purchase)}
-                    }
-
-        } */
 
     }
 
