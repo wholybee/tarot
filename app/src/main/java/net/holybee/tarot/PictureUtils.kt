@@ -30,7 +30,7 @@ fun getScaledBitmap(assetManager: AssetManager?, fileName: String, destWidth: In
 
     val srcWidth = options.outWidth.toFloat()
     val srcHeight = options.outHeight.toFloat()
-    Log.d(TAG, "srcWidth: $srcWidth   srcHeight: $srcHeight")
+
 
     // Figure out how much to scale down by
     val sampleSize = if (srcHeight <= destHeight && srcWidth <= destWidth) {
@@ -42,7 +42,7 @@ fun getScaledBitmap(assetManager: AssetManager?, fileName: String, destWidth: In
         minOf(heightScale, widthScale).roundToInt()
     }
     // Read in and create final bitmap
-    Log.d(TAG, "Samplesize: $sampleSize")
+
     val is2 = assetManager?.open(fileName)
     return BitmapFactory.decodeStream(is2, null, BitmapFactory.Options().apply {
         inSampleSize = sampleSize
@@ -52,7 +52,7 @@ fun getScaledBitmap(assetManager: AssetManager?, fileName: String, destWidth: In
 
 fun setCardPicture(context:Context, imageButton: ImageButton, fileName: String?) {
     val assetManager = context.assets
-    Log.d(TAG, "filename: $fileName")
+
 
     if ((imageButton.tag != fileName) && (fileName != null)) {
         imageButton.doOnLayout { measuredView ->
@@ -80,7 +80,7 @@ fun toRoundCorner(context: Context, bitmap: Bitmap, dp: Float): Bitmap {
     val rect = Rect(0, 0, bitmap.width, bitmap.height)
     val rectF = RectF(rect)
     val roundPx = convertDpToPx(context, dp)
-    Log.d(TAG,"roundPx: $roundPx")
+
     paint.isAntiAlias = true
     canvas.drawARGB(0, 0, 0, 0)
     paint.color = color

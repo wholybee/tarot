@@ -13,12 +13,12 @@ class TarotQuestionViewModel : ViewModel() {
     var justLaunched = true
 
     fun shuffle() {
-        Log.d (TAG,"shuffle")
+
         deck.shuffle()
     }
 
     fun deal() {
-        Log.d(TAG,"deckIndex = $deckIndex")
+
         if (deckIndex >= 74) {
             deckIndex = 0
         }

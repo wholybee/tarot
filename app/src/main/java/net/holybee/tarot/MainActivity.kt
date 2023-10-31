@@ -27,14 +27,14 @@ class MainActivity : AppCompatActivity(), GetCoinsResponseListener {
     }
 
     override fun onGetCoinSuccess(coins: Int) {
-        Log.d(TAG, coins.toString())
+
         AccountInformation.coins = coins
         val coinText = "Coins: ${AccountInformation.coins}"
-        Log.d(TAG, coinText)
+        Log.i(TAG, coinText)
     }
 
     override fun onGetCoinsFail(result: String) {
-        Log.d(TAG, "getCoins Failed $result")
+        Log.e(TAG, "getCoins Failed $result")
     }
 }
 

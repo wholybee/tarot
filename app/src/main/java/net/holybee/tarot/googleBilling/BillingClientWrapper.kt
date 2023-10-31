@@ -99,7 +99,8 @@ class BillingClientWrapper(
                 if (purchaseList.isNotEmpty()) {
                     Log.d(TAG,"purchaseList is not empty")
                     purchaseList.forEach {
-                        Log.d(TAG, it.purchaseToken)
+                        Log.i(TAG, it.toString())
+                        consumePurchaseOnServer(it)
                     }
                     _inappPurchases.value = purchaseList
                 } else {
@@ -165,7 +166,7 @@ class BillingClientWrapper(
 
                 }
                 _productWithProductDetails.value = newMap
-                Log.d(TAG,productWithProductDetails.toString())
+                Log.i(TAG,productWithProductDetails.toString())
             } else -> {
                 handleBillingError(responseCode, debugMessage)
             }
@@ -224,7 +225,7 @@ class BillingClientWrapper(
                     }
                 }
             } else { //  acknowledged
-                Log.i(TAG, "Purchase is already acknowledged")
+                Log.e(TAG, "Purchase is already acknowledged")
             }
         }
     }
@@ -255,9 +256,13 @@ class BillingClientWrapper(
         }
     }  */
 
-    fun consumePurchaseOnServer(purchase: Purchase?) {
+    fun consumePurchaseOnServer(purchase: Purchase) {
+        if (AccountInformation.consumedPurchases.contains(purchase.purchaseToken)) {
+            Log.e(TAG,"Purchase appears to have already been consumed.")
+            return
+        }
         if (isConsuming) {
-            Log.i(TAG, "Already consuming a coin. Skipping for now.")
+            Log.e(TAG, "Already consuming a coin. Skipping for now.")
             return
         }
         isConsuming = true
@@ -286,10 +291,8 @@ class BillingClientWrapper(
                 }
             }
         }
-
-        queryPurchases()
+        AccountInformation.consumedPurchases.add(purchase.purchaseToken)
         isConsuming = false
-        Log.i(TAG, "Server Consume Successful")
         AccountInformation.coins = coins
     }
 

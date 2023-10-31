@@ -83,7 +83,7 @@ class PurchaseViewModel(application: Application) : AndroidViewModel(application
         ) {
             // The developer has allowed users  to have more than 1 purchase, so they need to
             /// implement a logic to find which one to use.
-            Log.d(TAG, "User has more than 1 current purchase.")
+            Log.e(TAG, "User has more than 1 current purchase.")
         }
     }
 

@@ -14,6 +14,7 @@ object AccountInformation {
     var password = ""
     var coins = 0
     var ratingCount = 0
+    var consumedPurchases : MutableList<String> = mutableListOf()
 
     val isLoggedIn:Boolean
         get() {
@@ -34,7 +35,7 @@ object AccountInformation {
     }
 
     fun saveLoginInfo(application: Application, newAuthToken:String) {
-        Log.d(TAG,"Saving token: $newAuthToken")
+        Log.i(TAG,"Saving Account info for token: $newAuthToken")
         authToken = newAuthToken
         save(application)
     }

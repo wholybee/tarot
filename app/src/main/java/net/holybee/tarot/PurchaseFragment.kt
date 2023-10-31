@@ -50,7 +50,7 @@ class PurchaseFragment : Fragment() {
             viewModel.hasCoinFlow
                 .collect { coin ->
                     binding.hasCoinCheckbox.isChecked = coin
-                    Log.i(TAG, "collect coin flow")
+
                     updateCoinCount()
 
                 }
@@ -61,7 +61,7 @@ class PurchaseFragment : Fragment() {
                 val buttonContainer = binding.buttonContainer
                 val themedContext = ContextThemeWrapper(requireContext(),R.style.AppTheme)
                 it.forEach { product ->
-                    Log.d(TAG,product.toString())
+
                     val button = Button(themedContext)
                     button.text = getString(
                         R.string.purchase_button,
@@ -113,7 +113,7 @@ class PurchaseFragment : Fragment() {
 
     private fun updateCoinCount () {
         val coinText = "Coins: ${AccountInformation.coins}"
-        Log.d(TAG,coinText)
+        Log.i(TAG,coinText)
         binding.coinsTextView.text = coinText
     }
 

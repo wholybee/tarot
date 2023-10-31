@@ -96,10 +96,10 @@ class TarotQuestionFragment : Fragment() {
 
         binding.QuestionTextView.onFocusChangeListener = OnFocusChangeListener { p0, p1 ->
             if (p1) {
-                Log.d(TAG, "Focused")
+                Log.i(TAG, "Question Text View Focused")
             } else {
                 // show edit text entered text when it unfocused
-                Log.d(TAG, "Lost Focus")
+                Log.i(TAG, "Question Text View Lost Focus")
 
                 // hide soft keyboard when edit text lost focus
                 hideSoftKeyboard(binding.QuestionTextView)
@@ -219,7 +219,7 @@ class TarotQuestionFragment : Fragment() {
 
 
     fun clickCardOne() {
-        Log.d(TAG, "clickCardOne")
+
         clearHistory()
         binding.QuestionTextView.clearFocus()
         val card = viewModel.hand[0]
@@ -228,7 +228,7 @@ class TarotQuestionFragment : Fragment() {
     }
 
     fun clickCardTwo() {
-        Log.d(TAG, "clickCardTwo")
+
         clearHistory()
         binding.QuestionTextView.clearFocus()
         val card = viewModel.hand[1]
@@ -237,7 +237,7 @@ class TarotQuestionFragment : Fragment() {
 
     fun clickCardThree() {
         clearHistory()
-        Log.d(TAG, "clickCardThree")
+
         binding.QuestionTextView.clearFocus()
         val card = viewModel.hand[2]
         if (card != null) showCard(card)

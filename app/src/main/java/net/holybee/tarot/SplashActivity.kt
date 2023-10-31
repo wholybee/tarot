@@ -24,7 +24,7 @@ class SplashActivity : AppCompatActivity(), LoginResponseListener {
 
             // Load Preferences
             AccountInformation.readLoginInfo(application)
-            Log.d(
+            Log.i(
                 TAG,
                 "Username: ${AccountInformation.username}\nPassword: ${AccountInformation.password}"
             )

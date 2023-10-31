@@ -22,7 +22,7 @@ object HolybeeAPIClient {
     private val client = HttpClient(CIO)
 
     fun getCoins(callback: GetCoinsResponseListener) {
-        Log.d(TAG, "Get Coins")
+        Log.i(TAG, "Get Coins")
         val query = JSONObject(
             mapOf(
                 "username" to AccountInformation.username
@@ -47,7 +47,7 @@ object HolybeeAPIClient {
                     }
 
             } catch (e:Exception) {
-                Log.d(TAG,"GetCoins Fail: ${e.message}")
+                Log.e(TAG,"GetCoins Fail: ${e.message}")
                 callback.onGetCoinsFail(e.message ?: "Unknown Failure on getCoin.")
             }
         }
@@ -60,7 +60,7 @@ object HolybeeAPIClient {
         callback: CreateAccountResponseListener
     ) {
         val authToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFkMmE2ZGRkNmNlNGE1NjNjMzQwZTEiLCJpYXQiOjE2OTY0ODkwNTV9.8D184HxAAZ4oEH4lKXkW_My3w7CF4lDh5npJzuJHVMA"
-        Log.d(TAG, "Create Account")
+        Log.i(TAG, "Create Account")
         val query = JSONObject(
             mapOf(
                 "username" to username,
@@ -113,7 +113,7 @@ object HolybeeAPIClient {
         password: String,
         callback: LoginResponseListener
     ) {
-        Log.d(TAG, "Login")
+        Log.i(TAG, "Login")
         val query = JSONObject(
             mapOf(
                 "username" to username,
@@ -168,7 +168,7 @@ object HolybeeAPIClient {
         val authToken = AccountInformation.authToken
         val products = purchase.products
         for (product in products) {
-            Log.e(TAG, product)
+            Log.i(TAG, product)
             val query = JSONObject(
                 mapOf(
                     "purchaseToken" to purchaseToken,

@@ -76,7 +76,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
         }
 
         binding.loginOrRegisterTextView.setOnClickListener {
-            Log.i(TAG,"Register onClick")
+
             binding.emailEditText.isVisible=true
             binding.createAccountButton.isVisible=true
             binding.loginButton.isVisible=false
@@ -206,8 +206,8 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
     override fun onAccountCreateSuccess(returnedToken: String, coins: Int) {
         val applicationInstance = activity?.application
         if (returnedToken.length > 20) {
-            Log.d(TAG,"Account Created")
-            Log.d(TAG,returnedToken)
+            Log.i(TAG,"Account Created")
+            Log.i(TAG,returnedToken)
             if (applicationInstance != null) {
                 AccountInformation.saveLoginInfo(applicationInstance, returnedToken)
             }
@@ -241,7 +241,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             toastText = "Username must be at least 5 characters."
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             toastText = "Invalid email address."
-            Log.d(TAG,"Email:$email")
+            Log.e(TAG,"Email:$email")
         } else if (password.length < 8) {
             toastText = "Password must be at least 8 characters."
         }
@@ -265,10 +265,9 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
 
 
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        Log.d(TAG,"Open URL $url")
+
         try {
             // if (intent.resolveActivity(requireContext().packageManager) != null) {
-            Log.d(TAG, "resolved intent")
             startActivity(intent)
         } catch (e:Exception) { Log.e(TAG,"Failed to open web browser.")}
         // }
