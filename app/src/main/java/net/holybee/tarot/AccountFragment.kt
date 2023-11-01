@@ -200,7 +200,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
         AccountInformation.email = email
         AccountInformation.password = password
 
-        client.createAccountAsync(username, password, email, this)
+        client.createAccountAsync(requireContext(), username, password, email, this)
     }
 
     override fun onAccountCreateSuccess(returnedToken: String, coins: Int) {

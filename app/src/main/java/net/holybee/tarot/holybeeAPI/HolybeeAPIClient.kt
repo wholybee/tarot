@@ -1,5 +1,6 @@
 package net.holybee.tarot.holybeeAPI
 
+import android.content.Context
 import android.util.Log
 import com.android.billingclient.api.Purchase
 import io.ktor.client.request.bearerAuth
@@ -14,7 +15,7 @@ import io.ktor.client.engine.cio.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
+import android.provider.Settings
 
 object HolybeeAPIClient {
     private const val TAG="holybeeAPIClient"
@@ -53,6 +54,7 @@ object HolybeeAPIClient {
     }
 
     fun createAccountAsync(
+        context: Context,
         username: String,
         password: String,
         email: String,
@@ -60,11 +62,13 @@ object HolybeeAPIClient {
     ) {
         val authToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFkMmE2ZGRkNmNlNGE1NjNjMzQwZTEiLCJpYXQiOjE2OTY0ODkwNTV9.8D184HxAAZ4oEH4lKXkW_My3w7CF4lDh5npJzuJHVMA"
         Log.i(TAG, "Create Account")
+        val androidId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
         val query = JSONObject(
             mapOf(
                 "username" to username,
                 "password" to password,
-                "email" to email
+                "email" to email,
+                "androidId" to androidId
             )
         )
 
