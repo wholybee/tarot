@@ -2,13 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/tarotReading">
+    app:startDestination="@id/celticFragment">
 
     <fragment
         android:id="@+id/tarotReading"
         android:name="net.holybee.tarot.TarotQuestionFragment"
         android:label="fragment_tarot_reading"
-        tools:layout="@layout/fragment_tarot_question" >
+        tools:layout="@layout/fragment_tarot_question">
 
         <action
             android:id="@+id/action_view_card"
@@ -27,7 +27,7 @@
         android:id="@+id/cardInfoFragment"
         android:name="net.holybee.tarot.CardInfoFragment"
         android:label="fragment_card_info"
-        tools:layout="@layout/fragment_card_info" >
+        tools:layout="@layout/fragment_card_info">
         <argument
             android:name="cardDesc"
             app:argType="string" />
@@ -39,7 +39,7 @@
         android:id="@+id/readingDisplayFragment"
         android:name="net.holybee.tarot.ReadingDisplayFragment"
         android:label="fragment_reading_display"
-        tools:layout="@layout/fragment_reading_display" >
+        tools:layout="@layout/fragment_reading_display">
         <argument
             android:name="readingText"
             app:argType="string" />
@@ -57,6 +57,17 @@
         android:id="@+id/purchaseFragment"
         android:name="net.holybee.tarot.PurchaseFragment"
         android:label="PurchaseFragment"
-        tools:layout="@layout/fragment_purchase"
-        />
+        tools:layout="@layout/fragment_purchase" />
+    <fragment
+        android:id="@+id/celticFragment"
+        android:name="net.holybee.tarot.CelticFragment"
+        android:label="fragment_celtic"
+        tools:layout="@layout/fragment_celtic">
+        <action
+            android:id="@+id/action_to_accountFragment"
+            app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_to_purchaseFragment"
+            app:destination="@id/purchaseFragment" />
+    </fragment>
 </navigation>
