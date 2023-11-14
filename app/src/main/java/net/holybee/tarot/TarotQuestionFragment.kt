@@ -30,8 +30,8 @@ private const val TAG = "TarotQuestionFragment"
 
 class TarotQuestionFragment : Fragment() {
     private val openAi = OpenAI_wlh
-    private val systemPromptFortune = "3cardreading"
-    private val systemPromptCard = "card"
+    private val modelIdFortune = "3cardreading"
+    private val modelIdCard = "card"
     private val cardsPrompt = "The cards that are showing are:\n"
     private val cardPrompt = "The card is: "
     private val questionPrompt = "Question:\n"
@@ -184,7 +184,7 @@ class TarotQuestionFragment : Fragment() {
                     binding.QuestionTextView.text
             AccountInformation.ratingCount+=1
             lifecycleScope.launch {
-                val response= openAi.askGPT(content, systemPromptFortune)
+                val response= openAi.askGPT(content, modelIdFortune)
                 binding.progressBar.visibility = View.INVISIBLE
                 if (response.status=="OK") {
                     AccountInformation.coins.value = AccountInformation.coins.value - 1
@@ -358,7 +358,7 @@ class TarotQuestionFragment : Fragment() {
         AccountInformation.ratingCount+=1
 
         lifecycleScope.launch {
-            val response = openAi.askGPT(cardPrompt + (card?.text ?: ""), systemPromptCard)
+            val response = openAi.askGPT(cardPrompt + (card?.text ?: ""), modelIdCard)
             binding.progressBar.visibility = View.INVISIBLE
             if (response.status=="OK") {
                 AccountInformation.coins.value = AccountInformation.coins.value -1
