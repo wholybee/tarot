@@ -416,7 +416,7 @@ class TarotQuestionFragment : Fragment() {
         val builder = AlertDialog.Builder(requireActivity())
         builder.setView(dialogView)
 
-        // Set the message and button click listener
+        // Set the message and nextButton click listener
         val messageTextView = dialogView.findViewById<TextView>(R.id.dialog_message)
         val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
 
@@ -443,7 +443,7 @@ class TarotQuestionFragment : Fragment() {
         val builder = AlertDialog.Builder(requireActivity())
         builder.setView(dialogView)
 
-        // Set the message and button click listener
+        // Set the message and nextButton click listener
 
         val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
         val declineButton = dialogView.findViewById<Button>(R.id.decline_button)

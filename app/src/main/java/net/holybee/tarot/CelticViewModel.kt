@@ -1,15 +1,18 @@
 package net.holybee.tarot
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import net.holybee.tarot.holybeeAPI.AccountInformation
 private const val TAG = "CelticViewModel"
 class CelticViewModel : ViewModel() {
-    val celticReadings = MutableStateFlow( mutableListOf<CelticReading>())
+    val _celticReadings : MutableList<MutableLiveData<CelticReading>> = mutableListOf() // MutableLiveData( mutableListOf<CelticReading>())
+    val celticReadings: List<LiveData<CelticReading>> = _celticReadings // LiveData<MutableList<CelticReading>> = _celticReadings
     val openAi = OpenAI_wlh
     private val modelIdFirst = "card"
     private val modelId = "card"
@@ -21,6 +24,7 @@ class CelticViewModel : ViewModel() {
     var handSize = 10
     var justLaunched = true
     val coins = AccountInformation.coins
+    var index = 0
 
     fun shuffle() {
 
@@ -28,8 +32,8 @@ class CelticViewModel : ViewModel() {
     }
 
     fun deal() {
-        celticReadings.value.clear()
-
+        _celticReadings.clear()
+        hand.clear()
         if (deckIndex >= 74) {
             deckIndex = 0
         }
@@ -37,13 +41,15 @@ class CelticViewModel : ViewModel() {
             shuffle()
         }
         for (i in 0..(handSize -1)) {
-            hand[ i ] = deck[ deckIndex + i ]
-            celticReadings.value.add(
-                CelticReading(
-                    card = hand[i],
-                    result = "",
-                    done = false
-            )
+            hand.add(deck[ deckIndex + i ])
+            _celticReadings.add(
+                MutableLiveData(
+                    CelticReading(
+                        card = hand[i],
+                        result = "",
+                        done = false
+                    )
+                )
             )
         }
 
@@ -53,14 +59,27 @@ class CelticViewModel : ViewModel() {
     fun startReading() {
 
         viewModelScope.launch {
-            celticReadings.value.forEach() {
-                val response = openAi.askGPT(cardPrompt + it.card.text, modelIdFirst)
+            Log.i(TAG,"Start Reading")
+            _celticReadings.forEach() {
+                Log.i(TAG,"Reading " + it.value!!.card.text)
+
+                val response = openAi.askGPT(cardPrompt + (it.value?.card?.text ?: ""), modelIdFirst)
                 if (response.status == "OK") {
-                    it.result = response.message
-                    it.done = true
+                    val newCard = CelticReading (
+                        it.value!!.card,
+                        response.message,
+                        true
+                    )
+                    it.value = newCard
+
                 } else {
-                    it.result = "Error with Reading. Please try again."
-                    it.done = true
+                    val newCard = CelticReading (
+                        it.value!!.card,
+                        "Error with Reading. Please try again.",
+                        true
+                    )
+                    it.value=newCard
+
                 }
             }
         }

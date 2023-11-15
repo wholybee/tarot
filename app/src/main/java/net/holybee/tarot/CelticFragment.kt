@@ -11,6 +11,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.holybee.tarot.databinding.FragmentCelticBinding
 import net.holybee.tarot.databinding.FragmentTarotQuestionBinding
+import net.holybee.tarot.holybeeAPI.AccountInformation
 
 class CelticFragment : Fragment() {
 
@@ -30,7 +32,7 @@ class CelticFragment : Fragment() {
         fun newInstance() = CelticFragment()
     }
 
-    private lateinit var viewModel: CelticViewModel
+    lateinit var viewModel: CelticViewModel // by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,11 +49,13 @@ class CelticFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CelticViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(CelticViewModel::class.java)
         
         if (viewModel.gamePlay==GamePlay.NOTDEALT) {
+            binding.dealButton2.text = "Deal"
             showCardsFaceDown()
         } else {
+            binding.dealButton2.text = "Continue"
             showCardsFaceUp()
         }
 
@@ -154,51 +158,54 @@ class CelticFragment : Fragment() {
 
     fun showCardsFaceUp () {
         lifecycleScope.launch() {
+            var delay: Long = 100
+            if (viewModel.gamePlay == GamePlay.ASKED)  delay = 0
+
             binding.card1View.let {
                 it.contentDescription = viewModel.hand[0]?.text
                 setCardPicture(requireContext(), it, viewModel.hand[0]?.filename)
             }
-            delay(100)
+            delay (delay)
             binding.card2View.let {
                 it.contentDescription = viewModel.hand[1]?.text
                 setCardPicture(requireContext(), it, viewModel.hand[1]?.filename)
             }
-            delay(100)
+            delay (delay)
             binding.card3View.let {
                 it.contentDescription = viewModel.hand[2]?.text
                 setCardPicture(requireContext(), it, viewModel.hand[2]?.filename)
             }
-            delay(100)
+            delay (delay)
             binding.card4View.let {
                 it.contentDescription = viewModel.hand[3]?.text
                 setCardPicture(requireContext(), it, viewModel.hand[3]?.filename)
             }
-            delay(100)
+            delay (delay)
             binding.card5View.let {
                 it.contentDescription = viewModel.hand[4]?.text
                 setCardPicture(requireContext(), it, viewModel.hand[4]?.filename)
             }
-            delay(100)
+            delay (delay)
             binding.card6View.let {
                 it.contentDescription = viewModel.hand[5]?.text
                 setCardPicture(requireContext(), it, viewModel.hand[5]?.filename)
             }
-            delay(100)
+            delay (delay)
             binding.card7View.let {
                 it.contentDescription = viewModel.hand[6]?.text
                 setCardPicture(requireContext(), it, viewModel.hand[6]?.filename)
             }
-            delay(100)
+            delay (delay)
             binding.card8View.let {
                 it.contentDescription = viewModel.hand[7]?.text
                 setCardPicture(requireContext(), it, viewModel.hand[7]?.filename)
             }
-            delay(100)
+            delay (delay)
             binding.card9View.let {
                 it.contentDescription = viewModel.hand[8]?.text
                 setCardPicture(requireContext(), it, viewModel.hand[8]?.filename)
             }
-            delay(100)
+            delay (delay)
             binding.card10View.let {
                 it.contentDescription = viewModel.hand[9]?.text
                 setCardPicture(requireContext(), it, viewModel.hand[9]?.filename)
@@ -208,12 +215,18 @@ class CelticFragment : Fragment() {
     }
 
     fun clickDealButton () {
-        viewModel.deal()
-        viewModel.gamePlay=GamePlay.DEALT
-        showCardsFaceUp()
-
+        when (viewModel.gamePlay) {
+            GamePlay.NOTDEALT -> {
+                viewModel.deal()
+                viewModel.gamePlay = GamePlay.DEALT
+                showCardsFaceUp()
+                binding.dealButton2.setText("Continue")
+            }
+            else -> {
+                findNavController().navigate(
+                    CelticFragmentDirections.actionCelticDisplay()
+                )
+            }
+        }
     }
-
-
-
 }
