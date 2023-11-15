@@ -87,7 +87,7 @@ object HolybeeAPIClient {
                         Log.i(TAG, "Account Creation Success.")
                         val authToken = response.get("token").toString()
                         val coins = response.get("coins").toString().toIntOrNull() ?: 0
-                        AccountInformation.coins.value = coins
+                        AccountInformation.coins.postValue( coins)
                         AccountInformation.authToken = authToken
 
                         callback.onAccountCreateSuccess(authToken, coins)
@@ -140,7 +140,7 @@ object HolybeeAPIClient {
                         Log.i(TAG, "Login Success.")
                         val authToken = response.get("token").toString()
                         val coins = response.get("coins").toString().toIntOrNull() ?: 0
-                        AccountInformation.coins.value = coins
+                        AccountInformation.coins.postValue(coins)
                         AccountInformation.authToken = authToken
                         callback.onLoginSuccess(authToken, coins)
                     }

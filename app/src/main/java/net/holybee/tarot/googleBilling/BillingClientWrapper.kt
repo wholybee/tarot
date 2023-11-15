@@ -246,7 +246,7 @@ class BillingClientWrapper(
     }
 
     override fun onGrantSuccess(result: String, purchase: Purchase, coins: Int) {
-        AccountInformation.coins.value = coins
+        AccountInformation.coins.postValue(coins)
         isGranting = false
     }
 

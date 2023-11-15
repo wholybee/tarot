@@ -4,6 +4,7 @@ package net.holybee.tarot.holybeeAPI
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -15,7 +16,7 @@ object AccountInformation {
     var username = ""
     var email = ""
     var password = ""
-    var coins = MutableStateFlow(0)
+    val coins = MutableLiveData<Int>()
     var ratingCount = 0
     var grantedPurchases : MutableList<String> = mutableListOf()
 
@@ -31,7 +32,7 @@ object AccountInformation {
             putString("username", username)
             putString("password", password)
             putString("email", email)
-            putInt("coins", coins.value)
+            putInt("coins", coins.value ?: 0  )
             putInt("count", ratingCount)
             apply()
         }
@@ -54,7 +55,7 @@ object AccountInformation {
         username = newUsername ?: ""
         password = newPassword ?: ""
         email = newEmail ?: ""
-        coins.value = newCoins
+        coins.postValue(newCoins)
         ratingCount = newCount
         }
 
@@ -63,14 +64,14 @@ object AccountInformation {
         username = ""
         email = ""
         password = ""
-        coins.value = 0
+        coins.postValue(0)
         val preferences = application.getSharedPreferences("login",Context.MODE_PRIVATE)
         with (preferences.edit()) {
             putString("authToken", authToken)
             putString("username", username)
             putString("password", password)
             putString("email", email)
-            putInt("coins", coins.value)
+            putInt("coins", coins.value ?: 0)
             apply()
         }
         Log.i(TAG,"Logged out of API.")

@@ -42,6 +42,10 @@ class TarotQuestionFragment : Fragment() {
             "Cannot access binding because it is null. Is the view visible?"
         }
 
+    private val  coinsObserver = { coins:Int ->
+        val coinsText = "Coins: $coins"
+        binding.coinsTextView2.text = coinsText
+    }
     companion object {
     }
 
@@ -67,6 +71,7 @@ class TarotQuestionFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(TarotQuestionViewModel::class.java)
+        AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
         enableButtons()
 
 
@@ -116,10 +121,8 @@ class TarotQuestionFragment : Fragment() {
                 TarotQuestionFragmentDirections.actionToAccountFragment()
             )
         } else {
-            /// getCoins
-            val coinsText = "Coins: ${AccountInformation.coins.value}"
-            binding.coinsTextView2.text = coinsText
-            if (AccountInformation.coins.value < 1) {
+
+            if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
                 showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
                 navigatePurchase()
             } else {
@@ -187,7 +190,7 @@ class TarotQuestionFragment : Fragment() {
                 val response= openAi.askGPT(content, systemPromptFortune)
                 binding.progressBar.visibility = View.INVISIBLE
                 if (response.status=="OK") {
-                    AccountInformation.coins.value = AccountInformation.coins.value - 1
+                    AccountInformation.coins.postValue( AccountInformation.coins.value?.minus(1))
                     findNavController().navigate(
                         TarotQuestionFragmentDirections.actionReadingDisplay(response.message)
                     )
@@ -361,7 +364,7 @@ class TarotQuestionFragment : Fragment() {
             val response = openAi.askGPT(cardPrompt + (card?.text ?: ""), systemPromptCard)
             binding.progressBar.visibility = View.INVISIBLE
             if (response.status=="OK") {
-                AccountInformation.coins.value = AccountInformation.coins.value -1
+                AccountInformation.coins.postValue( AccountInformation.coins.value?.minus(1))
                 findNavController().navigate(
                     TarotQuestionFragmentDirections.actionViewCard(response.message,
                         card?.filename ?: ""

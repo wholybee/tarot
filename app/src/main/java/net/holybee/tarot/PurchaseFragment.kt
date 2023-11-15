@@ -30,6 +30,11 @@ class PurchaseFragment : Fragment() {
             "Cannot access binding because it is null. Is the view visible?"
         }
 
+    private val  coinsObserver = { coins:Int ->
+        val coinsText = "Coins: $coins"
+        binding.coinsTextView.text = coinsText
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,15 +49,9 @@ class PurchaseFragment : Fragment() {
 
         //  Use the ViewModel
 
-        updateCoinCount()
+       AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
 
-        lifecycleScope.launch {
-            viewModel.coins
-                .collect { coins ->
-                    updateCoinCount()
 
-                }
-        }
 
         lifecycleScope.launch {
             viewModel.productDetailsListStateFlow.collect {
@@ -83,12 +82,11 @@ class PurchaseFragment : Fragment() {
 
         }
 
-
-    private fun updateCoinCount () {
-        val coinText = "Coins: ${AccountInformation.coins.value}"
-        Log.i(TAG,coinText)
-        binding.coinsTextView.text = coinText
+    override fun onDestroyView() {
+        super.onDestroyView()
+        AccountInformation.coins.removeObserver(coinsObserver)
     }
+
 
     private fun clickBuyCoin (product: ProductDetails) {
 
