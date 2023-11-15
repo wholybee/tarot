@@ -6,19 +6,21 @@
         android:id="@+id/navigate_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
         android:icon="@drawable/ic_back"
         android:title="Back"
-        android:visible="false"
         app:showAsAction="always" />
     <item
         android:id="@+id/open_buyCoins"
+        android:enabled="false"
         android:icon="@drawable/ic_menu_buycoin"
-        android:title="@string/buy_coins" />
+        android:title="@string/buy_coins"
+        android:visible="false" />
     <item
         android:id="@+id/open_account"
+        android:enabled="false"
         android:icon="@drawable/ic_menu_account"
-        android:title="@string/account" />
+        android:title="@string/account"
+        android:visible="false" />
     <item
         android:id="@+id/rate_app"
         android:layout_width="wrap_content"

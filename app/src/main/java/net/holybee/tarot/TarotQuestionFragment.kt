@@ -400,6 +400,10 @@ class TarotQuestionFragment : Fragment() {
                 rateApp()
                 true
             }
+            R.id.navigate_back -> {
+                requireActivity().onBackPressed()
+                true
+            }
             else->super.onOptionsItemSelected(item)
             }
         }

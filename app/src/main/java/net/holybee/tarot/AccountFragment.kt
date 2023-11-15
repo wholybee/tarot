@@ -11,6 +11,9 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -38,14 +41,69 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setHasOptionsMenu(true)
         // Get a reference to the Application object
         val application = requireActivity().application
 
         // Initialize the ViewModel with the Application object
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application))[AccountViewModel::class.java]
     }
-    override fun onCreateView(
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.child, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+
+            R.id.open_account -> {
+                findNavController().navigate(
+                    TarotQuestionFragmentDirections.actionToAccountFragment())
+                true
+            }
+            R.id.open_buyCoins -> {
+                navigatePurchase()
+                true
+            }
+            R.id.rate_app -> {
+                rateApp()
+                true
+            }
+            R.id.navigate_back -> {
+                requireActivity().onBackPressed()
+                true
+            }
+            else->super.onOptionsItemSelected(item)
+        }
+    }
+    fun navigatePurchase () {
+        findNavController().navigate(
+            TarotQuestionFragmentDirections.actionToPurchaseFragment())
+    }
+
+    fun rateApp() {
+        val appPackageName = "net.holybee.tarot"
+        try {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=$appPackageName")
+                )
+            )
+        } catch (e: android.content.ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                )
+            )
+        }
+    }
+
+
+
+        override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {

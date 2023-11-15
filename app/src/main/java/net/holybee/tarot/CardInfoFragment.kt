@@ -1,12 +1,18 @@
 package net.holybee.tarot
 
+import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import net.holybee.tarot.databinding.FragmentCardInfoBinding
 
@@ -38,13 +44,72 @@ class CardInfoFragment : Fragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this)[CardInfoViewModel::class.java]
         // TODO: Use the ViewModel
     }
 
-    override fun onDestroyView() {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.child, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+
+            R.id.open_account -> {
+                findNavController().navigate(
+                    TarotQuestionFragmentDirections.actionToAccountFragment())
+                true
+            }
+            R.id.open_buyCoins -> {
+                navigatePurchase()
+                true
+            }
+            R.id.rate_app -> {
+                rateApp()
+                true
+            }
+            R.id.navigate_back -> {
+                requireActivity().onBackPressed()
+                true
+            }
+            else->super.onOptionsItemSelected(item)
+        }
+    }
+    fun navigatePurchase () {
+        findNavController().navigate(
+            TarotQuestionFragmentDirections.actionToPurchaseFragment())
+    }
+
+    fun rateApp() {
+        val appPackageName = "net.holybee.tarot"
+        try {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=$appPackageName")
+                )
+            )
+        } catch (e: android.content.ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                )
+            )
+        }
+    }
+
+
+        override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
