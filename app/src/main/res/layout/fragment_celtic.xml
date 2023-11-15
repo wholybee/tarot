@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/questionbackground"
+    tools:context=".CelticFragment">
+
+    <ImageButton
+        android:id="@+id/card10View"
+        android:layout_width="75dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_corners"
+        android:contentDescription="@string/face_down"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/card9View"
+        android:layout_width="75dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_corners"
+        android:contentDescription="@string/face_down"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card10View" />
+
+    <ImageButton
+        android:id="@+id/card8View"
+        android:layout_width="75dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_corners"
+        android:contentDescription="@string/face_down"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card9View" />
+
+    <ImageButton
+        android:id="@+id/card7View"
+        android:layout_width="75dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_corners"
+        android:contentDescription="@string/face_down"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card8View" />
+
+
+    <ImageButton
+        android:id="@+id/card4View"
+        android:layout_width="75dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_corners"
+        android:contentDescription="@string/face_down"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/card9View"
+        app:layout_constraintTop_toTopOf="@+id/card9View" />
+
+    <ImageButton
+        android:id="@+id/card5View"
+        android:layout_width="75dp"
+        android:layout_height="130dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/rounded_corners"
+        android:contentDescription="@string/face_down"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/card1View"
+        app:layout_constraintStart_toStartOf="@+id/card1View" /><![CDATA[
+
+    " />
+
+    ]]>
+
+    <ImageButton
+        android:id="@+id/card1View"
+        android:layout_width="75dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/rounded_corners"
+        android:contentDescription="@string/face_down"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/card4View"
+        app:layout_constraintTop_toTopOf="@+id/card4View" />
+
+    <ImageButton
+        android:id="@+id/card6View"
+        android:layout_width="75dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_corners"
+        android:contentDescription="@string/face_down"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="@+id/card1View"
+        app:layout_constraintTop_toBottomOf="@+id/card1View" />
+
+    <ImageButton
+        android:id="@+id/card2View"
+        android:layout_width="75dp"
+        android:layout_height="130dp"
+        android:background="@drawable/rounded_corners"
+        android:contentDescription="@string/face_down"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:rotation="-45"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="@+id/card1View"
+        app:layout_constraintTop_toTopOf="@+id/card1View" />
+
+    <ImageButton
+        android:id="@+id/card3View"
+        android:layout_width="75dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/rounded_corners"
+        android:contentDescription="@string/face_down"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/card1View"
+        app:layout_constraintTop_toTopOf="@+id/card1View" />
+
+    <Button
+        android:id="@+id/dealButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/deal_cards"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card6View" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
