@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import io.ktor.util.reflect.instanceOf
 import net.holybee.tarot.databinding.FragmentReadingDisplayBinding
 import net.holybee.tarot.databinding.FragmentTarotQuestionBinding
 
@@ -39,6 +40,7 @@ class ReadingDisplayFragment : Fragment() {
         _binding = FragmentReadingDisplayBinding.inflate(inflater, container, false)
         binding.readingText.movementMethod=ScrollingMovementMethod()
         binding.readingText.text = args.readingText
+
         return binding.root
 
 
@@ -51,21 +53,13 @@ class ReadingDisplayFragment : Fragment() {
     }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.child, menu)
+        inflater.inflate(R.menu.back_only, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
 
-            R.id.open_account -> {
-                findNavController().navigate(
-                    TarotQuestionFragmentDirections.actionToAccountFragment())
-                true
-            }
-            R.id.open_buyCoins -> {
-                navigatePurchase()
-                true
-            }
+
             R.id.rate_app -> {
                 rateApp()
                 true

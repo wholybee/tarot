@@ -1,11 +1,16 @@
 package net.holybee.tarot
 
+import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -49,21 +54,27 @@ class CelticDisplayFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         Log.i(TAG,"onCreateView")
         _binding = FragmentCelticDisplayBinding.inflate(inflater, container, false)
 
         binding.cardDescriptionTextView.movementMethod= ScrollingMovementMethod()
         binding.nextButton.setOnClickListener { clickButton() }
         binding.prevButton.setOnClickListener { clickPrevious() }
+        viewModel.index = 0
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(CelticViewModel::class.java)
         if (viewModel.gamePlay != GamePlay.ASKED) {
-            AccountInformation.coins.value = AccountInformation.coins.value - 1
+            AccountInformation.coins.postValue(AccountInformation.coins.value?.minus(1) ?: 0)
             viewModel.startReading()
             viewModel.gamePlay = GamePlay.ASKED
         }
@@ -73,8 +84,31 @@ class CelticDisplayFragment : Fragment() {
         } else {
             binding.nextButton.text = "Next"
         }
-
+        if (viewModel.index > 9 || viewModel.index < 0) viewModel.index =0
         displayCard(viewModel.index)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.back_only, menu)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+
+
+            R.id.rate_app -> {
+                rateApp()
+                true
+            }
+            R.id.navigate_back ->{
+                requireActivity().onBackPressed()
+                true
+            }
+            else->super.onOptionsItemSelected(item)
+        }
     }
 
     private fun displayCard (index: Int) {
@@ -99,7 +133,10 @@ class CelticDisplayFragment : Fragment() {
     }
 
     private fun removeObserver(index: Int) {
+        if (index in 0..9)
+        {
             viewModel.celticReadings[index].removeObserver(readingObserver)
+        }
     }
 
     private fun clickPrevious () {
@@ -124,8 +161,7 @@ class CelticDisplayFragment : Fragment() {
             findNavController().navigateUp()
             return
         }
-
-        removeObserver(viewModel.index)
+        if (viewModel.index in 0..9) removeObserver(viewModel.index)
         viewModel.index+=1
         displayCard(viewModel.index)
 
@@ -143,6 +179,15 @@ class CelticDisplayFragment : Fragment() {
             binding.prevButton.visibility = View.INVISIBLE
         }   else {
             binding.prevButton.visibility = View.VISIBLE
+        }
+    }
+
+    fun rateApp() {
+        val appPackageName = "net.holybee.tarot"
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+        } catch (e: android.content.ActivityNotFoundException) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
         }
     }
 

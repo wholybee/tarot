@@ -58,21 +58,12 @@ class CardInfoFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.child, menu)
+        inflater.inflate(R.menu.back_only, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
 
-            R.id.open_account -> {
-                findNavController().navigate(
-                    TarotQuestionFragmentDirections.actionToAccountFragment())
-                true
-            }
-            R.id.open_buyCoins -> {
-                navigatePurchase()
-                true
-            }
             R.id.rate_app -> {
                 rateApp()
                 true
@@ -84,10 +75,7 @@ class CardInfoFragment : Fragment() {
             else->super.onOptionsItemSelected(item)
         }
     }
-    fun navigatePurchase () {
-        findNavController().navigate(
-            TarotQuestionFragmentDirections.actionToPurchaseFragment())
-    }
+
 
     fun rateApp() {
         val appPackageName = "net.holybee.tarot"

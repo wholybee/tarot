@@ -22,4 +22,6 @@
     <string name="concentrate">Enter a question you would like the cards to answer. Clear you mind, concentrate on the question, then press the Deal button.</string>
     <string name="rate_app">Rate App!</string>
     <string name="purchase_button">%s - %s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

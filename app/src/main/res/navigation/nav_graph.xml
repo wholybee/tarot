@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/celticFragment">
+    app:startDestination="@id/menuFragment">
 
     <fragment
         android:id="@+id/tarotReading"
@@ -17,11 +17,11 @@
             android:id="@+id/action_reading_display"
             app:destination="@id/readingDisplayFragment" />
         <action
-            android:id="@+id/action_to_accountFragment"
-            app:destination="@id/accountFragment" />
-        <action
             android:id="@+id/action_to_purchaseFragment"
             app:destination="@id/purchaseFragment" />
+        <action
+            android:id="@+id/action_to_accountFragment"
+            app:destination="@id/accountFragment" />
     </fragment>
     <fragment
         android:id="@+id/cardInfoFragment"
@@ -64,9 +64,6 @@
         android:label="fragment_celtic"
         tools:layout="@layout/fragment_celtic">
         <action
-            android:id="@+id/action_to_accountFragment"
-            app:destination="@id/accountFragment" />
-        <action
             android:id="@+id/action_to_purchaseFragment"
             app:destination="@id/purchaseFragment" />
         <action
@@ -78,4 +75,23 @@
         android:name="net.holybee.tarot.CelticDisplayFragment"
         android:label="fragment_celtic_display"
         tools:layout="@layout/fragment_celtic_display" />
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="net.holybee.tarot.MenuFragment"
+        android:label="MenuFragment"
+        tools:layout="@layout/fragment_menu">
+
+        <action
+            android:id="@+id/action_menuFragment_to_tarotReading"
+            app:destination="@id/tarotReading" />
+        <action
+            android:id="@+id/action_menuFragment_to_celticFragment"
+            app:destination="@id/celticFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_purchaseFragment"
+            app:destination="@id/purchaseFragment" />
+    </fragment>
 </navigation>

@@ -25,10 +25,12 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import net.holybee.tarot.databinding.FragmentTarotQuestionBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
+import net.holybee.tarot.holybeeAPI.GetCoinsResponseListener
+import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 
 private const val TAG = "TarotQuestionFragment"
 
-class TarotQuestionFragment : Fragment() {
+class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
     private val openAi = OpenAI_wlh
     private val modelIdFortune = "3cardreading"
     private val modelIdCard = "card"
@@ -72,7 +74,13 @@ class TarotQuestionFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(TarotQuestionViewModel::class.java)
         AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
-        enableButtons()
+
+        if (AccountInformation.isLoggedIn) {
+            val client = HolybeeAPIClient
+            client.getCoins(this)
+        }
+
+            enableButtons()
 
 
         when (viewModel.gamePlay) {
@@ -113,18 +121,24 @@ class TarotQuestionFragment : Fragment() {
 
     }
 
+    override fun onGetCoinSuccess(coins: Int) {
+
+        AccountInformation.coins.postValue(coins)
+        val coinText = "Coins: ${AccountInformation.coins}"
+        Log.i(TAG, coinText)
+    }
+
+    override fun onGetCoinsFail(result: String) {
+        Log.e(TAG, "getCoins Failed $result")
+    }
+
+
     override fun onResume() {
         super.onResume()
-        if (!AccountInformation.isLoggedIn) {
-            Toast.makeText(context, "Please Login to Continue.", Toast.LENGTH_LONG).show()
-            findNavController().navigate(
-                TarotQuestionFragmentDirections.actionToAccountFragment()
-            )
-        } else {
 
             if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
                 showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
-                navigatePurchase()
+
             } else {
 
 
@@ -142,7 +156,7 @@ class TarotQuestionFragment : Fragment() {
             }
 
         }
-    }
+
 
     fun hideSoftKeyboard(editText: EditText){
         (requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).apply {
@@ -172,6 +186,11 @@ class TarotQuestionFragment : Fragment() {
 
 
     fun clickAskButton() {
+        if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
+            showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
+            return
+        }
+
             openAi.clearHistory()
             viewModel.gamePlay = GamePlay.ASKED
             binding.QuestionTextView.clearFocus()
@@ -222,7 +241,10 @@ class TarotQuestionFragment : Fragment() {
 
 
     fun clickCardOne() {
-
+        if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
+            showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
+            return
+        }
         openAi.clearHistory()
         binding.QuestionTextView.clearFocus()
         val card = viewModel.hand[0]
@@ -231,7 +253,10 @@ class TarotQuestionFragment : Fragment() {
     }
 
     fun clickCardTwo() {
-
+        if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
+            showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
+            return
+        }
         openAi.clearHistory()
         binding.QuestionTextView.clearFocus()
         val card = viewModel.hand[1]
@@ -239,8 +264,11 @@ class TarotQuestionFragment : Fragment() {
     }
 
     fun clickCardThree() {
+        if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
+            showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
+            return
+        }
         openAi.clearHistory()
-
         binding.QuestionTextView.clearFocus()
         val card = viewModel.hand[2]
         if (card != null) showCard(card)
@@ -381,17 +409,13 @@ class TarotQuestionFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.fragment_tarot_question, menu)
+        inflater.inflate(R.menu.child, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
 
-            R.id.open_account -> {
-                findNavController().navigate(
-                    TarotQuestionFragmentDirections.actionToAccountFragment())
-                true
-            }
+
             R.id.open_buyCoins -> {
                     navigatePurchase()
                 true

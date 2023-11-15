@@ -56,6 +56,8 @@ class CelticViewModel : ViewModel() {
         deckIndex += handSize
     }
 
+
+
     fun startReading() {
 
         viewModelScope.launch {
