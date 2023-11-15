@@ -159,7 +159,7 @@ class CelticFragment : Fragment() {
     fun showCardsFaceUp () {
         lifecycleScope.launch() {
             var delay: Long = 100
-            if (viewModel.gamePlay == GamePlay.ASKED)  delay = 0
+            if (viewModel.gamePlay != GamePlay.NOTDEALT)  delay = 0
 
             binding.card1View.let {
                 it.contentDescription = viewModel.hand[0]?.text
