@@ -31,6 +31,11 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
         }
+
+    private val  coinsObserver = { coins:Int ->
+        val coinsText = "Coins: $coins"
+        binding.coinsTextView.text = coinsText
+    }
     companion object {
         fun newInstance() = CelticFragment()
     }
@@ -54,6 +59,8 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(CelticViewModel::class.java)
+
+        AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
 
         if (AccountInformation.isLoggedIn) {
             val client = HolybeeAPIClient
@@ -335,6 +342,11 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
 
         }
         dialog.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        AccountInformation.coins.removeObserver(coinsObserver)
     }
 
 }

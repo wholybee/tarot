@@ -25,6 +25,11 @@ class MenuFragment : Fragment() {
             "Cannot access binding because it is null. Is the view visible?"
         }
 
+    private val  coinsObserver = { coins:Int ->
+        val coinsText = "Coins: $coins"
+        binding.coinsTextView.text = coinsText
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,6 +62,9 @@ class MenuFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
+
         if (!AccountInformation.isLoggedIn) {
             Toast.makeText(context, "Please Login to Continue.", Toast.LENGTH_LONG).show()
             findNavController().navigate(
@@ -144,5 +152,10 @@ class MenuFragment : Fragment() {
         }
 
         dialog.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        AccountInformation.coins.removeObserver(coinsObserver)
     }
 }

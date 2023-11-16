@@ -29,7 +29,10 @@ class CelticDisplayFragment : Fragment() {
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
         }
-
+    private val  coinsObserver = { coins:Int ->
+        val coinsText = "Coins: $coins"
+        binding.coinsTextView.text = coinsText
+    }
     companion object {
         fun newInstance() = CelticDisplayFragment()
     }
@@ -73,6 +76,8 @@ class CelticDisplayFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(CelticViewModel::class.java)
+
+        AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
         if (viewModel.gamePlay != GamePlay.ASKED) {
             AccountInformation.coins.postValue(AccountInformation.coins.value?.minus(1) ?: 0)
             viewModel.startReading()
@@ -189,6 +194,11 @@ class CelticDisplayFragment : Fragment() {
         } catch (e: android.content.ActivityNotFoundException) {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        AccountInformation.coins.removeObserver(coinsObserver)
     }
 
 }
