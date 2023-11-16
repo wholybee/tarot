@@ -40,7 +40,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
         fun newInstance() = CelticFragment()
     }
 
-    lateinit var viewModel: CelticViewModel // by viewModels()
+    private lateinit var viewModel: CelticViewModel // by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,11 +50,13 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
         return binding.root
     }
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
+    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -68,10 +70,10 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
         }
 
         if (viewModel.gamePlay==GamePlay.NOTDEALT) {
-            binding.dealButton2.text = "Deal"
+            binding.dealButton2.text = getString(R.string.deal_cards)
             showCardsFaceDown()
         } else {
-            binding.dealButton2.text = "Continue"
+            binding.dealButton2.text = getString(R.string.continue_)
             showCardsFaceUp()
         }
 
@@ -83,7 +85,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
     override fun onGetCoinSuccess(coins: Int) {
 
         AccountInformation.coins.postValue(coins)
-        val coinText = "Coins: ${AccountInformation.coins}"
+        val coinText = "Coins: ${AccountInformation.coins.value}"
         Log.i(TAG, coinText)
     }
 
@@ -92,12 +94,14 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
     }
 
 
+    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.child, menu)
     }
 
+    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -131,8 +135,9 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
                 viewModel.justLaunched = false
                 Dialogs.showCustomDialog(requireActivity(),layoutInflater, "Clear your mind and click 'Deal' to begin your reading.")
             } else {
-
-                if (listOf(10,25,50,75).contains(AccountInformation.ratingCount)) {
+                Log.i(TAG,"checking ratings")
+                if (AccountInformation.ratingCount > 10 && !AccountInformation.hasRated) {
+                    AccountInformation.ratingCount = 0
                     Dialogs.rateDialog(requireActivity(),layoutInflater,this)
                 }
 
@@ -142,13 +147,13 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
 
     }
 
-    fun navigatePurchase () {
+    private fun navigatePurchase () {
         findNavController().navigate(
             CelticFragmentDirections.actionToPurchaseFragment())
     }
 
 
-    fun showCardsFaceDown () {
+    private fun showCardsFaceDown () {
 
         binding.card1View.let {
             it.contentDescription = getString(R.string.face_down)
@@ -201,7 +206,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
 
     }
 
-    fun showCardsFaceUp () {
+    private fun showCardsFaceUp () {
         lifecycleScope.launch() {
             var delay: Long = 0
             if (viewModel.gamePlay == GamePlay.DEALT)  delay = 100
@@ -259,7 +264,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
 
     }
 
-    fun clickDealButton () {
+    private fun clickDealButton () {
 
         if ((AccountInformation.coins.value?.compareTo(10) ?: 0) < 0) {
             Dialogs.showCustomDialog(requireActivity(),layoutInflater, "You do not have enough coins. A full celtic reading costs 10 total coins.")
@@ -270,7 +275,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
                     viewModel.deal()
                     viewModel.gamePlay = GamePlay.DEALT
                     showCardsFaceUp()
-                    binding.dealButton2.setText("Continue")
+                    binding.dealButton2.text = getString(R.string.continue_)
                 }
 
                 else -> {

@@ -1,5 +1,6 @@
 package net.holybee.tarot
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
@@ -39,6 +40,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
         }
     private val handler = Handler(Looper.getMainLooper())
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -49,11 +51,15 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application))[AccountViewModel::class.java]
     }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.child, menu)
     }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
 
@@ -77,7 +83,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
             else->super.onOptionsItemSelected(item)
         }
     }
-    fun navigatePurchase () {
+    private fun navigatePurchase () {
         findNavController().navigate(
             TarotQuestionFragmentDirections.actionToPurchaseFragment())
     }
@@ -90,6 +96,8 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
         return binding.root
     }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this)[AccountViewModel::class.java]
@@ -175,6 +183,8 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
     }
 
 
+    @Suppress("DEPRECATION")
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun clickShowHide() {
         if(binding.showHideButton.tag=="hidden") {
             binding.passwordEditText.transformationMethod =
@@ -203,10 +213,10 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
 
     }
 
-    override fun onLoginSuccess(returnedToken: String, coins:Int) {
+    override fun onLoginSuccess(userToken: String, coins:Int) {
         val applicationInstance = activity?.application
         if (applicationInstance != null) {
-            AccountInformation.saveLoginInfo(applicationInstance, returnedToken)
+            AccountInformation.saveLoginInfo(applicationInstance, userToken)
 
         }
 
@@ -219,7 +229,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
 
     override fun onLoginFail(result: String) {
         handler.post {
-            Toast.makeText(context, "Failed login:" + result, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Failed login:$result", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -240,13 +250,13 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
         client.createAccountAsync(requireContext(), username, password, email, this)
     }
 
-    override fun onAccountCreateSuccess(returnedToken: String, coins: Int) {
+    override fun onAccountCreateSuccess(userToken: String, coins: Int) {
         val applicationInstance = activity?.application
-        if (returnedToken.length > 20) {
+        if (userToken.length > 20) {
             Log.i(TAG,"Account Created")
-            Log.i(TAG,returnedToken)
+            Log.i(TAG,userToken)
             if (applicationInstance != null) {
-                AccountInformation.saveLoginInfo(applicationInstance, returnedToken)
+                AccountInformation.saveLoginInfo(applicationInstance, userToken)
             }
 
             handler.post {
@@ -263,7 +273,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
 
     override fun onAccountCreateFail(result: String) {
         handler.post {
-            Toast.makeText(context, "Failed: " + result, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Failed: $result", Toast.LENGTH_LONG).show()
         }
     }
 

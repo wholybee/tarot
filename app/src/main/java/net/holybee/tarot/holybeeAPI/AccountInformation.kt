@@ -18,7 +18,7 @@ object AccountInformation {
     var password = ""
     val coins = MutableLiveData<Int>()
     var ratingCount = 0
-    var grantedPurchases : MutableList<String> = mutableListOf()
+    var hasRated = false
 
     val isLoggedIn:Boolean
         get() {

@@ -10,12 +10,9 @@ import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import net.holybee.tarot.googleBilling.Constants.MAX_CURRENT_PURCHASES_ALLOWED
 import net.holybee.tarot.googleBilling.BillingClientWrapper
 import net.holybee.tarot.holybeeAPI.AccountInformation
@@ -49,8 +46,7 @@ class PurchaseViewModel(application: Application) : AndroidViewModel(application
     fun buyCoin(
         productDetails: ProductDetails,
         currentPurchases: List<Purchase>?,
-        activity: Activity,
-        tag: String
+        activity: Activity
     ) {
         // Get current purchase. In this app, a user can only have one current purchase at
         // any given time.

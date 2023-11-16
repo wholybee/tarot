@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.holybee.tarot.databinding.FragmentTarotQuestionBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
@@ -31,6 +32,10 @@ import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 private const val TAG = "TarotQuestionFragment"
 
 class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
+    companion object {
+    }
+
+    private lateinit var viewModel: TarotQuestionViewModel
     private val openAi = OpenAI_wlh
     private val modelIdFortune = "3cardreading"
     private val modelIdCard = "card"
@@ -48,10 +53,9 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         val coinsText = "Coins: $coins"
         binding.coinsTextView2.text = coinsText
     }
-    companion object {
-    }
 
-    private lateinit var viewModel: TarotQuestionViewModel
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,12 +68,15 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
     }
 
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
     }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(TarotQuestionViewModel::class.java)
@@ -107,7 +114,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
 
 
 
-        binding.QuestionTextView.onFocusChangeListener = OnFocusChangeListener { p0, p1 ->
+        binding.QuestionTextView.onFocusChangeListener = OnFocusChangeListener { _, p1 ->
             if (p1) {
                 Log.i(TAG, "Question Text View Focused")
             } else {
@@ -124,7 +131,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
     override fun onGetCoinSuccess(coins: Int) {
 
         AccountInformation.coins.postValue(coins)
-        val coinText = "Coins: ${AccountInformation.coins}"
+        val coinText = "Coins: ${AccountInformation.coins.value}"
         Log.i(TAG, coinText)
     }
 
@@ -137,7 +144,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         super.onResume()
 
             if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
-                Dialogs.showCustomDialog(requireActivity(),layoutInflater,"You are out of coins. You will need to purchase more coins for more readings.")
+                Dialogs.showCustomDialog(requireActivity(),layoutInflater, getString(R.string.out_of_coins))
 
             } else {
 
@@ -146,8 +153,9 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
                     viewModel.justLaunched = false
                     Dialogs.showCustomDialog(requireActivity(),layoutInflater, getString(R.string.concentrate))
                 } else {
-
-                    if (listOf(10,25,50,75).contains(AccountInformation.ratingCount)) {
+                    Log.i(TAG,"checing ratings ${AccountInformation.ratingCount}")
+                    if (AccountInformation.ratingCount > 10 && !AccountInformation.hasRated) {
+                        AccountInformation.ratingCount = 0
                         Dialogs.rateDialog(requireActivity(),layoutInflater,this)
                     }
 
@@ -157,22 +165,48 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
 
         }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.child, menu)
+    }
 
-    fun hideSoftKeyboard(editText: EditText){
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+
+
+            R.id.open_buyCoins -> {
+                navigatePurchase()
+                true
+            }
+            R.id.rate_app -> {
+                Dialogs.rateApp(this)
+                true
+            }
+            R.id.navigate_back -> {
+                requireActivity().onBackPressed()
+                true
+            }
+            else->super.onOptionsItemSelected(item)
+        }
+    }
+
+
+    private fun hideSoftKeyboard(editText: EditText){
         (requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).apply {
             hideSoftInputFromWindow(editText.windowToken, 0)
         }
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
-    fun clickDealButton() {
+
+    private fun clickDealButton() {
             if (binding.QuestionTextView.text.length < 3) {
-                Toast.makeText(requireContext(), "Please ask a question before dealing the cards.", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.ask_question), Toast.LENGTH_LONG).show()
                 return
             }
             viewModel.gamePlay = GamePlay.DEALT
@@ -185,9 +219,9 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
 
 
 
-    fun clickAskButton() {
+    private fun clickAskButton() {
         if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
-            Dialogs.showCustomDialog(requireActivity(),layoutInflater,"You are out of coins. You will need to purchase more coins for more readings.")
+            Dialogs.showCustomDialog(requireActivity(),layoutInflater,getString(R.string.out_of_coins))
             return
         }
 
@@ -197,7 +231,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
             binding.progressBar.visibility = View.VISIBLE
 
             binding.dealButton.isEnabled = false
-    //        asked()
+
             val content = cardsPrompt +
                     binding.cardOneView.contentDescription + ", " +
                     binding.cardTwoView.contentDescription + ", and " +
@@ -221,7 +255,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     }
 
-    fun clickPlayAgain () {
+    private fun clickPlayAgain () {
 
             for (i in 0..2) {
                 viewModel.hand[i] = null
@@ -240,9 +274,9 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
     }
 
 
-    fun clickCardOne() {
+    private fun clickCardOne() {
         if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
-            Dialogs.showCustomDialog(requireActivity(),layoutInflater,"You are out of coins. You will need to purchase more coins for more readings.")
+            Dialogs.showCustomDialog(requireActivity(),layoutInflater,getString(R.string.out_of_coins))
             return
         }
         openAi.clearHistory()
@@ -252,9 +286,9 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     }
 
-    fun clickCardTwo() {
+    private fun clickCardTwo() {
         if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
-            Dialogs.showCustomDialog(requireActivity(),layoutInflater,"You are out of coins. You will need to purchase more coins for more readings.")
+            Dialogs.showCustomDialog(requireActivity(),layoutInflater,getString(R.string.out_of_coins))
             return
         }
         openAi.clearHistory()
@@ -263,9 +297,9 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         if (card != null) showCard(card)
     }
 
-    fun clickCardThree() {
+    private fun clickCardThree() {
         if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
-            Dialogs.showCustomDialog(requireActivity(),layoutInflater,"You are out of coins. You will need to purchase more coins for more readings.")
+            Dialogs.showCustomDialog(requireActivity(),layoutInflater,getString(R.string.out_of_coins))
             return
         }
         openAi.clearHistory()
@@ -274,7 +308,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         if (card != null) showCard(card)
     }
 
-    fun showCardsFaceDown () {
+    private fun showCardsFaceDown () {
 
         binding.cardOneView.let {
             it.contentDescription = getString(R.string.face_down)
@@ -303,20 +337,26 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         binding.infoText.visibility = View.INVISIBLE
     }
 
-    fun showCardsFaceUp () {
-
+    private fun showCardsFaceUp () {
+        var delay: Long = 0
+        if (viewModel.gamePlay==GamePlay.DEALT) delay = 200
+    lifecycleScope.launch {
         binding.cardOneView.let {
             it.contentDescription = viewModel.hand[0]?.text
             setCardPicture(requireContext(), it, viewModel.hand[0]?.filename)
         }
+        delay (delay)
         binding.cardTwoView.let {
             it.contentDescription = viewModel.hand[1]?.text
             setCardPicture(requireContext(), it, viewModel.hand[1]?.filename)
         }
+        delay (delay)
         binding.cardThreeView.let {
             it.contentDescription = viewModel.hand[2]?.text
             setCardPicture(requireContext(), it, viewModel.hand[2]?.filename)
         }
+    }
+
         binding.cardOneTextView.text = viewModel.hand[0]?.text
         binding.cardOneRomanTextView.text = viewModel.hand[0]?.roman
         binding.cardOneTextView.visibility = View.VISIBLE
@@ -334,7 +374,8 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
 
 
 
-    fun disableAllButtons () {
+    @Suppress("UNUSED_EXPRESSION")
+    private fun disableAllButtons () {
         binding.apply {
             dealButton.setOnClickListener { null }
 
@@ -344,7 +385,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         }
     }
 
-    fun enableButtons () {
+    private fun enableButtons () {
         binding.let {
             if (viewModel.gamePlay == GamePlay.NOTDEALT) it.dealButton.setOnClickListener { clickDealButton() }
 
@@ -355,7 +396,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         }
     }
 
-    fun notDealt () {
+    private fun notDealt () {
         binding.apply {
             dealButton.text = getString(R.string.deal_cards)
             dealButton.setOnClickListener { clickDealButton() }
@@ -363,7 +404,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         }
     }
 
-    fun dealt () {
+    private fun dealt () {
         binding.apply {
             dealButton.text = getString(R.string.ask_question)
             dealButton.setOnClickListener { clickAskButton() }
@@ -374,7 +415,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         }
     }
 
-    fun asked () {
+    private fun asked () {
         binding.apply {
             dealButton.text = getString((R. string.ask_another_question))
             dealButton.setOnClickListener { clickPlayAgain() }
@@ -383,7 +424,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         }
     }
 
-    fun showCard(card: Card?) {
+    private fun showCard(card: Card?) {
         binding.progressBar.visibility = View.VISIBLE
         disableAllButtons()
         AccountInformation.ratingCount+=1
@@ -406,35 +447,14 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
     }
 
 
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.child, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-
-
-            R.id.open_buyCoins -> {
-                    navigatePurchase()
-                true
-            }
-            R.id.rate_app -> {
-                Dialogs.rateApp(this)
-                true
-            }
-            R.id.navigate_back -> {
-                requireActivity().onBackPressed()
-                true
-            }
-            else->super.onOptionsItemSelected(item)
-            }
-        }
-
-    fun navigatePurchase () {
+    private fun navigatePurchase () {
         findNavController().navigate(
             TarotQuestionFragmentDirections.actionToPurchaseFragment())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
 

@@ -37,20 +37,18 @@ class CelticDisplayFragment : Fragment() {
         fun newInstance() = CelticDisplayFragment()
     }
 
-    lateinit var viewModel: CelticViewModel
+    private lateinit var viewModel: CelticViewModel
 
-    val readingObserver = Observer<CelticReading> { celticReadings ->
+    private val readingObserver = Observer<CelticReading> { celticReadings ->
         Log.e(TAG,"observe reading")
-        if (celticReadings.done == false) {
+        if (!celticReadings.done) {
             binding.progressBar.visibility = View.VISIBLE
             binding.nextButton.isEnabled = false
         } else {
             binding.progressBar.visibility = View.INVISIBLE
             binding.nextButton.isEnabled = true
         }
-        binding.cardDescriptionTextView.setText(
-            celticReadings.result
-        )
+        binding.cardDescriptionTextView.text = celticReadings.result
     }
 
 
@@ -67,14 +65,17 @@ class CelticDisplayFragment : Fragment() {
         return binding.root
     }
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(CelticViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity())[CelticViewModel::class.java]
 
         AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
 
@@ -86,20 +87,22 @@ class CelticDisplayFragment : Fragment() {
         }
         if (viewModel.index == 0) binding.prevButton.visibility = View.INVISIBLE
         if (viewModel.index == 9) {
-            binding.nextButton.text = "Done"
+            binding.nextButton.text = getString(R.string.done)
         } else {
-            binding.nextButton.text = "Next"
+            binding.nextButton.text = getString(R.string.next)
         }
         if (viewModel.index > 9 || viewModel.index < 0) viewModel.index =0
         displayCard(viewModel.index)
     }
 
+    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.back_only, menu)
     }
 
+    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -119,7 +122,7 @@ class CelticDisplayFragment : Fragment() {
 
     private fun displayCard (index: Int) {
         if (index >= viewModel.celticReadings.size ) {
-            Log.e(TAG,"Error! Index is out of bounds:"+index.toString())
+            Log.e(TAG, "Error! Index is out of bounds:$index")
             return
         }
 
@@ -127,7 +130,7 @@ class CelticDisplayFragment : Fragment() {
             Log.e(TAG, "Error! Celtic Reading value is null!")
             return
         }
-        Log.i(TAG,"display card " + index.toString())
+        Log.i(TAG, "display card $index")
         Log.i(TAG,"Hand size " + viewModel.hand.size.toString() )
         Log.i(TAG, viewModel.celticReadings[index].value!!.card.filename)
 
@@ -149,7 +152,7 @@ class CelticDisplayFragment : Fragment() {
         if (viewModel.index > 0) {
             removeObserver(viewModel.index)
             viewModel.index --
-            binding.nextButton.text = "Next"
+            binding.nextButton.text = getString(R.string.next)
             binding.nextButton.tag = ""
         }
         if (viewModel.index == 0) binding.prevButton.visibility = View.INVISIBLE
@@ -162,7 +165,7 @@ class CelticDisplayFragment : Fragment() {
 
         if (binding.nextButton.tag == "done") {
             binding.nextButton.tag = ""
-            binding.nextButton.text = "Next"
+            binding.nextButton.text = getString(R.string.next)
             Log.i(TAG,"Clicked done, leaving")
             findNavController().navigateUp()
             return
@@ -173,11 +176,11 @@ class CelticDisplayFragment : Fragment() {
 
         if (viewModel.index == 9) {
             Log.i(TAG,"index at 9")
-            binding.nextButton.text = "Done"
+            binding.nextButton.text = getString(R.string.done)
             binding.nextButton.tag = "done"
 
         } else {
-            binding.nextButton.text = "Next"
+            binding.nextButton.text = getString(R.string.next)
             binding.nextButton.tag = ""
         }
         if (viewModel.index == 0) {

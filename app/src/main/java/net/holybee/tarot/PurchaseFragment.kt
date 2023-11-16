@@ -1,10 +1,7 @@
 package net.holybee.tarot
 
-import android.content.Intent
-import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,11 +14,7 @@ import android.widget.Button
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.android.billingclient.api.ProductDetails
-import com.android.billingclient.api.Purchase
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
-import net.holybee.tarot.googleBilling.Constants.COIN_TAG
 import net.holybee.tarot.databinding.FragmentPurchaseBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
 
@@ -40,6 +33,7 @@ class PurchaseFragment : Fragment() {
         val coinsText = "Coins: $coins"
         binding.coinsTextView.text = coinsText
     }
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,6 +48,8 @@ class PurchaseFragment : Fragment() {
         return binding.root
     }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this)[PurchaseViewModel::class.java]
@@ -88,11 +84,15 @@ class PurchaseFragment : Fragment() {
 
     }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.child, menu)
     }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
 
@@ -116,7 +116,7 @@ class PurchaseFragment : Fragment() {
             else->super.onOptionsItemSelected(item)
         }
     }
-    fun navigatePurchase () {
+    private fun navigatePurchase () {
         findNavController().navigate(
             TarotQuestionFragmentDirections.actionToPurchaseFragment())
     }
@@ -141,7 +141,6 @@ class PurchaseFragment : Fragment() {
                 viewModel.buyCoin(
                     productDetails = product,
                     currentPurchases = null,
-                    tag = product.productId,
                     activity = requireActivity()
                 )
 

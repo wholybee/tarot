@@ -64,7 +64,7 @@ class CelticViewModel : ViewModel() {
             Log.i(TAG,"Start Reading")
             _celticReadings.forEach() {
                 Log.i(TAG,"Reading " + it.value!!.card.text)
-
+                AccountInformation.ratingCount += 1
                 val response = openAi.askGPT(cardPrompt + (it.value?.card?.text ?: ""), modelIdFirst)
                 if (response.status == "OK") {
                     val newCard = CelticReading (

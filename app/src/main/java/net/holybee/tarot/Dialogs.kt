@@ -56,7 +56,7 @@ object Dialogs {
         val dialog = builder.create()
 
         acceptButton.setOnClickListener {
-            AccountInformation.ratingCount = 100
+            AccountInformation.hasRated= true
             dialog.dismiss()
             rateApp(fragment)
         }
@@ -68,6 +68,7 @@ object Dialogs {
     }
 
     fun rateApp(fragment: Fragment) {
+        AccountInformation.hasRated = true
         val appPackageName = "net.holybee.tarot"
         try {
             fragment.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
