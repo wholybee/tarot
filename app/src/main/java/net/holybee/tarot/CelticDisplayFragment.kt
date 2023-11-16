@@ -137,6 +137,8 @@ class CelticDisplayFragment : Fragment() {
         setCardPicture(requireContext(), binding.cardView,
             viewModel.celticReadings[index].value!!.card.filename
         )
+        binding.cardPositionTextView.text = viewModel.positions[index]
+        binding.cardTextView.text = viewModel.celticReadings[index].value?.card?.text ?: ""
         viewModel.celticReadings[index].observe(viewLifecycleOwner, readingObserver)
 
     }
