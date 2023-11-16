@@ -137,18 +137,18 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         super.onResume()
 
             if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
-                showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
+                Dialogs.showCustomDialog(requireActivity(),layoutInflater,"You are out of coins. You will need to purchase more coins for more readings.")
 
             } else {
 
 
                 if (viewModel.justLaunched) {
                     viewModel.justLaunched = false
-                    showCustomDialog(text = getString(R.string.concentrate))
+                    Dialogs.showCustomDialog(requireActivity(),layoutInflater, getString(R.string.concentrate))
                 } else {
 
                     if (listOf(10,25,50,75).contains(AccountInformation.ratingCount)) {
-                        rateDialog()
+                        Dialogs.rateDialog(requireActivity(),layoutInflater,this)
                     }
 
                 }
@@ -187,7 +187,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     fun clickAskButton() {
         if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
-            showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
+            Dialogs.showCustomDialog(requireActivity(),layoutInflater,"You are out of coins. You will need to purchase more coins for more readings.")
             return
         }
 
@@ -242,7 +242,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     fun clickCardOne() {
         if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
-            showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
+            Dialogs.showCustomDialog(requireActivity(),layoutInflater,"You are out of coins. You will need to purchase more coins for more readings.")
             return
         }
         openAi.clearHistory()
@@ -254,7 +254,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     fun clickCardTwo() {
         if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
-            showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
+            Dialogs.showCustomDialog(requireActivity(),layoutInflater,"You are out of coins. You will need to purchase more coins for more readings.")
             return
         }
         openAi.clearHistory()
@@ -265,7 +265,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     fun clickCardThree() {
         if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
-            showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
+            Dialogs.showCustomDialog(requireActivity(),layoutInflater,"You are out of coins. You will need to purchase more coins for more readings.")
             return
         }
         openAi.clearHistory()
@@ -421,7 +421,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
                 true
             }
             R.id.rate_app -> {
-                rateApp()
+                Dialogs.rateApp(this)
                 true
             }
             R.id.navigate_back -> {
@@ -436,72 +436,6 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         findNavController().navigate(
             TarotQuestionFragmentDirections.actionToPurchaseFragment())
     }
-
-
-    private fun showCustomDialog(text: String) {
-        // Inflate the custom dialog layout
-        val inflater = layoutInflater
-        val dialogView = inflater.inflate(R.layout.question_dialog, null)
-
-        // Create the AlertDialog
-        val builder = AlertDialog.Builder(requireActivity())
-        builder.setView(dialogView)
-
-        // Set the message and nextButton click listener
-        val messageTextView = dialogView.findViewById<TextView>(R.id.dialog_message)
-        val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
-
-        messageTextView.text = text
-
-        val dialog = builder.create()
-
-        acceptButton.setOnClickListener {
-            // Perform any necessary actions when the user accepts
-            // For example, you can close the dialog and continue your fragment logic
-            dialog.dismiss()
-            // Continue with your fragment logic here
-        }
-
-        dialog.show()
-    }
-
-    private fun rateDialog() {
-        // Inflate the custom dialog layout
-        val inflater = layoutInflater
-        val dialogView = inflater.inflate(R.layout.rate_dialog, null)
-
-        // Create the AlertDialog
-        val builder = AlertDialog.Builder(requireActivity())
-        builder.setView(dialogView)
-
-        // Set the message and nextButton click listener
-
-        val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
-        val declineButton = dialogView.findViewById<Button>(R.id.decline_button)
-
-        val dialog = builder.create()
-
-        acceptButton.setOnClickListener {
-            AccountInformation.ratingCount = 100
-            dialog.dismiss()
-            rateApp()
-        }
-        declineButton.setOnClickListener {
-            dialog.dismiss()
-
-        }
-        dialog.show()
-    }
-
-    fun rateApp() {
-        val appPackageName = "net.holybee.tarot"
-        try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
-        } catch (e: android.content.ActivityNotFoundException) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
-        }
-    }
-
 }
 
 

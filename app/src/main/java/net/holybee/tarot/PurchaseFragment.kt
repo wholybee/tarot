@@ -106,7 +106,7 @@ class PurchaseFragment : Fragment() {
                 true
             }
             R.id.rate_app -> {
-                rateApp()
+                Dialogs.rateApp(this)
                 true
             }
             R.id.navigate_back -> {
@@ -121,24 +121,6 @@ class PurchaseFragment : Fragment() {
             TarotQuestionFragmentDirections.actionToPurchaseFragment())
     }
 
-    fun rateApp() {
-        val appPackageName = "net.holybee.tarot"
-        try {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=$appPackageName")
-                )
-            )
-        } catch (e: android.content.ActivityNotFoundException) {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
-                )
-            )
-        }
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

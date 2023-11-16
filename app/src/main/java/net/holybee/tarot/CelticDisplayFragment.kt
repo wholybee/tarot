@@ -64,7 +64,6 @@ class CelticDisplayFragment : Fragment() {
         binding.cardDescriptionTextView.movementMethod= ScrollingMovementMethod()
         binding.nextButton.setOnClickListener { clickButton() }
         binding.prevButton.setOnClickListener { clickPrevious() }
-        viewModel.index = 0
         return binding.root
     }
 
@@ -78,6 +77,8 @@ class CelticDisplayFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(CelticViewModel::class.java)
 
         AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
+
+        viewModel.index = 0
         if (viewModel.gamePlay != GamePlay.ASKED) {
             AccountInformation.coins.postValue(AccountInformation.coins.value?.minus(1) ?: 0)
             viewModel.startReading()
@@ -105,7 +106,7 @@ class CelticDisplayFragment : Fragment() {
 
 
             R.id.rate_app -> {
-                rateApp()
+                Dialogs.rateApp(this)
                 true
             }
             R.id.navigate_back ->{
@@ -187,14 +188,6 @@ class CelticDisplayFragment : Fragment() {
         }
     }
 
-    fun rateApp() {
-        val appPackageName = "net.holybee.tarot"
-        try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
-        } catch (e: android.content.ActivityNotFoundException) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

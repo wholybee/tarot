@@ -49,7 +49,7 @@ class MenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.menuRate.setOnClickListener { clickRate() }
+        binding.menuRate.setOnClickListener { Dialogs.rateApp(this) }
         binding.menu3cardReading.setOnClickListener { click3card() }
         binding.menuCelticReading.setOnClickListener { clickCeltic() }
         binding.menuPurchase.setOnClickListener { clickPurchase() }
@@ -73,7 +73,7 @@ class MenuFragment : Fragment() {
         } else {
 
             if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
-                showCustomDialog(text = "You are out of coins. You will need to purchase more coins for more readings.")
+                Dialogs.showCustomDialog(requireActivity(), layoutInflater, "You are out of coins. You will need to purchase more coins for more readings.")
                 clickPurchase()
             }
         }
@@ -104,54 +104,6 @@ class MenuFragment : Fragment() {
             MenuFragmentDirections.actionMenuFragmentToAccountFragment()
         )
 
-    }
-
-
-    fun clickRate() {
-        val appPackageName = "net.holybee.tarot"
-        try {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=$appPackageName")
-                )
-            )
-        } catch (e: android.content.ActivityNotFoundException) {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
-                )
-            )
-        }
-    }
-
-
-    private fun showCustomDialog(text: String) {
-        // Inflate the custom dialog layout
-        val inflater = layoutInflater
-        val dialogView = inflater.inflate(R.layout.question_dialog, null)
-
-        // Create the AlertDialog
-        val builder = AlertDialog.Builder(requireActivity())
-        builder.setView(dialogView)
-
-        // Set the message and nextButton click listener
-        val messageTextView = dialogView.findViewById<TextView>(R.id.dialog_message)
-        val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
-
-        messageTextView.text = text
-
-        val dialog = builder.create()
-
-        acceptButton.setOnClickListener {
-            // Perform any necessary actions when the user accepts
-            // For example, you can close the dialog and continue your fragment logic
-            dialog.dismiss()
-            // Continue with your fragment logic here
-        }
-
-        dialog.show()
     }
 
     override fun onDestroyView() {

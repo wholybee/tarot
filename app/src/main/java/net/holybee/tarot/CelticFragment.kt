@@ -107,7 +107,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
                 true
             }
             R.id.rate_app -> {
-                rateApp()
+                Dialogs.rateApp(this)
                 true
             }
             R.id.navigate_back ->{
@@ -122,18 +122,18 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
         super.onResume()
 
         if ((AccountInformation.coins.value?.compareTo(10) ?: 0) < 0) {
-            showCustomDialog(text = "You do not have enough coins. A full celtic reading costs 10 total coins.")
+            Dialogs.showCustomDialog(requireActivity(),layoutInflater, "You do not have enough coins. A full celtic reading costs 10 total coins.")
 
         } else {
 
 
             if (viewModel.justLaunched) {
                 viewModel.justLaunched = false
-                showCustomDialog(text = "Clear your mind and click 'Deal' to begin your reading.")
+                Dialogs.showCustomDialog(requireActivity(),layoutInflater, "Clear your mind and click 'Deal' to begin your reading.")
             } else {
 
                 if (listOf(10,25,50,75).contains(AccountInformation.ratingCount)) {
-                    rateDialog()
+                    Dialogs.rateDialog(requireActivity(),layoutInflater,this)
                 }
 
             }
@@ -147,14 +147,6 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
             CelticFragmentDirections.actionToPurchaseFragment())
     }
 
-    fun rateApp() {
-        val appPackageName = "net.holybee.tarot"
-        try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
-        } catch (e: android.content.ActivityNotFoundException) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
-        }
-    }
 
     fun showCardsFaceDown () {
 
@@ -270,7 +262,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
     fun clickDealButton () {
 
         if ((AccountInformation.coins.value?.compareTo(10) ?: 0) < 0) {
-            showCustomDialog(text = "You do not have enough coins. A full celtic reading costs 10 total coins.")
+            Dialogs.showCustomDialog(requireActivity(),layoutInflater, "You do not have enough coins. A full celtic reading costs 10 total coins.")
         } else {
 
             when (viewModel.gamePlay) {
@@ -289,60 +281,9 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
             }
         }
     }
-    private fun showCustomDialog(text: String) {
-        // Inflate the custom dialog layout
-        val inflater = layoutInflater
-        val dialogView = inflater.inflate(R.layout.question_dialog, null)
 
-        // Create the AlertDialog
-        val builder = AlertDialog.Builder(requireActivity())
-        builder.setView(dialogView)
 
-        // Set the message and nextButton click listener
-        val messageTextView = dialogView.findViewById<TextView>(R.id.dialog_message)
-        val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
 
-        messageTextView.text = text
-
-        val dialog = builder.create()
-
-        acceptButton.setOnClickListener {
-            // Perform any necessary actions when the user accepts
-            // For example, you can close the dialog and continue your fragment logic
-            dialog.dismiss()
-            // Continue with your fragment logic here
-        }
-
-        dialog.show()
-    }
-
-    private fun rateDialog() {
-        // Inflate the custom dialog layout
-        val inflater = layoutInflater
-        val dialogView = inflater.inflate(R.layout.rate_dialog, null)
-
-        // Create the AlertDialog
-        val builder = AlertDialog.Builder(requireActivity())
-        builder.setView(dialogView)
-
-        // Set the message and nextButton click listener
-
-        val acceptButton = dialogView.findViewById<Button>(R.id.accept_button)
-        val declineButton = dialogView.findViewById<Button>(R.id.decline_button)
-
-        val dialog = builder.create()
-
-        acceptButton.setOnClickListener {
-            AccountInformation.ratingCount = 100
-            dialog.dismiss()
-            rateApp()
-        }
-        declineButton.setOnClickListener {
-            dialog.dismiss()
-
-        }
-        dialog.show()
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
