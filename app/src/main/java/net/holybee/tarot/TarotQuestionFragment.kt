@@ -1,9 +1,6 @@
 package net.holybee.tarot
 
-import android.app.AlertDialog
 import android.content.Context.INPUT_METHOD_SERVICE
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,9 +11,7 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -32,8 +27,7 @@ import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 private const val TAG = "TarotQuestionFragment"
 
 class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
-    companion object {
-    }
+
 
     private lateinit var viewModel: TarotQuestionViewModel
     private val openAi = OpenAI_wlh
@@ -79,7 +73,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(TarotQuestionViewModel::class.java)
+        viewModel = ViewModelProvider(this)[TarotQuestionViewModel::class.java]
         AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
 
         if (AccountInformation.isLoggedIn) {
@@ -153,7 +147,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
                     viewModel.justLaunched = false
                     Dialogs.showCustomDialog(requireActivity(),layoutInflater, getString(R.string.concentrate))
                 } else {
-                    Log.i(TAG,"checing ratings ${AccountInformation.ratingCount}")
+                    Log.i(TAG,"checking ratings ${AccountInformation.ratingCount}")
                     if (AccountInformation.ratingCount > 10 && !AccountInformation.hasRated) {
                         AccountInformation.ratingCount = 0
                         Dialogs.rateDialog(requireActivity(),layoutInflater,this)

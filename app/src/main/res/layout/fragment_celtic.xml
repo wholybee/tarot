@@ -90,11 +90,9 @@
         android:gravity="center"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/card1View"
-        app:layout_constraintStart_toStartOf="@+id/card1View" /><![CDATA[
+        app:layout_constraintStart_toStartOf="@+id/card1View" />
 
-    " />
 
-    ]]>
 
     <ImageButton
         android:id="@+id/card1View"
