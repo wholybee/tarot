@@ -1,8 +1,5 @@
 package net.holybee.tarot
 
-import android.app.AlertDialog
-import android.content.Intent
-import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -13,8 +10,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.delay
@@ -40,7 +35,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
         fun newInstance() = CelticFragment()
     }
 
-    private lateinit var viewModel: CelticViewModel // by viewModels()
+    private lateinit var viewModel: CelticViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,7 +55,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(CelticViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CelticViewModel::class.java)
 
         AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
 
@@ -279,8 +274,10 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
                 }
 
                 else -> {
+                    Log.e(TAG,"handSerializable:${viewModel.hand.toTypedArray().size}")
+                    Log.e(TAG,"hand:${viewModel.hand.size}")
                     findNavController().navigate(
-                        CelticFragmentDirections.actionCelticDisplay()
+                        CelticFragmentDirections.actionCelticDisplay(viewModel.hand.toTypedArray())
                     )
                 }
             }
@@ -293,6 +290,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
     override fun onDestroyView() {
         super.onDestroyView()
         AccountInformation.coins.removeObserver(coinsObserver)
+
     }
 
 }

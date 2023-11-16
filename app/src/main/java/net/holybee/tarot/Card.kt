@@ -1,8 +1,11 @@
 package net.holybee.tarot
 
+import android.os.Parcel
+import android.os.Parcelable
+import java.io.Serializable
 
 
-enum class Card (val text: String, val value: Int, val roman: String, val filename: String ){
+enum class Card (val text: String, val value: Int, val roman: String, val filename: String ):Parcelable {
     FOOL("The Fool",0,"0","RWS_Tarot_00_Fool.jpg"),
     MAGICIAN("The Magician",1,"I","RWS_Tarot_01_Magician.jpg"),
     HIGH_PRIESTESS("The High Priestess",2,"ii","RWS_Tarot_02_High_Priestess.jpg"),
@@ -80,7 +83,27 @@ enum class Card (val text: String, val value: Int, val roman: String, val filena
     PAGEWANDS("Page of Wands",11,"xi","Wands11.jpg"),
     KNIGHTWANDS("Knight of Wands",12,"xii","Wands12.jpg"),
     QUEENWANDS("Queen of Wands",13,"xiii","Wands13.jpg"),
-    KINGWANDS("King of Wands",14,"xiv","Wands14.jpg"),
+    KINGWANDS("King of Wands",14,"xiv","Wands14.jpg");
+
+    // Parcelable implementation
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(name)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Card> {
+        override fun createFromParcel(parcel: Parcel): Card {
+            return Card.valueOf(parcel.readString()!!)
+        }
+
+        override fun newArray(size: Int): Array<Card?> {
+            return arrayOfNulls(size)
+        }
+    }
+
 }
 
 enum class GamePlay {

@@ -19,7 +19,6 @@ import net.holybee.tarot.databinding.FragmentReadingDisplayBinding
 import net.holybee.tarot.databinding.FragmentTarotQuestionBinding
 
 class ReadingDisplayFragment : Fragment() {
-
     private var _binding: FragmentReadingDisplayBinding? = null
     private val binding
         get() = checkNotNull(_binding) {

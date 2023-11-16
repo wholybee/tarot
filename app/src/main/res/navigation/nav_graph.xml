@@ -74,7 +74,11 @@
         android:id="@+id/celticDisplayFragment"
         android:name="net.holybee.tarot.CelticDisplayFragment"
         android:label="fragment_celtic_display"
-        tools:layout="@layout/fragment_celtic_display" />
+        tools:layout="@layout/fragment_celtic_display" >
+        <argument
+            android:name="handSerializable"
+            app:argType="net.holybee.tarot.Card[]" />
+    </fragment>
     <fragment
         android:id="@+id/menuFragment"
         android:name="net.holybee.tarot.MenuFragment"

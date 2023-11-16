@@ -54,7 +54,7 @@ object OpenAI_wlh {
             )
         )
 // trim to 3 messages in history
-        if (chatMessages.size > 3) {
+        if (chatMessages.size > 2) {
             chatMessages.removeAt(0)
         }
 

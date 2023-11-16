@@ -13,9 +13,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import net.holybee.tarot.databinding.FragmentCelticBinding
 import net.holybee.tarot.databinding.FragmentCelticDisplayBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
@@ -23,6 +25,7 @@ import net.holybee.tarot.holybeeAPI.AccountInformation
 private const val TAG = "CelticDisplayFragment"
 
 class CelticDisplayFragment : Fragment() {
+    private val args: CelticDisplayFragmentArgs by navArgs()
 
     private var _binding: FragmentCelticDisplayBinding? = null
     private val binding
@@ -37,7 +40,7 @@ class CelticDisplayFragment : Fragment() {
         fun newInstance() = CelticDisplayFragment()
     }
 
-    private lateinit var viewModel: CelticViewModel
+    private lateinit var viewModel: CelticDisplayViewModel
 
     private val readingObserver = Observer<CelticReading> { celticReadings ->
         Log.e(TAG,"observe reading")
@@ -75,24 +78,15 @@ class CelticDisplayFragment : Fragment() {
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[CelticViewModel::class.java]
-
+        viewModel = ViewModelProvider(this)[CelticDisplayViewModel::class.java]
+        viewModel.populateCelticReadings(args.handSerializable)
         AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
 
         viewModel.index = 0
-        if (viewModel.gamePlay != GamePlay.ASKED) {
-            AccountInformation.coins.postValue(AccountInformation.coins.value?.minus(1) ?: 0)
-            viewModel.startReading()
-            viewModel.gamePlay = GamePlay.ASKED
-        }
-        if (viewModel.index == 0) binding.prevButton.visibility = View.INVISIBLE
-        if (viewModel.index == 9) {
-            binding.nextButton.text = getString(R.string.done)
-        } else {
-            binding.nextButton.text = getString(R.string.next)
-        }
-        if (viewModel.index > 9 || viewModel.index < 0) viewModel.index =0
+        binding.prevButton.visibility = View.INVISIBLE
+
         displayCard(viewModel.index)
+        viewModel.startReading()
     }
 
     @Suppress("DEPRECATION")
@@ -131,7 +125,7 @@ class CelticDisplayFragment : Fragment() {
             return
         }
         Log.i(TAG, "display card $index")
-        Log.i(TAG,"Hand size " + viewModel.hand.size.toString() )
+        Log.i(TAG,"Hand size " + viewModel.celticReadings.size.toString() )
         Log.i(TAG, viewModel.celticReadings[index].value!!.card.filename)
 
         setCardPicture(requireContext(), binding.cardView,
@@ -197,6 +191,7 @@ class CelticDisplayFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         AccountInformation.coins.removeObserver(coinsObserver)
+
     }
 
 }
