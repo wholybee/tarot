@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/questionbackground"
     android:padding="5dp"
-    tools:context=".AccountFragment">
+    tools:context=".LogonFragment">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/rounded_corners"
 
@@ -32,10 +32,10 @@
         android:hint="@string/username"
         android:inputType="text"
         android:padding="3dp"
-        android:textSize="24sp"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         tools:ignore="Autofill" />
 
     <EditText
@@ -48,7 +48,7 @@
         android:hint="@string/email_example_com"
         android:inputType="textEmailAddress"
         android:padding="3dp"
-        android:textSize="24sp"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameEditText"
@@ -64,7 +64,7 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:padding="3dp"
-        android:textSize="24sp"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditText"
@@ -79,7 +79,7 @@
         android:padding="5dp"
         android:text="@string/please_login_to_continue"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
@@ -101,30 +101,46 @@
             android:id="@+id/loginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="32dp"
+            android:paddingTop="16dp"
+            android:paddingRight="32dp"
+            android:paddingBottom="16dp"
             android:text="@string/login_button"
-            android:textSize="20sp" />
+            android:textSize="34sp" />
 
         <Button
             android:id="@+id/logoutButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="32dp"
+            android:paddingTop="16dp"
+            android:paddingRight="32dp"
+            android:paddingBottom="16dp"
             android:text="@string/logout"
-            android:textSize="20sp" />
+            android:textSize="34sp" />
 
         <Button
             android:id="@+id/createAccountButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="32dp"
+            android:paddingTop="16dp"
+            android:paddingRight="32dp"
+            android:paddingBottom="16dp"
             android:text="@string/new_button"
-            android:textSize="20sp" />
+            android:textSize="34sp" />
 
         <Button
             android:id="@+id/forgotPasswordbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:paddingLeft="32dp"
+            android:paddingTop="16dp"
+            android:paddingRight="32dp"
+            android:paddingBottom="16dp"
             android:text="Forgot"
-            android:textSize="20sp" />
+            android:textSize="34sp" />
 
     </LinearLayout>
 
@@ -149,7 +165,7 @@
         android:background="@drawable/rounded_corners"
         android:padding="5dp"
         android:text="@string/have_an_account"
-        android:textSize="24sp"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />

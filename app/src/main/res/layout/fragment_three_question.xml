@@ -5,25 +5,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/questionbackground"
-    tools:context=".TarotQuestionFragment">
+    tools:context=".ThreeQuestionFragment">
+
+    <TextView
+        android:id="@+id/cardOneTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_corners"
+        android:padding="4dp"
+        android:text="@string/face_down"
+        app:layout_constraintEnd_toEndOf="@+id/cardOneView"
+        app:layout_constraintStart_toStartOf="@+id/cardOneView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cardTwoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_corners"
+        android:padding="4dp"
+        android:text="@string/face_down"
+        app:layout_constraintEnd_toEndOf="@+id/cardTwoView"
+        app:layout_constraintStart_toStartOf="@+id/cardTwoView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cardThreeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_corners"
+        android:padding="3dp"
+        android:text="@string/face_down"
+        app:layout_constraintEnd_toEndOf="@+id/cardThreeView"
+        app:layout_constraintStart_toStartOf="@+id/cardThreeView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/cardThreeView"
-        android:layout_width="250dp"
-        android:layout_height="434dp"
+        android:id="@+id/cardOneView"
+        android:layout_width="125dp"
+        android:layout_height="217dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_corners"
         android:contentDescription="@string/face_down"
         android:focusableInTouchMode="false"
         android:gravity="center"
         android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardThreeTextView" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardOneTextView" />
 
     <ImageButton
         android:id="@+id/cardTwoView"
-        android:layout_width="250dp"
-        android:layout_height="434dp"
+        android:layout_width="125dp"
+        android:layout_height="217dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_corners"
         android:contentDescription="@string/face_down"
@@ -35,17 +71,17 @@
         app:layout_constraintTop_toBottomOf="@+id/cardTwoTextView" />
 
     <ImageButton
-        android:id="@+id/cardOneView"
-        android:layout_width="250dp"
-        android:layout_height="434dp"
+        android:id="@+id/cardThreeView"
+        android:layout_width="125dp"
+        android:layout_height="217dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_corners"
         android:contentDescription="@string/face_down"
         android:focusableInTouchMode="false"
         android:gravity="center"
         android:scaleType="fitCenter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardOneTextView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardThreeTextView" />
 
     <TextView
         android:id="@+id/cardOneRomanTextView"
@@ -54,7 +90,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_corners"
         android:padding="4dp"
-        android:textSize="32sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="@+id/cardOneView"
@@ -68,7 +104,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_corners"
         android:padding="4dp"
-        android:textSize="32sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="@+id/cardTwoView"
@@ -82,7 +118,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_corners"
         android:padding="4dp"
-        android:textSize="32sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="@+id/cardThreeView"
@@ -93,12 +129,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="64dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardTwoView">
 
         <Button
@@ -108,8 +140,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:focusableInTouchMode="false"
-            android:text="@string/deal_cards"
-            android:textSize="20sp" />
+            android:text="@string/deal_cards" />
 
         <EditText
             android:id="@+id/QuestionTextView"
@@ -122,8 +153,7 @@
             android:hint="@string/enter_question"
             android:imeOptions="actionDone|flagForceAscii"
             android:inputType="text|textMultiLine|textNoSuggestions"
-            android:padding="5dp"
-            android:textSize="20sp" />
+            android:padding="5dp" />
     </LinearLayout>
 
     <ProgressBar
@@ -139,45 +169,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cardTwoView" />
-
-    <TextView
-        android:id="@+id/cardOneTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/rounded_corners"
-        android:padding="4dp"
-        android:text="@string/face_down"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/cardOneView"
-        app:layout_constraintStart_toStartOf="@+id/cardOneView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/cardTwoTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/rounded_corners"
-        android:padding="4dp"
-        android:text="@string/face_down"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/cardTwoView"
-        app:layout_constraintStart_toStartOf="@+id/cardTwoView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/cardThreeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/rounded_corners"
-        android:padding="3dp"
-        android:text="@string/face_down"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/cardThreeView"
-        app:layout_constraintStart_toStartOf="@+id/cardThreeView"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/infoText"

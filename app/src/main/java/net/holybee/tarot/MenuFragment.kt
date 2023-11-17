@@ -13,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import net.holybee.tarot.databinding.FragmentMenuBinding
-import net.holybee.tarot.databinding.FragmentTarotQuestionBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
 
 

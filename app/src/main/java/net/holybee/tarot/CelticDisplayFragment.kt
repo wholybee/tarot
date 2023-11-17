@@ -224,10 +224,11 @@ class CelticDisplayFragment : Fragment() {
                     }
                     System.out.println(prompt)
 
-                    AccountInformation.ratingCount += 1
-                    AccountInformation.coins.postValue(AccountInformation.coins.value?.minus(1))
+
                     val response = OpenAI_wlh.askGPT(prompt, modelId)
                     if (response.status == "OK") {
+                        AccountInformation.ratingCount += 1
+                        AccountInformation.coins.postValue(AccountInformation.coins.value?.minus(1))
                         val newCard = CelticReading(
                             it.value!!.card,
                             response.message,

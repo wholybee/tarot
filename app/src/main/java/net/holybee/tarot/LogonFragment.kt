@@ -20,7 +20,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
-import net.holybee.tarot.databinding.FragmentAccountBinding
+import net.holybee.tarot.databinding.FragmentLogonBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.CreateAccountResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
@@ -29,11 +29,11 @@ import net.holybee.tarot.holybeeAPI.LoginResponseListener
 import java.util.Locale
 
 private const val TAG = "AccountFragment"
-class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponseListener {
+class LogonFragment : Fragment(), LoginResponseListener, CreateAccountResponseListener {
 
-    private lateinit var viewModel: AccountViewModel
+    private lateinit var viewModel: LogonViewModel
 
-    private var _binding: FragmentAccountBinding? = null
+    private var _binding: FragmentLogonBinding? = null
     private val binding
         get()=checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
@@ -48,7 +48,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
         val application = requireActivity().application
 
         // Initialize the ViewModel with the Application object
-        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application))[AccountViewModel::class.java]
+        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application))[LogonViewModel::class.java]
     }
 
     @Suppress("DEPRECATION")
@@ -65,7 +65,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
 
             R.id.open_account -> {
                 findNavController().navigate(
-                    TarotQuestionFragmentDirections.actionToAccountFragment())
+                    ThreeQuestionFragmentDirections.actionToAccountFragment())
                 true
             }
             R.id.open_buyCoins -> {
@@ -85,14 +85,14 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
     }
     private fun navigatePurchase () {
         findNavController().navigate(
-            TarotQuestionFragmentDirections.actionToPurchaseFragment())
+            LogonFragmentDirections.actionToPurchaseFragment())
     }
 
         override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAccountBinding.inflate(inflater, container, false)
+        _binding = FragmentLogonBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -100,7 +100,7 @@ class AccountFragment : Fragment(), LoginResponseListener, CreateAccountResponse
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[AccountViewModel::class.java]
+        viewModel = ViewModelProvider(this)[LogonViewModel::class.java]
 
     }
 

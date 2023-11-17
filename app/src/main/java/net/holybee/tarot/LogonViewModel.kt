@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 private const val TAG = "AccountViewModel"
 
 
-class AccountViewModel (application: Application): AndroidViewModel(application) {
+class LogonViewModel (application: Application): AndroidViewModel(application) {
 
 
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/questionbackground"
-    tools:context=".ReadingDisplayFragment">
+    tools:context=".ThreeQuestionDisplayFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,29 +18,35 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/readingText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="145dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
                 android:background="@drawable/rounded_corners"
                 android:backgroundTintMode="add"
-
                 android:padding="5dp"
+                android:scrollbars="vertical"
+                android:textSize="18sp"
 
-                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.050000012" />
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="32dp"
                 android:background="@drawable/rounded_corners"
 
@@ -50,11 +56,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     </ScrollView>
-
 
 
 

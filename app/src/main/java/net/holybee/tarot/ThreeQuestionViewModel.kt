@@ -1,12 +1,11 @@
 package net.holybee.tarot
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import net.holybee.tarot.holybeeAPI.AccountInformation
 
 private const val TAG = "TarotQuestionViewModel"
 
-class TarotQuestionViewModel : ViewModel() {
+class ThreeQuestionViewModel : ViewModel() {
     private val deck: MutableList<Card> =  Card.values().toMutableList()
     private var deckIndex = 0
     val hand: MutableList<Card?> = mutableListOf(null,null,null)

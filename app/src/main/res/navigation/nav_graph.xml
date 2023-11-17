@@ -5,23 +5,23 @@
     app:startDestination="@id/menuFragment">
 
     <fragment
-        android:id="@+id/tarotReading"
-        android:name="net.holybee.tarot.TarotQuestionFragment"
+        android:id="@+id/threeQuestion"
+        android:name="net.holybee.tarot.ThreeQuestionFragment"
         android:label="fragment_tarot_reading"
-        tools:layout="@layout/fragment_tarot_question">
+        tools:layout="@layout/fragment_three_question">
 
         <action
             android:id="@+id/action_view_card"
             app:destination="@id/cardInfoFragment" />
         <action
             android:id="@+id/action_reading_display"
-            app:destination="@id/readingDisplayFragment" />
+            app:destination="@id/threeQuestionDisplayFragment" />
         <action
             android:id="@+id/action_to_purchaseFragment"
             app:destination="@id/purchaseFragment" />
         <action
             android:id="@+id/action_to_accountFragment"
-            app:destination="@id/accountFragment" />
+            app:destination="@id/logonFragment" />
     </fragment>
     <fragment
         android:id="@+id/cardInfoFragment"
@@ -36,19 +36,19 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/readingDisplayFragment"
-        android:name="net.holybee.tarot.ReadingDisplayFragment"
+        android:id="@+id/threeQuestionDisplayFragment"
+        android:name="net.holybee.tarot.ThreeQuestionDisplayFragment"
         android:label="fragment_reading_display"
-        tools:layout="@layout/fragment_reading_display">
+        tools:layout="@layout/fragment_three_question_display">
         <argument
             android:name="readingText"
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/accountFragment"
-        android:name="net.holybee.tarot.AccountFragment"
+        android:id="@+id/logonFragment"
+        android:name="net.holybee.tarot.LogonFragment"
         android:label="AccountFragment"
-        tools:layout="@layout/fragment_account">
+        tools:layout="@layout/fragment_logon">
         <action
             android:id="@+id/action_to_purchaseFragment"
             app:destination="@id/purchaseFragment" />
@@ -87,13 +87,13 @@
 
         <action
             android:id="@+id/action_menuFragment_to_tarotReading"
-            app:destination="@id/tarotReading" />
+            app:destination="@id/threeQuestion" />
         <action
             android:id="@+id/action_menuFragment_to_celticFragment"
             app:destination="@id/celticFragment" />
         <action
             android:id="@+id/action_menuFragment_to_accountFragment"
-            app:destination="@id/accountFragment" />
+            app:destination="@id/logonFragment" />
         <action
             android:id="@+id/action_menuFragment_to_purchaseFragment"
             app:destination="@id/purchaseFragment" />

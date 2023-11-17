@@ -97,12 +97,11 @@ class PurchaseFragment : Fragment() {
         return when (item.itemId) {
 
             R.id.open_account -> {
-                findNavController().navigate(
-                    TarotQuestionFragmentDirections.actionToAccountFragment())
+
                 true
             }
             R.id.open_buyCoins -> {
-                navigatePurchase()
+
                 true
             }
             R.id.rate_app -> {
@@ -115,10 +114,6 @@ class PurchaseFragment : Fragment() {
             }
             else->super.onOptionsItemSelected(item)
         }
-    }
-    private fun navigatePurchase () {
-        findNavController().navigate(
-            TarotQuestionFragmentDirections.actionToPurchaseFragment())
     }
 
 

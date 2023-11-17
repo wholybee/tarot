@@ -19,17 +19,17 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import net.holybee.tarot.databinding.FragmentTarotQuestionBinding
+import net.holybee.tarot.databinding.FragmentThreeQuestionBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.GetCoinsResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 
 private const val TAG = "TarotQuestionFragment"
 
-class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
+class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
 
 
-    private lateinit var viewModel: TarotQuestionViewModel
+    private lateinit var viewModel: ThreeQuestionViewModel
     private val openAi = OpenAI_wlh
     private val modelIdFortune = "3cardreading"
     private val modelIdCard = "card"
@@ -37,7 +37,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
     private val cardPrompt = "The card is: "
     private val questionPrompt = "Question:\n"
 
-    private var _binding: FragmentTarotQuestionBinding? = null
+    private var _binding: FragmentThreeQuestionBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
@@ -55,7 +55,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTarotQuestionBinding.inflate(inflater, container, false)
+        _binding = FragmentThreeQuestionBinding.inflate(inflater, container, false)
 
 
         return binding.root
@@ -73,7 +73,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[TarotQuestionViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ThreeQuestionViewModel::class.java]
         AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
 
         if (AccountInformation.isLoggedIn) {
@@ -200,7 +200,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     private fun clickDealButton() {
             if (binding.QuestionTextView.text.length < 3) {
-                Toast.makeText(requireContext(), getString(R.string.ask_question), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.ask_a_question), Toast.LENGTH_LONG).show()
                 return
             }
             viewModel.gamePlay = GamePlay.DEALT
@@ -239,7 +239,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
                 if (response.status=="OK") {
                     AccountInformation.coins.postValue( AccountInformation.coins.value?.minus(1))
                     findNavController().navigate(
-                        TarotQuestionFragmentDirections.actionReadingDisplay(response.message)
+                        ThreeQuestionFragmentDirections.actionReadingDisplay(response.message)
                     )
                 } else {
                     Toast.makeText(context,"Error:\n${response.message}",Toast.LENGTH_LONG).show()
@@ -429,7 +429,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
             if (response.status=="OK") {
                 AccountInformation.coins.postValue( AccountInformation.coins.value?.minus(1))
                 findNavController().navigate(
-                    TarotQuestionFragmentDirections.actionViewCard(response.message,
+                    ThreeQuestionFragmentDirections.actionViewCard(response.message,
                         card?.filename ?: ""
                     )
                 )
@@ -443,7 +443,7 @@ class TarotQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     private fun navigatePurchase () {
         findNavController().navigate(
-            TarotQuestionFragmentDirections.actionToPurchaseFragment())
+            ThreeQuestionFragmentDirections.actionToPurchaseFragment())
     }
 
     override fun onDestroyView() {
