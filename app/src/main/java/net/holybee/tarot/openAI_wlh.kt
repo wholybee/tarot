@@ -54,9 +54,9 @@ object OpenAI_wlh {
             )
         )
 // trim to 3 messages in history
-        Log.i(TAG,"ChatMessages size ${chatMessages.size}")
+        Log.i(TAG, "ChatMessages size ${chatMessages.size}")
         while (chatMessages.size > 4) {
-            chatMessages.  removeAt(0)
+            chatMessages.removeAt(0)
         }
 
 // build the request
@@ -86,10 +86,16 @@ object OpenAI_wlh {
         }
 
         val message = chatMessages.last()
-
-        return OpenAIResponse(
-            "OK",
-            message.content ?: "Error in Response. Please try again."
-        )
+        if (message.content != null) {
+            return OpenAIResponse(
+                "OK",
+                message.content!!
+            )
+        } else {
+            return OpenAIResponse(
+                "error",
+                "Error in Response. Null value."
+            )
+        }
     }
 }

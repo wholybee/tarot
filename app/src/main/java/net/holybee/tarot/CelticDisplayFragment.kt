@@ -16,8 +16,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import net.holybee.tarot.databinding.FragmentCelticBinding
 import net.holybee.tarot.databinding.FragmentCelticDisplayBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
@@ -26,7 +31,16 @@ private const val TAG = "CelticDisplayFragment"
 
 class CelticDisplayFragment : Fragment() {
     private val args: CelticDisplayFragmentArgs by navArgs()
-
+    private val modelId = "celtic"
+    private val cardPrompt = "Provide an Interpretation of Card "
+    private var readingJob: Job? = null
+    private val cardPrompt1: String
+        get() {
+            val cards = viewModel.celticReadings.withIndex().joinToString("\n") { (index, celticReading) ->
+                "Card ${index + 1}: ${celticReading.value?.card?.text}"
+            }
+            return "$cards\n${cardPrompt}1: ${viewModel.celticReadings[0].value?.card?.text}\n"
+        }
     private var _binding: FragmentCelticDisplayBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
@@ -52,6 +66,9 @@ class CelticDisplayFragment : Fragment() {
             binding.nextButton.isEnabled = true
         }
         binding.cardDescriptionTextView.text = celticReadings.result
+        binding.scrollView.post {
+            binding.scrollView.fullScroll(View.FOCUS_UP)
+        }
     }
 
 
@@ -86,7 +103,7 @@ class CelticDisplayFragment : Fragment() {
         binding.prevButton.visibility = View.INVISIBLE
 
         displayCard(viewModel.index)
-        viewModel.startReading()
+        startReading()
     }
 
     @Suppress("DEPRECATION")
@@ -187,9 +204,56 @@ class CelticDisplayFragment : Fragment() {
         }
     }
 
+    private fun startReading() {
+
+        readingJob = lifecycleScope.launch {
+            Log.i(TAG, "Start Reading")
+            viewModel._celticReadings.forEachIndexed { index, it ->
+                if (!isActive) {
+                    return@forEachIndexed
+                }
+                Log.i(TAG, "Reading " + it.value!!.card.text)
+                var prompt = ""
+
+                if (!it.value!!.done) {
+
+                    if (index == 0) {
+                        prompt = cardPrompt1
+                    } else {
+                        prompt = "$cardPrompt${index + 1}: ${it.value!!.card.text}"
+                    }
+                    System.out.println(prompt)
+
+                    AccountInformation.ratingCount += 1
+                    AccountInformation.coins.postValue(AccountInformation.coins.value?.minus(1))
+                    val response = OpenAI_wlh.askGPT(prompt, modelId)
+                    if (response.status == "OK") {
+                        val newCard = CelticReading(
+                            it.value!!.card,
+                            response.message,
+                            true
+                        )
+                        it.value = newCard
+
+                    } else {
+                        val newCard = CelticReading(
+                            it.value!!.card,
+                            "Error with Reading. Please try again.",
+                            false
+                        )
+                        it.value = newCard
+
+                    }
+                }
+            }
+        }
+
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
+        readingJob?.cancel()
         AccountInformation.coins.removeObserver(coinsObserver)
 
     }

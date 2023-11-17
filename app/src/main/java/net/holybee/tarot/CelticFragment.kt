@@ -261,28 +261,41 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
 
     private fun clickDealButton () {
 
-        if ((AccountInformation.coins.value?.compareTo(10) ?: 0) < 0) {
-            Dialogs.showCustomDialog(requireActivity(),layoutInflater, "You do not have enough coins. A full celtic reading costs 10 total coins.")
-        } else {
+        when (viewModel.gamePlay) {
+            GamePlay.NOTDEALT -> {
+                viewModel.deal()
+                viewModel.gamePlay = GamePlay.DEALT
+                showCardsFaceUp()
+                binding.dealButton2.text = getString(R.string.continue_)
+                return
+            }
 
-            when (viewModel.gamePlay) {
-                GamePlay.NOTDEALT -> {
-                    viewModel.deal()
-                    viewModel.gamePlay = GamePlay.DEALT
-                    showCardsFaceUp()
-                    binding.dealButton2.text = getString(R.string.continue_)
-                }
-
-                else -> {
-                    Log.e(TAG,"handSerializable:${viewModel.hand.toTypedArray().size}")
-                    Log.e(TAG,"hand:${viewModel.hand.size}")
-                    findNavController().navigate(
-                        CelticFragmentDirections.actionCelticDisplay(viewModel.hand.toTypedArray())
+            GamePlay.DEALT -> {
+                Log.e(TAG, "handSerializable:${viewModel.hand.toTypedArray().size}")
+                Log.e(TAG, "hand:${viewModel.hand.size}")
+                if ((AccountInformation.coins.value?.compareTo(10) ?: 0) < 0) {
+                    Dialogs.showCustomDialog(
+                        requireActivity(),
+                        layoutInflater,
+                        "You do not have enough coins. A full celtic reading costs 10 total coins."
                     )
+                    return
                 }
             }
+
+            GamePlay.ASKED -> {
+                // Nothing to do here
+            }
         }
+        viewModel.gamePlay = GamePlay.ASKED
+        findNavController().navigate(
+            CelticFragmentDirections.actionCelticDisplay(viewModel.hand.toTypedArray())
+        )
+
     }
+
+
+
 
 
 
