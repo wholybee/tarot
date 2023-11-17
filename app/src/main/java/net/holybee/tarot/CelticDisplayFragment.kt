@@ -78,7 +78,7 @@ class CelticDisplayFragment : Fragment() {
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[CelticDisplayViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[CelticDisplayViewModel::class.java]
         viewModel.populateCelticReadings(args.handSerializable)
         AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
 

@@ -55,8 +55,8 @@ object OpenAI_wlh {
         )
 // trim to 3 messages in history
         Log.i(TAG,"ChatMessages size ${chatMessages.size}")
-        if (chatMessages.size > 2) {
-            chatMessages.removeAt(0)
+        while (chatMessages.size > 4) {
+            chatMessages.  removeAt(0)
         }
 
 // build the request
