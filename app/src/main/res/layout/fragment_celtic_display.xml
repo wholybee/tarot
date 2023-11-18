@@ -7,6 +7,22 @@
     android:background="@drawable/questionbackground"
     tools:context=".CelticDisplayFragment">
 
+    <TextView
+        android:id="@+id/cardPositionTextView"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+
+        android:background="@drawable/rounded_corners"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="@string/face_down"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Position" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -19,7 +35,7 @@
         app:layout_constraintBottom_toTopOf="@+id/nextButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/cardPositionTextView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -27,16 +43,19 @@
 
             <TextView
                 android:id="@+id/cardTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="93dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
 
                 android:background="@drawable/rounded_corners"
+                android:gravity="center"
                 android:padding="4dp"
                 android:text="@string/face_down"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Card" />
 
             <ImageButton
                 android:id="@+id/cardView"
@@ -52,18 +71,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardTextView" />
 
-            <TextView
-                android:id="@+id/cardPositionTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-
-                android:background="@drawable/rounded_corners"
-                android:padding="4dp"
-                android:text="@string/face_down"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
             <TextView
                 android:id="@+id/cardDescriptionTextView"
@@ -72,10 +79,11 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/rounded_corners"
                 android:padding="5dp"
+                android:text="Loading."
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardPositionTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/cardView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

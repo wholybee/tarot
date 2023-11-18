@@ -7,6 +7,23 @@
     android:background="@drawable/questionbackground"
     tools:context=".CelticDisplayFragment">
 
+    <TextView
+        android:id="@+id/cardPositionTextView"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+
+        android:background="@drawable/rounded_corners"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="@string/face_down"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Position" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -15,11 +32,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/nextButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/cardPositionTextView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -27,17 +44,21 @@
 
             <TextView
                 android:id="@+id/cardTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
 
                 android:background="@drawable/rounded_corners"
+                android:gravity="center"
                 android:padding="4dp"
                 android:text="@string/face_down"
-                android:textSize="24sp"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                android:typeface="serif"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Card" />
 
             <ImageButton
                 android:id="@+id/cardView"
@@ -53,19 +74,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardTextView" />
 
-            <TextView
-                android:id="@+id/cardPositionTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-
-                android:background="@drawable/rounded_corners"
-                android:padding="4dp"
-                android:text="@string/face_down"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
             <TextView
                 android:id="@+id/cardDescriptionTextView"
@@ -74,11 +82,13 @@
                 android:layout_marginTop="32dp"
                 android:background="@drawable/rounded_corners"
                 android:padding="5dp"
+                android:text="Loading."
                 android:textSize="34sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardPositionTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/cardView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 
     <Button
@@ -88,6 +98,10 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         android:text="Next"
+        android:paddingLeft="32dp"
+        android:paddingTop="16dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="16dp"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

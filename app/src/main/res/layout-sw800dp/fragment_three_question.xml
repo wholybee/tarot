@@ -49,12 +49,14 @@
 
     <TextView
         android:id="@+id/cardOneRomanTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_corners"
+        android:gravity="center"
         android:padding="4dp"
-        android:textSize="32sp"
+        android:text="IV"
+        android:textSize="34sp"
         android:textStyle="bold"
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="@+id/cardOneView"
@@ -63,31 +65,35 @@
 
     <TextView
         android:id="@+id/cardTwoRomanTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_corners"
+        android:gravity="center"
         android:padding="4dp"
         android:textSize="32sp"
         android:textStyle="bold"
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="@+id/cardTwoView"
         app:layout_constraintStart_toStartOf="@+id/cardTwoView"
-        app:layout_constraintTop_toBottomOf="@+id/cardTwoView" />
+        app:layout_constraintTop_toBottomOf="@+id/cardTwoView"
+        tools:text="III" />
 
     <TextView
         android:id="@+id/cardThreeRomanTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_corners"
+        android:gravity="center"
         android:padding="4dp"
         android:textSize="32sp"
         android:textStyle="bold"
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="@+id/cardThreeView"
         app:layout_constraintStart_toStartOf="@+id/cardThreeView"
-        app:layout_constraintTop_toBottomOf="@+id/cardThreeView" />
+        app:layout_constraintTop_toBottomOf="@+id/cardThreeView"
+        tools:text="XI" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -147,42 +153,54 @@
 
     <TextView
         android:id="@+id/cardOneTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/rounded_corners"
+        android:gravity="center"
         android:padding="4dp"
         android:text="@string/face_down"
-        android:textSize="20sp"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintEnd_toEndOf="@+id/cardOneView"
         app:layout_constraintStart_toStartOf="@+id/cardOneView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Card" />
 
     <TextView
         android:id="@+id/cardTwoTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/rounded_corners"
+        android:gravity="center"
         android:padding="4dp"
         android:text="@string/face_down"
-        android:textSize="20sp"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintEnd_toEndOf="@+id/cardTwoView"
         app:layout_constraintStart_toStartOf="@+id/cardTwoView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Card" />
 
     <TextView
         android:id="@+id/cardThreeTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/rounded_corners"
+        android:gravity="center"
         android:padding="3dp"
         android:text="@string/face_down"
-        android:textSize="20sp"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintEnd_toEndOf="@+id/cardThreeView"
         app:layout_constraintStart_toStartOf="@+id/cardThreeView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Card" />
 
     <TextView
         android:id="@+id/infoText"
