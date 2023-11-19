@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/menuFragment">
+    app:startDestination="@id/horoscopeFragment">
 
     <fragment
         android:id="@+id/threeQuestion"
@@ -74,7 +74,7 @@
         android:id="@+id/celticDisplayFragment"
         android:name="net.holybee.tarot.CelticDisplayFragment"
         android:label="fragment_celtic_display"
-        tools:layout="@layout/fragment_celtic_display" >
+        tools:layout="@layout/fragment_celtic_display">
         <argument
             android:name="handSerializable"
             app:argType="net.holybee.tarot.Card[]" />
@@ -98,4 +98,9 @@
             android:id="@+id/action_menuFragment_to_purchaseFragment"
             app:destination="@id/purchaseFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/horoscopeFragment"
+        android:name="net.holybee.tarot.HoroscopeFragment"
+        android:label="fragment_horoscope"
+        tools:layout="@layout/fragment_horoscope" />
 </navigation>
