@@ -9,8 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.launch
 import net.holybee.tarot.databinding.FragmentHoroscopeBinding
 import net.holybee.tarot.databinding.FragmentLogonBinding
+import net.holybee.tarot.holybeeAPI.AccountInformation
 import java.time.LocalDate
 
 private const val TAG = "HoroscopeFragment"
@@ -29,6 +34,10 @@ class HoroscopeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var viewModel: HoroscopeViewModel
     val years = mutableListOf<String>()
     val days = mutableListOf<String>()
+    private val openAi = OpenAI_wlh
+    private val modelIdHoroscope = "horoscope"
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,6 +66,23 @@ class HoroscopeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         return binding.root
     }
 
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        when (parent?.id) {
+            binding.monthSpinner.id -> {
+                Log.i(TAG,"Month ${position+1}")
+                viewModel.month = position + 1
+            }
+            binding.daySpinner.id -> {
+                Log.i(TAG,"Day ${position+1}")
+                viewModel.day = position +1
+            }
+        }
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        // TODO("Not yet implemented")
+    }
+
     private fun monthItem() {
         TODO("Not yet implemented")
     }
@@ -72,7 +98,8 @@ class HoroscopeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val sex = if (binding.manRadioButton.isChecked) "Man" else "Woman"
         val sign = getAstrologicalSign(viewModel.month, viewModel.day, 1974)
         Log.i(TAG,sign)
-        val prompt = "$name is a $sex and is a $sign."
+        val prompt = "The subjects name is $name. $name is a $sex and his sign is $sign."
+        showHoroscope(prompt)
        }
 
     fun getAstrologicalSign(month: Int, day: Int, year: Int): String {
@@ -95,21 +122,25 @@ class HoroscopeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        when (parent?.id) {
-            binding.monthSpinner.id -> {
-                Log.i(TAG,"Month ${position+1}")
-                viewModel.month = position + 1
-            }
-            binding.daySpinner.id -> {
-                Log.i(TAG,"Day ${position+1}")
-                viewModel.day = position +1
+
+    private fun showHoroscope(prompt: String) {
+        binding.progressBar.visibility = View.VISIBLE
+     //   disableAllButtons()
+        AccountInformation.ratingCount+=1
+
+        lifecycleScope.launch {
+            val response = openAi.askGPT(prompt, modelIdHoroscope)
+            binding.progressBar.visibility = View.INVISIBLE
+            if (response.status=="OK") {
+                AccountInformation.coins.postValue( AccountInformation.coins.value?.minus(1))
+                findNavController().navigate(
+                    HoroscopeFragmentDirections.actionToHoroscopeDisplayFragment(response.message)
+                    )
+
+            } else {
+                Toast.makeText(context,"Error:\n${response.message}", Toast.LENGTH_LONG).show()
+
             }
         }
     }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        // TODO("Not yet implemented")
-    }
-
 }
