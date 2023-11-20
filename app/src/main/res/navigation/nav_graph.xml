@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/horoscopeFragment">
+    app:startDestination="@id/menuFragment">
 
     <fragment
         android:id="@+id/threeQuestion"
@@ -102,7 +102,7 @@
         android:id="@+id/horoscopeFragment"
         android:name="net.holybee.tarot.HoroscopeFragment"
         android:label="fragment_horoscope"
-        tools:layout="@layout/fragment_horoscope" >
+        tools:layout="@layout/fragment_horoscope">
         <action
             android:id="@+id/action_to_horoscopeDisplayFragment"
             app:destination="@id/horoscopeDisplayFragment" />
@@ -111,7 +111,7 @@
         android:id="@+id/horoscopeDisplayFragment"
         android:name="net.holybee.tarot.HoroscopeDisplayFragment"
         android:label="fragment_horoscope_display"
-        tools:layout="@layout/fragment_horoscope_display" >
+        tools:layout="@layout/fragment_horoscope_display">
         <argument
             android:name="reading"
             app:argType="string" />

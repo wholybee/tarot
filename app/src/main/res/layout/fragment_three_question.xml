@@ -7,6 +7,8 @@
     android:background="@drawable/questionbackground"
     tools:context=".ThreeQuestionFragment">
 
+
+
     <TextView
         android:id="@+id/cardOneTextView"
         android:layout_width="125dp"
