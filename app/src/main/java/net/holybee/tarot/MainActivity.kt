@@ -13,6 +13,9 @@ class MainActivity : AppCompatActivity(), GetCoinsResponseListener {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+        setSupportActionBar(findViewById(R.id.my_toolbar))
+        supportActionBar?.hide()
+
         AccountInformation.readLoginInfo(application)
 
         if (AccountInformation.isLoggedIn) {

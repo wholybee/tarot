@@ -10,6 +10,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.navArgs
 import net.holybee.tarot.databinding.FragmentThreeQuestionDisplayBinding
 
@@ -19,7 +21,7 @@ class ThreeQuestionDisplayFragment : Fragment() {
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
         }
-
+    private var myActionbar: ActionBar? = null
     private val args: ThreeQuestionDisplayFragmentArgs by navArgs()
 
     companion object {
@@ -40,11 +42,15 @@ class ThreeQuestionDisplayFragment : Fragment() {
 
     }
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
+        myActionbar?.setDisplayHomeAsUpEnabled(true)
+        myActionbar?.show()
         setHasOptionsMenu(true)
     }
+    @Suppress("DEPRECATION")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.back_only, menu)
@@ -58,7 +64,7 @@ class ThreeQuestionDisplayFragment : Fragment() {
                 Dialogs.rateApp(this)
                 true
             }
-            R.id.navigate_back -> {
+            android.R.id.home -> {
                 requireActivity().onBackPressed()
                 true
             }
@@ -74,6 +80,8 @@ class ThreeQuestionDisplayFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar?.hide()
         _binding = null
     }
 

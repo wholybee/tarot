@@ -13,6 +13,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -42,6 +44,7 @@ class CelticDisplayFragment : Fragment() {
             return "$cards\n${cardPrompt}1: ${viewModel.celticReadings[0].value?.card?.text}\n"
         }
     private var _binding: FragmentCelticDisplayBinding? = null
+    private var myActionbar: ActionBar? = null
     private val binding
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
@@ -88,6 +91,9 @@ class CelticDisplayFragment : Fragment() {
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
+        myActionbar?.setDisplayHomeAsUpEnabled(true)
+        myActionbar?.show()
         setHasOptionsMenu(true)
     }
 
@@ -123,7 +129,7 @@ class CelticDisplayFragment : Fragment() {
                 Dialogs.rateApp(this)
                 true
             }
-            R.id.navigate_back ->{
+            android.R.id.home ->{
                 requireActivity().onBackPressed()
                 true
             }
@@ -255,6 +261,9 @@ class CelticDisplayFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         readingJob?.cancel()
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar?.hide()
+        _binding = null
         AccountInformation.coins.removeObserver(coinsObserver)
 
     }

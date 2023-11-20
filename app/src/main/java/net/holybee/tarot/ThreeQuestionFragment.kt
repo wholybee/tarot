@@ -13,6 +13,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -36,7 +38,7 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
     private val cardsPrompt = "The cards that are showing are:\n"
     private val cardPrompt = "The card is: "
     private val questionPrompt = "Question:\n"
-
+    private var myActionbar: ActionBar? = null
     private var _binding: FragmentThreeQuestionBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
@@ -62,11 +64,21 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
     }
 
 
+
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
+        myActionbar?.setDisplayHomeAsUpEnabled(true)
+        myActionbar?.show()
         setHasOptionsMenu(true)
+
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        myActionbar?.setHomeAsUpIndicator(R.drawable.ic_back)
     }
 
     @Suppress("DEPRECATION")
@@ -136,7 +148,7 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     override fun onResume() {
         super.onResume()
-
+        myActionbar?.show()
             if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
                 Dialogs.showCustomDialog(requireActivity(),layoutInflater, getString(R.string.out_of_coins))
 
@@ -180,7 +192,8 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
                 Dialogs.rateApp(this)
                 true
             }
-            R.id.navigate_back -> {
+
+            android.R.id.home-> {
                 requireActivity().onBackPressed()
                 true
             }
@@ -448,6 +461,8 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar?.hide()
         _binding = null
     }
 }

@@ -10,6 +10,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.delay
@@ -26,7 +28,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
         }
-
+    private var myActionbar: ActionBar? = null
     private val  coinsObserver = { coins:Int ->
         val coinsText = "Coins: $coins"
         binding.coinsTextView.text = coinsText
@@ -48,6 +50,9 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
+        myActionbar?.setDisplayHomeAsUpEnabled(true)
+        myActionbar?.show()
         setHasOptionsMenu(true)
     }
 
@@ -109,7 +114,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
                 Dialogs.rateApp(this)
                 true
             }
-            R.id.navigate_back ->{
+            android.R.id.home ->{
                 requireActivity().onBackPressed()
                 true
             }
@@ -119,7 +124,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
 
     override fun onResume() {
         super.onResume()
-
+        myActionbar?.show()
         if ((AccountInformation.coins.value?.compareTo(10) ?: 0) < 0) {
             Dialogs.showCustomDialog(requireActivity(),layoutInflater, "You do not have enough coins. A full celtic reading costs 10 total coins.")
 
@@ -302,8 +307,10 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar?.hide()
         AccountInformation.coins.removeObserver(coinsObserver)
-
+        _binding = null
     }
 
 }

@@ -76,7 +76,7 @@ class LogonFragment : Fragment(), LoginResponseListener, CreateAccountResponseLi
                 Dialogs.rateApp(this)
                 true
             }
-            R.id.navigate_back -> {
+            android.R.id.home -> {
                 requireActivity().onBackPressed()
                 true
             }
