@@ -74,7 +74,7 @@
         android:id="@+id/celticDisplayFragment"
         android:name="net.holybee.tarot.CelticDisplayFragment"
         android:label="fragment_celtic_display"
-        tools:layout="@layout/fragment_celtic_display" >
+        tools:layout="@layout/fragment_celtic_display">
         <argument
             android:name="handSerializable"
             app:argType="net.holybee.tarot.Card[]" />
@@ -97,5 +97,23 @@
         <action
             android:id="@+id/action_menuFragment_to_purchaseFragment"
             app:destination="@id/purchaseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/horoscopeFragment"
+        android:name="net.holybee.tarot.HoroscopeFragment"
+        android:label="fragment_horoscope"
+        tools:layout="@layout/fragment_horoscope">
+        <action
+            android:id="@+id/action_to_horoscopeDisplayFragment"
+            app:destination="@id/horoscopeDisplayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/horoscopeDisplayFragment"
+        android:name="net.holybee.tarot.HoroscopeDisplayFragment"
+        android:label="fragment_horoscope_display"
+        tools:layout="@layout/fragment_horoscope_display">
+        <argument
+            android:name="reading"
+            app:argType="string" />
     </fragment>
 </navigation>
