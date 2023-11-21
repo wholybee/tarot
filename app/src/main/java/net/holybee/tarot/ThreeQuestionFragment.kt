@@ -38,7 +38,7 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
     private val cardsPrompt = "The cards that are showing are:\n"
     private val cardPrompt = "The card is: "
     private val questionPrompt = "Question:\n"
-    private var myActionbar: ActionBar? = null
+
     private var _binding: FragmentThreeQuestionBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
@@ -68,7 +68,7 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
+        val myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
         myActionbar?.setDisplayHomeAsUpEnabled(true)
         myActionbar?.show()
         setHasOptionsMenu(true)
@@ -78,6 +78,7 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
         myActionbar?.setHomeAsUpIndicator(R.drawable.ic_back)
     }
 
@@ -148,7 +149,7 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     override fun onResume() {
         super.onResume()
-        myActionbar?.show()
+
             if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
                 Dialogs.showCustomDialog(requireActivity(),layoutInflater, getString(R.string.out_of_coins))
 
@@ -461,8 +462,9 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        (requireActivity() as AppCompatActivity)
-            .supportActionBar?.hide()
+        Log.i(TAG,"onDestroy")
+ //       (requireActivity() as AppCompatActivity)
+  //          .supportActionBar?.hide()
         _binding = null
     }
 }

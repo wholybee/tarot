@@ -18,6 +18,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import net.holybee.tarot.databinding.FragmentLogonBinding
@@ -43,6 +44,9 @@ class LogonFragment : Fragment(), LoginResponseListener, CreateAccountResponseLi
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
+        myActionbar?.setDisplayHomeAsUpEnabled(true)
+        myActionbar?.show()
         setHasOptionsMenu(true)
         // Get a reference to the Application object
         val application = requireActivity().application

@@ -21,7 +21,7 @@ class ThreeQuestionDisplayFragment : Fragment() {
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
         }
-    private var myActionbar: ActionBar? = null
+
     private val args: ThreeQuestionDisplayFragmentArgs by navArgs()
 
     companion object {
@@ -45,9 +45,9 @@ class ThreeQuestionDisplayFragment : Fragment() {
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
-        myActionbar?.setDisplayHomeAsUpEnabled(true)
-        myActionbar?.show()
+   //     myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
+  //      myActionbar?.setDisplayHomeAsUpEnabled(true)
+  //      myActionbar?.show()
         setHasOptionsMenu(true)
     }
     @Suppress("DEPRECATION")
@@ -80,8 +80,8 @@ class ThreeQuestionDisplayFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        (requireActivity() as AppCompatActivity)
-            .supportActionBar?.hide()
+ //       (requireActivity() as AppCompatActivity)
+ //           .supportActionBar?.hide()
         _binding = null
     }
 

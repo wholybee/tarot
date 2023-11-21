@@ -44,7 +44,7 @@ class CelticDisplayFragment : Fragment() {
             return "$cards\n${cardPrompt}1: ${viewModel.celticReadings[0].value?.card?.text}\n"
         }
     private var _binding: FragmentCelticDisplayBinding? = null
-    private var myActionbar: ActionBar? = null
+
     private val binding
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
@@ -91,9 +91,7 @@ class CelticDisplayFragment : Fragment() {
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
-        myActionbar?.setDisplayHomeAsUpEnabled(true)
-        myActionbar?.show()
+
         setHasOptionsMenu(true)
     }
 
