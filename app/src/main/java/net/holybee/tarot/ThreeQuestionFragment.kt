@@ -68,9 +68,7 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
-        myActionbar?.setDisplayHomeAsUpEnabled(true)
-        myActionbar?.show()
+
         setHasOptionsMenu(true)
 
 
@@ -149,6 +147,9 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
 
     override fun onResume() {
         super.onResume()
+        val myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
+        myActionbar?.setDisplayHomeAsUpEnabled(true)
+        myActionbar?.show()
 
             if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
                 Dialogs.showCustomDialog(requireActivity(),layoutInflater, getString(R.string.out_of_coins))

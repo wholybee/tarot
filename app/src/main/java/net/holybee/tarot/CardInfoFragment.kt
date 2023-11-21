@@ -49,10 +49,15 @@ class CardInfoFragment : Fragment() {
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
+
+        setHasOptionsMenu(true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
         myActionbar?.setDisplayHomeAsUpEnabled(true)
         myActionbar?.show()
-        setHasOptionsMenu(true)
     }
 
     @Suppress("DEPRECATION")

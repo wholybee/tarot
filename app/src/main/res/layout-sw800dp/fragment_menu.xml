@@ -33,6 +33,13 @@
             android:textSize="34sp" />
 
         <Button
+            android:id="@+id/menu_horoscope"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="34sp"
+            android:text="Horoscope" />
+
+        <Button
             android:id="@+id/menu_purchase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

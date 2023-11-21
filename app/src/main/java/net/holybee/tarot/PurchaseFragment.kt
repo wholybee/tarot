@@ -92,7 +92,7 @@ class PurchaseFragment : Fragment() {
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.child, menu)
+        inflater.inflate(R.menu.back_only, menu)
     }
 
     @Suppress("DEPRECATION")

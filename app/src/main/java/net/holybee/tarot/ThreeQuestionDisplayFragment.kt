@@ -45,10 +45,15 @@ class ThreeQuestionDisplayFragment : Fragment() {
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-   //     myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
-  //      myActionbar?.setDisplayHomeAsUpEnabled(true)
-  //      myActionbar?.show()
+
         setHasOptionsMenu(true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
+        myActionbar?.setDisplayHomeAsUpEnabled(true)
+        myActionbar?.show()
     }
     @Suppress("DEPRECATION")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

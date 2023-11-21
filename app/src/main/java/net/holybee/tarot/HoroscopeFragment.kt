@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
@@ -36,6 +40,56 @@ class HoroscopeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     val days = mutableListOf<String>()
     private val openAi = OpenAI_wlh
     private val modelIdHoroscope = "horoscope"
+
+
+    @Suppress("DEPRECATION")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
+        myActionbar?.setDisplayHomeAsUpEnabled(true)
+        myActionbar?.show()
+    }
+
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.child, menu)
+    }
+
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+
+
+            R.id.open_buyCoins -> {
+                navigatePurchase()
+                true
+            }
+            R.id.rate_app -> {
+                Dialogs.rateApp(this)
+                true
+            }
+
+            android.R.id.home-> {
+                requireActivity().onBackPressed()
+                true
+            }
+            else->super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun navigatePurchase () {
+        findNavController().navigate(
+            HoroscopeFragmentDirections.actionHoroscopeFragmentToPurchaseFragment())
+    }
 
 
     override fun onCreateView(

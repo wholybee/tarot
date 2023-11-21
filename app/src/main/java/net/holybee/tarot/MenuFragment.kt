@@ -55,6 +55,7 @@ class MenuFragment : Fragment() {
         binding.menuRate.setOnClickListener { Dialogs.rateApp(this) }
         binding.menu3cardReading.setOnClickListener { click3card() }
         binding.menuCelticReading.setOnClickListener { clickCeltic() }
+        binding.menuHoroscope.setOnClickListener { clickHoroscope() }
         binding.menuPurchase.setOnClickListener { clickPurchase() }
         binding.menuAccount.setOnClickListener { clickAccount() }
     }
@@ -94,6 +95,13 @@ class MenuFragment : Fragment() {
     private fun clickCeltic() {
         findNavController().navigate(
             MenuFragmentDirections.actionMenuFragmentToCelticFragment()
+        )
+
+    }
+
+    private fun clickHoroscope() {
+        findNavController().navigate(
+            MenuFragmentDirections.actionToHoroscopeFragment()
         )
 
     }
