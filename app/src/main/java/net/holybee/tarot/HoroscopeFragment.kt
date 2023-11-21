@@ -54,6 +54,28 @@ class HoroscopeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
         myActionbar?.setDisplayHomeAsUpEnabled(true)
         myActionbar?.show()
+
+        if ((AccountInformation.coins.value?.compareTo(0) ?: 0) < 1) {
+            Dialogs.showCustomDialog(requireActivity(),layoutInflater, getString(R.string.out_of_coins))
+
+        } else {
+
+
+            if (viewModel.justLaunched) {
+                viewModel.justLaunched = false
+                Dialogs.showCustomDialog(requireActivity(),layoutInflater,
+                    getString(R.string.horoscope_enter_name))
+            } else {
+                Log.i(TAG,"checking ratings ${AccountInformation.ratingCount}")
+                if (AccountInformation.ratingCount > 10 && !AccountInformation.hasRated) {
+                    AccountInformation.ratingCount = 0
+                    Dialogs.rateDialog(requireActivity(),layoutInflater,this)
+                }
+
+            }
+
+        }
+
     }
 
     @Suppress("DEPRECATION")
@@ -148,6 +170,7 @@ class HoroscopeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun clickButton() {
+
         val name = binding.nameEditText.text
         val sex = if (binding.manRadioButton.isChecked) "Man" else "Woman"
         val sign = getAstrologicalSign(viewModel.month, viewModel.day, 1974)
@@ -178,6 +201,7 @@ class HoroscopeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
 
     private fun showHoroscope(prompt: String) {
+        openAi.clearHistory()
         binding.progressBar.visibility = View.VISIBLE
      //   disableAllButtons()
         AccountInformation.ratingCount+=1

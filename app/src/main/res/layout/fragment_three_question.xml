@@ -34,7 +34,7 @@
             app:layout_constraintEnd_toEndOf="@+id/cardOneView"
             app:layout_constraintStart_toStartOf="@+id/cardOneView"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Card" />
+            tools:text="Card 2nd Line" />
 
         <TextView
             android:id="@+id/cardTwoTextView"
@@ -78,20 +78,20 @@
             android:id="@+id/cardOneView"
             android:layout_width="125dp"
             android:layout_height="217dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="100dp"
             android:background="@drawable/rounded_corners"
             android:contentDescription="@string/face_down"
             android:focusableInTouchMode="false"
             android:gravity="center"
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardOneTextView" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/cardTwoView"
             android:layout_width="125dp"
             android:layout_height="217dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="100dp"
             android:background="@drawable/rounded_corners"
             android:contentDescription="@string/face_down"
             android:focusableInTouchMode="false"
@@ -99,20 +99,20 @@
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toStartOf="@+id/cardThreeView"
             app:layout_constraintStart_toEndOf="@+id/cardOneView"
-            app:layout_constraintTop_toBottomOf="@+id/cardTwoTextView" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/cardThreeView"
             android:layout_width="125dp"
             android:layout_height="217dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="100dp"
             android:background="@drawable/rounded_corners"
             android:contentDescription="@string/face_down"
             android:focusableInTouchMode="false"
             android:gravity="center"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardThreeTextView" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/cardOneRomanTextView"
