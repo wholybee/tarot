@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:text="@string/concentrate"
-        android:textSize="20sp" />
+        android:textSize="34sp" />
 
     <Button
         android:id="@+id/accept_button"
@@ -20,5 +20,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_margin="8dp"
-        android:text="@android:string/ok" />
+        android:paddingLeft="34dp"
+        android:paddingTop="8dp"
+        android:paddingRight="34dp"
+        android:paddingBottom="8dp"
+        android:text="@android:string/ok"
+        android:textSize="34sp" />
 </LinearLayout>

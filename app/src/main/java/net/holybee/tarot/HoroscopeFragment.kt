@@ -31,6 +31,12 @@ class HoroscopeFragment : Fragment(), AdapterView.OnItemSelectedListener {
             "Cannot access binding because it is null. Is the view visible?"
 
         }
+
+    private val  coinsObserver = { coins:Int ->
+        val coinsText = "Coins: $coins"
+        binding.coinsTextView.text = coinsText
+    }
+
     companion object {
         fun newInstance() = HoroscopeFragment()
     }
@@ -166,7 +172,7 @@ class HoroscopeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(HoroscopeViewModel::class.java)
-        // TODO: Use the ViewModel
+        AccountInformation.coins.observe(viewLifecycleOwner, coinsObserver)
     }
 
     private fun clickButton() {
@@ -220,5 +226,12 @@ class HoroscopeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        AccountInformation.coins.removeObserver(coinsObserver)
+        _binding = null
     }
 }
