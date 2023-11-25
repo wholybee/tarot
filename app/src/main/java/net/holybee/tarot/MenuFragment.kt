@@ -32,6 +32,8 @@ class MenuFragment : Fragment() {
         binding.coinsTextView.text = coinsText
     }
 
+    private val openAi = OpenAI_wlh
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("MENU","onCreate")
@@ -93,6 +95,7 @@ class MenuFragment : Fragment() {
     }
 
     private fun clickCeltic() {
+        openAi.clearHistory()
         findNavController().navigate(
             MenuFragmentDirections.actionMenuFragmentToCelticFragment()
         )
@@ -100,6 +103,7 @@ class MenuFragment : Fragment() {
     }
 
     private fun clickHoroscope() {
+        openAi.clearHistory()
         findNavController().navigate(
             MenuFragmentDirections.actionToHoroscopeFragment()
         )
