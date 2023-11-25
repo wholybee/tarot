@@ -10,6 +10,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,8 @@ import net.holybee.tarot.databinding.FragmentCelticBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.GetCoinsResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
+import kotlin.math.roundToInt
+
 private const val TAG = "CelticFragment"
 class CelticFragment : Fragment(), GetCoinsResponseListener {
 
@@ -39,11 +42,18 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
 
     private lateinit var viewModel: CelticViewModel
 
+
+    var cardWidth = 75
+    var cardHeight = 130
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        calculateCardSize()
+
         _binding = FragmentCelticBinding.inflate(inflater, container, false)
+        setCardSize()
         return binding.root
     }
 
@@ -126,6 +136,7 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
         super.onResume()
         val myActionbar = (requireActivity() as AppCompatActivity).supportActionBar
         myActionbar?.show()
+
         if ((AccountInformation.coins.value?.compareTo(10) ?: 0) < 0) {
             Dialogs.showCustomDialog(requireActivity(),layoutInflater, "You do not have enough coins. A full celtic reading costs 10 total coins.")
 
@@ -300,7 +311,52 @@ class CelticFragment : Fragment(), GetCoinsResponseListener {
 
     }
 
+    private fun calculateCardSize() {
+        val displayMetrics = resources.displayMetrics
+        val dpWidth = displayMetrics.widthPixels / displayMetrics.density
+        val dpHeight = displayMetrics.heightPixels / displayMetrics.density
+        val w1 = (dpWidth / 5.22).roundToInt()
+        val h1 = (w1 * 1.73).roundToInt()
+        val h2 = (dpHeight / 6.25).roundToInt()
+        val w2 = (h2 / 1.73).roundToInt()
 
+        if (w1 < w2) {
+            cardWidth = w1
+            cardHeight = h1
+            Log.i(TAG,"w1 < w2 Width: $w1  Height: $h1")
+        } else {
+            cardWidth = w2
+            cardHeight = h2
+            Log.i(TAG,"w2 < w1 Width: $w2  Height: $h2")
+        }
+
+    }
+
+    private fun setCardSize() {
+        val cardsList = listOf<ImageButton>(
+            binding.card1View,
+            binding.card2View,
+            binding.card3View,
+            binding.card4View,
+            binding.card5View,
+            binding.card6View,
+            binding.card7View,
+            binding.card8View,
+            binding.card9View,
+            binding.card10View
+        )
+        val scale = resources.displayMetrics.density
+        val newWidthInPixels = (cardWidth * scale + 0.5f).toInt()
+        val newHeightInPixels = (cardHeight * scale + 0.5f).toInt()
+
+        cardsList.forEach {
+            val layoutParams = it.layoutParams
+            layoutParams.width = newWidthInPixels
+            layoutParams.height = newHeightInPixels
+            it.layoutParams = layoutParams
+        }
+
+    }
 
 
 

@@ -23,6 +23,11 @@ class MainActivity : AppCompatActivity(), GetCoinsResponseListener {
             client.getCoins(this)
         }
 
+        val displayMetrics = resources.displayMetrics
+        val dpWidth = displayMetrics.widthPixels / displayMetrics.density
+        val dpHeight = displayMetrics.heightPixels / displayMetrics.density
+        Log.e(TAG,"dp Height: $dpHeight  dp Width: $dpWidth")
+
     }
     override fun onStop() {
         super.onStop()
