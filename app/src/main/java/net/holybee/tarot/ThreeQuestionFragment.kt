@@ -12,6 +12,7 @@ import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,7 @@ import net.holybee.tarot.databinding.FragmentThreeQuestionBinding
 import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.GetCoinsResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
+import kotlin.math.roundToInt
 
 private const val TAG = "TarotQuestionFragment"
 
@@ -50,6 +52,8 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
         binding.coinsTextView2.text = coinsText
     }
 
+    private var cardWidth = 125
+    private var cardHeight = 217
 
 
 
@@ -57,8 +61,9 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        calculateCardSize()
         _binding = FragmentThreeQuestionBinding.inflate(inflater, container, false)
-
+        setCardSize()
 
         return binding.root
     }
@@ -459,6 +464,46 @@ class ThreeQuestionFragment : Fragment(), GetCoinsResponseListener {
     private fun navigatePurchase () {
         findNavController().navigate(
             ThreeQuestionFragmentDirections.actionToPurchaseFragment())
+    }
+
+    private fun calculateCardSize() {
+        val displayMetrics = resources.displayMetrics
+        val dpWidth = displayMetrics.widthPixels / displayMetrics.density
+        val dpHeight = displayMetrics.heightPixels / displayMetrics.density
+        val w1 = (dpWidth / 3.14).roundToInt()
+        val h1 = (w1 * 1.73).roundToInt()
+        val h2 = (dpHeight / 3.75).roundToInt()
+        val w2 = (h2 / 1.73).roundToInt()
+
+        if (w1 < w2) {
+            cardWidth = w1
+            cardHeight = h1
+            Log.i(TAG,"w1 < w2 Width: $w1  Height: $h1")
+        } else {
+            cardWidth = w2
+            cardHeight = h2
+            Log.i(TAG,"w2 < w1 Width: $w2  Height: $h2")
+        }
+
+    }
+
+    private fun setCardSize() {
+        val cardsList = listOf<ImageButton>(
+            binding.cardOneView,
+            binding.cardTwoView,
+            binding.cardThreeView
+        )
+        val scale = resources.displayMetrics.density
+        val newWidthInPixels = (cardWidth * scale + 0.5f).toInt()
+        val newHeightInPixels = (cardHeight * scale + 0.5f).toInt()
+
+        cardsList.forEach {
+            val layoutParams = it.layoutParams
+            layoutParams.width = newWidthInPixels
+            layoutParams.height = newHeightInPixels
+            it.layoutParams = layoutParams
+        }
+
     }
 
     override fun onDestroyView() {

@@ -3,6 +3,7 @@ package net.holybee.tarot
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -14,7 +15,8 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.navArgs
 import net.holybee.tarot.databinding.FragmentThreeQuestionDisplayBinding
-
+import kotlin.math.roundToInt
+private const val TAG = "ThreeQuestionDisplayFragment"
 class ThreeQuestionDisplayFragment : Fragment() {
     private var _binding: FragmentThreeQuestionDisplayBinding? = null
     private val binding
@@ -23,6 +25,7 @@ class ThreeQuestionDisplayFragment : Fragment() {
         }
 
     private val args: ThreeQuestionDisplayFragmentArgs by navArgs()
+
 
     companion object {
     }
@@ -33,6 +36,7 @@ class ThreeQuestionDisplayFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = FragmentThreeQuestionDisplayBinding.inflate(inflater, container, false)
         binding.readingText.movementMethod=ScrollingMovementMethod()
         binding.readingText.text = args.readingText
@@ -82,6 +86,8 @@ class ThreeQuestionDisplayFragment : Fragment() {
         viewModel = ViewModelProvider(this)[ThreeQuestionDisplayViewModel::class.java]
         // TODO: Use the ViewModel
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
