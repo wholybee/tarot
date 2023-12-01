@@ -70,7 +70,7 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
     implementation ("com.google.android.gms:play-services-auth:20.2.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
-
+    implementation ("com.facebook.android:facebook-android-sdk:latest.release")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
