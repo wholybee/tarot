@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 import net.holybee.tarot.holybeeAPI.LoginResponseListener
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 
 private const val TAG = "Splash Activity"
 
