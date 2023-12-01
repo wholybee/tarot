@@ -14,7 +14,7 @@ android {
         applicationId = "net.holybee.tarot"
         minSdk = 27
         targetSdk = 34
-        versionCode = 5
+        versionCode = 6
         versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
