@@ -3,14 +3,19 @@ package net.holybee.tarot
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.facebook.appevents.AppEventsLogger
 import net.holybee.tarot.holybeeAPI.AccountInformation
 import net.holybee.tarot.holybeeAPI.GetCoinsResponseListener
 import net.holybee.tarot.holybeeAPI.HolybeeAPIClient
 
 private const val TAG = "Main Activity"
 class MainActivity : AppCompatActivity(), GetCoinsResponseListener {
+
+    lateinit var logger:AppEventsLogger
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        logger  = AppEventsLogger.newLogger(applicationContext)
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.my_toolbar))
@@ -44,5 +49,6 @@ class MainActivity : AppCompatActivity(), GetCoinsResponseListener {
     override fun onGetCoinsFail(result: String) {
         Log.e(TAG, "getCoins Failed $result")
     }
+
 }
 

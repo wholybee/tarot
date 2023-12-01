@@ -10,9 +10,12 @@ import net.holybee.tarot.holybeeAPI.LoginResponseListener
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 
+
 private const val TAG = "Splash Activity"
 
 class SplashActivity : AppCompatActivity(), LoginResponseListener {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +62,7 @@ class SplashActivity : AppCompatActivity(), LoginResponseListener {
         startActivity(intent)
         finish()
     }
+
 
 
 }
